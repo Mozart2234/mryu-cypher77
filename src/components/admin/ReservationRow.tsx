@@ -13,7 +13,9 @@ import {
   Trash2,
   QrCode,
   Users,
-  X
+  X,
+  Ticket,
+  ExternalLink
 } from 'lucide-react';
 
 interface ReservationRowProps {
@@ -44,7 +46,14 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
   return (
     <>
       <tr>
-        <td className="font-medium">{reservation.guestName}</td>
+        <td className="font-medium">
+          <div>{reservation.guestName}</div>
+          {reservation.accompanistNames && reservation.accompanistNames.length > 0 && (
+            <div className="text-xs text-gray-500 mt-1">
+              +{reservation.accompanistNames.length} acompañante{reservation.accompanistNames.length !== 1 ? 's' : ''}
+            </div>
+          )}
+        </td>
         <td>
           <div className="flex items-center">
             <Users className="w-4 h-4 mr-1 text-gray-500" />
@@ -61,6 +70,17 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
         <td>{getStatusBadge(reservation.status)}</td>
         <td>
           <div className="flex items-center space-x-2">
+            {/* Ver Pase Digital */}
+            <a
+              href={`${eventConfig.appUrl}/invitacion/${reservation.code}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 hover:bg-purple-100 rounded-lg transition-colors"
+              title="Ver Pase Digital"
+            >
+              <Ticket className="w-4 h-4 text-purple-600" />
+            </a>
+
             {/* Ver QR */}
             <button
               onClick={() => setShowQR(true)}
@@ -141,6 +161,25 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
                     {getStatusBadge(reservation.status)}
                   </p>
                 </div>
+
+                {/* Acompañantes registrados */}
+                {reservation.accompanistNames && reservation.accompanistNames.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <p className="text-sm font-medium text-gray-700 mb-2">
+                      Acompañantes Registrados:
+                    </p>
+                    <ul className="space-y-1">
+                      {reservation.accompanistNames.map((name, index) => (
+                        <li key={index} className="text-sm text-gray-600 flex items-center gap-2">
+                          <span className="inline-flex items-center justify-center w-5 h-5 bg-gray-300 rounded-full text-xs font-semibold">
+                            {index + 1}
+                          </span>
+                          {name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                 <div className="mt-4 pt-4 border-t text-xs text-gray-500 text-center">
                   Este QR puede ser escaneado en la entrada del evento

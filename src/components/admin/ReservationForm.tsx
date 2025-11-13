@@ -19,6 +19,7 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
   const [formData, setFormData] = useState<CreateReservationDTO>({
     guestName: '',
     numberOfGuests: 1,
+    accompanistNames: [],
     table: '',
     group: '',
     notes: ''
@@ -28,6 +29,15 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
   const [error, setError] = useState('');
   const [createdReservation, setCreatedReservation] = useState<Reservation | null>(null);
   const [copied, setCopied] = useState(false);
+  const [accompanistNames, setAccompanistNames] = useState<string[]>([]);
+
+  const handleNumberOfGuestsChange = (value: number) => {
+    setFormData({ ...formData, numberOfGuests: value });
+    // Ajustar el array de acompañantes (numberOfGuests - 1 porque el principal ya tiene nombre)
+    const newLength = Math.max(0, value - 1);
+    const newNames = Array(newLength).fill('').map((_, i) => accompanistNames[i] || '');
+    setAccompanistNames(newNames);
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,17 +45,26 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
     setLoading(true);
 
     try {
-      const newReservation = await reservationService.create(formData);
+      // Filtrar nombres vacíos
+      const filteredNames = accompanistNames.filter(name => name.trim() !== '');
+      const dataToSubmit = {
+        ...formData,
+        accompanistNames: filteredNames.length > 0 ? filteredNames : undefined
+      };
+
+      const newReservation = await reservationService.create(dataToSubmit);
       setCreatedReservation(newReservation);
 
       // Limpiar formulario
       setFormData({
         guestName: '',
         numberOfGuests: 1,
+        accompanistNames: [],
         table: '',
         group: '',
         notes: ''
       });
+      setAccompanistNames([]);
 
       onSuccess();
     } catch (err) {
@@ -105,11 +124,46 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
             min="1"
             max="10"
             value={formData.numberOfGuests}
-            onChange={(e) => setFormData({ ...formData, numberOfGuests: parseInt(e.target.value) })}
+            onChange={(e) => handleNumberOfGuestsChange(parseInt(e.target.value))}
             required
           />
           <p className="text-xs text-gray-500 mt-1">Máximo 10 personas por reservación</p>
         </div>
+
+        {/* Nombres de acompañantes (si hay más de 1 persona) */}
+        {formData.numberOfGuests > 1 && (
+          <div className="md:col-span-2 border-2 border-gray-200 rounded-lg p-4 bg-gray-50">
+            <div className="flex items-center mb-4">
+              <Users className="w-5 h-5 text-gray-600 mr-2" />
+              <h4 className="font-semibold text-gray-800">
+                Nombres de Acompañantes ({formData.numberOfGuests - 1} persona{formData.numberOfGuests - 1 !== 1 ? 's' : ''})
+              </h4>
+            </div>
+            <p className="text-sm text-gray-600 mb-4">
+              Opcional: Puedes agregar los nombres ahora o el invitado los completará después
+            </p>
+            <div className="grid md:grid-cols-2 gap-3">
+              {accompanistNames.map((name, index) => (
+                <div key={index}>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Acompañante #{index + 1}
+                  </label>
+                  <input
+                    type="text"
+                    className="input text-sm"
+                    value={name}
+                    onChange={(e) => {
+                      const newNames = [...accompanistNames];
+                      newNames[index] = e.target.value;
+                      setAccompanistNames(newNames);
+                    }}
+                    placeholder="Nombre completo"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Mesa */}
         <div>
@@ -199,7 +253,7 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
             <div className="p-6 space-y-6">
               {/* Información del invitado */}
               <div className="bg-gray-50 p-4 rounded-xl">
-                <p className="text-sm text-gray-600 mb-1">Invitado</p>
+                <p className="text-sm text-gray-600 mb-1">Invitado Principal</p>
                 <p className="text-xl font-bold text-newspaper-black">{createdReservation.guestName}</p>
                 <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
                   <span className="flex items-center gap-1">
@@ -213,6 +267,32 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
                     </span>
                   )}
                 </div>
+
+                {/* Acompañantes registrados */}
+                {createdReservation.accompanistNames && createdReservation.accompanistNames.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <p className="text-sm font-medium text-gray-700 mb-2">Acompañantes Registrados:</p>
+                    <ul className="space-y-1">
+                      {createdReservation.accompanistNames.map((name, index) => (
+                        <li key={index} className="text-sm text-gray-600 flex items-center gap-2">
+                          <span className="w-5 h-5 bg-gray-300 rounded-full flex items-center justify-center text-xs font-bold">
+                            {index + 1}
+                          </span>
+                          {name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Si no hay acompañantes y numberOfGuests > 1 */}
+                {(!createdReservation.accompanistNames || createdReservation.accompanistNames.length === 0) && createdReservation.numberOfGuests > 1 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <p className="text-sm text-gray-600 italic">
+                      El invitado completará los nombres de los {createdReservation.numberOfGuests - 1} acompañante{createdReservation.numberOfGuests - 1 !== 1 ? 's' : ''} al aceptar la invitación
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Link de invitación */}
