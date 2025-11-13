@@ -1,0 +1,129 @@
+/**
+ * COMPONENTE COUNTDOWN
+ *
+ * Contador regresivo creativo tipo periódico
+ */
+
+import { useState, useEffect } from 'react';
+import { eventConfig } from '@/config/eventConfig';
+
+export function Countdown() {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const weddingDate = new Date(eventConfig.date.iso);
+      const now = new Date();
+      const difference = weddingDate.getTime() - now.getTime();
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60)
+        });
+      }
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <section className="newspaper-page py-12 px-4 md:px-8 bg-newspaper-black text-white slide-down">
+      <div className="max-w-7xl mx-auto">
+        {/* Título tipo headline urgente */}
+        <div className="text-center mb-8">
+          <div className="inline-block border-2 border-white px-6 py-2 mb-4 rotate-in">
+            <span className="text-xs uppercase tracking-widest">ÚLTIMA HORA</span>
+          </div>
+          <h2 className="font-headline text-3xl md:text-5xl font-bold mb-4">
+            ¡LA CUENTA REGRESIVA HA COMENZADO!
+          </h2>
+          <p className="font-serif text-lg md:text-xl text-gray-300">
+            Faltan exactamente...
+          </p>
+        </div>
+
+        {/* Contador estilo periódico */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-5xl mx-auto">
+          {/* Días */}
+          <div className="text-center">
+            <div className="bg-white text-newspaper-black p-6 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+              <div className="font-headline text-5xl md:text-7xl font-black leading-none mb-2 countdown-pulse">
+                {timeLeft.days}
+              </div>
+              <div className="border-t-2 border-newspaper-black pt-2 mt-2">
+                <span className="font-sans text-sm md:text-base uppercase tracking-wider font-bold">
+                  Días
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Horas */}
+          <div className="text-center">
+            <div className="bg-white text-newspaper-black p-6 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+              <div className="font-headline text-5xl md:text-7xl font-black leading-none mb-2 countdown-pulse">
+                {timeLeft.hours}
+              </div>
+              <div className="border-t-2 border-newspaper-black pt-2 mt-2">
+                <span className="font-sans text-sm md:text-base uppercase tracking-wider font-bold">
+                  Horas
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Minutos */}
+          <div className="text-center">
+            <div className="bg-white text-newspaper-black p-6 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+              <div className="font-headline text-5xl md:text-7xl font-black leading-none mb-2 countdown-pulse">
+                {timeLeft.minutes}
+              </div>
+              <div className="border-t-2 border-newspaper-black pt-2 mt-2">
+                <span className="font-sans text-sm md:text-base uppercase tracking-wider font-bold">
+                  Min
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Segundos */}
+          <div className="text-center">
+            <div className="bg-white text-newspaper-black p-6 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+              <div className="font-headline text-5xl md:text-7xl font-black leading-none mb-2 countdown-pulse">
+                {timeLeft.seconds}
+              </div>
+              <div className="border-t-2 border-newspaper-black pt-2 mt-2">
+                <span className="font-sans text-sm md:text-base uppercase tracking-wider font-bold">
+                  Seg
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Subtexto */}
+        <div className="text-center mt-8">
+          <p className="font-serif text-base md:text-lg text-gray-300 italic">
+            ...hasta el evento más esperado del año
+          </p>
+          <div className="mt-4 flex items-center justify-center space-x-2">
+            <div className="h-px w-12 bg-white"></div>
+            <span className="text-2xl">❤</span>
+            <div className="h-px w-12 bg-white"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

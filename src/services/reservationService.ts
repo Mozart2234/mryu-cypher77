@@ -1,16 +1,10 @@
 /**
- * SERVICIO DE RESERVACIONES
+ * SERVICIO DE RESERVACIONES - SUPABASE
  *
- * Este servicio maneja toda la lógica de persistencia de reservaciones.
- * Implementación actual: LocalStorage (para desarrollo)
- *
- * CÓMO CAMBIAR LA ESTRATEGIA DE PERSISTENCIA:
- * 1. Mantén la misma interfaz (métodos públicos)
- * 2. Cambia la implementación interna de cada método
- * 3. Ver archivo PERSISTENCE_OPTIONS.md para ejemplos de implementación
- *    con API REST, Firebase, Supabase o Google Sheets
+ * Gestiona todas las operaciones CRUD de reservaciones usando Supabase
  */
 
+import { supabase } from '@/lib/supabase';
 import { eventConfig } from '@/config/eventConfig';
 import type {
   Reservation,
@@ -20,40 +14,52 @@ import type {
   ReservationStatus
 } from '@/types/reservation';
 
-const STORAGE_KEY = 'wedding_reservations';
-
 /**
- * Genera un ID único para la reservación
- */
-function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-}
-
-/**
- * Genera un código único para el QR (más corto y legible)
+ * Genera un código único para el QR
  */
 function generateCode(): string {
-  return Math.random().toString(36).substr(2, 8).toUpperCase();
+  const prefix = 'WED';
+  const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+  return `${prefix}-${random}`;
 }
 
 /**
- * Obtiene todas las reservaciones del storage
+ * Convierte un registro de Supabase al formato de Reservation
  */
-function getReservationsFromStorage(): Reservation[] {
-  const data = localStorage.getItem(STORAGE_KEY);
-  if (!data) return [];
-  try {
-    return JSON.parse(data);
-  } catch {
-    return [];
-  }
+function mapFromDatabase(record: any): Reservation {
+  return {
+    id: record.id,
+    code: record.code,
+    guestName: record.guest_name,
+    numberOfGuests: record.number_of_guests,
+    accompanistNames: record.accompanist_names,
+    status: record.status,
+    table: record.table,
+    group: record.group,
+    notes: record.notes,
+    createdAt: record.created_at,
+    updatedAt: record.updated_at,
+    checkedInAt: record.checked_in_at
+  };
 }
 
 /**
- * Guarda las reservaciones en el storage
+ * Convierte un DTO al formato de la base de datos
  */
-function saveReservationsToStorage(reservations: Reservation[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(reservations));
+function mapToDatabase(data: Partial<Reservation>): any {
+  const dbData: any = {};
+
+  if (data.code !== undefined) dbData.code = data.code;
+  if (data.guestName !== undefined) dbData.guest_name = data.guestName;
+  if (data.numberOfGuests !== undefined) dbData.number_of_guests = data.numberOfGuests;
+  if (data.accompanistNames !== undefined) dbData.accompanist_names = data.accompanistNames;
+  if (data.status !== undefined) dbData.status = data.status;
+  if (data.table !== undefined) dbData.table = data.table;
+  if (data.group !== undefined) dbData.group = data.group;
+  if (data.notes !== undefined) dbData.notes = data.notes;
+  if (data.checkedInAt !== undefined) dbData.checked_in_at = data.checkedInAt;
+
+  return dbData;
 }
 
 export const reservationService = {
@@ -70,7 +76,6 @@ export const reservationService = {
       throw new Error('Debe especificar al menos 1 persona');
     }
 
-    // VALIDACIÓN: Máximo de personas por reservación (ajustable)
     const MAX_GUESTS_PER_RESERVATION = 10;
     if (data.numberOfGuests > MAX_GUESTS_PER_RESERVATION) {
       throw new Error(`Máximo ${MAX_GUESTS_PER_RESERVATION} personas por reservación`);
@@ -85,66 +90,137 @@ export const reservationService = {
       );
     }
 
-    const now = new Date().toISOString();
-    const newReservation: Reservation = {
-      id: generateId(),
-      code: generateCode(),
+    // Generar código único
+    let code = generateCode();
+    let isUnique = false;
+    let attempts = 0;
+
+    // Intentar hasta encontrar un código único
+    while (!isUnique && attempts < 10) {
+      const { data: existing } = await supabase
+        .from('reservations')
+        .select('id')
+        .eq('code', code)
+        .single();
+
+      if (!existing) {
+        isUnique = true;
+      } else {
+        code = generateCode();
+        attempts++;
+      }
+    }
+
+    if (!isUnique) {
+      throw new Error('No se pudo generar un código único. Intente de nuevo.');
+    }
+
+    // Crear la reservación
+    const insertData = mapToDatabase({
+      code,
       guestName: data.guestName.trim(),
       numberOfGuests: data.numberOfGuests,
+      accompanistNames: data.accompanistNames,
       status: 'pendiente',
       table: data.table?.trim(),
       group: data.group?.trim(),
-      notes: data.notes?.trim(),
-      createdAt: now,
-      updatedAt: now
-    };
+      notes: data.notes?.trim()
+    });
 
-    const reservations = getReservationsFromStorage();
-    reservations.push(newReservation);
-    saveReservationsToStorage(reservations);
+    const { data: created, error } = await supabase
+      .from('reservations')
+      .insert(insertData)
+      .select()
+      .single();
 
-    return newReservation;
+    if (error) {
+      console.error('Error creating reservation:', error);
+      throw new Error(`Error al crear la reservación: ${error.message}`);
+    }
+
+    return mapFromDatabase(created);
   },
 
   /**
    * Obtiene todas las reservaciones
    */
   async getAll(): Promise<Reservation[]> {
-    return getReservationsFromStorage();
+    const { data, error } = await supabase
+      .from('reservations')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching reservations:', error);
+      throw new Error(`Error al obtener reservaciones: ${error.message}`);
+    }
+
+    return (data || []).map(mapFromDatabase);
   },
 
   /**
    * Obtiene una reservación por ID
    */
   async getById(id: string): Promise<Reservation | null> {
-    const reservations = getReservationsFromStorage();
-    return reservations.find(r => r.id === id) || null;
+    const { data, error } = await supabase
+      .from('reservations')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') { // No rows returned
+        return null;
+      }
+      console.error('Error fetching reservation:', error);
+      throw new Error(`Error al obtener la reservación: ${error.message}`);
+    }
+
+    return mapFromDatabase(data);
   },
 
   /**
    * Obtiene una reservación por código (para check-in con QR)
    */
   async getByCode(code: string): Promise<Reservation | null> {
-    const reservations = getReservationsFromStorage();
-    return reservations.find(r => r.code.toUpperCase() === code.toUpperCase()) || null;
+    const { data, error } = await supabase
+      .from('reservations')
+      .select('*')
+      .eq('code', code.toUpperCase())
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') { // No rows returned
+        return null;
+      }
+      console.error('Error fetching reservation by code:', error);
+      throw new Error(`Error al obtener la reservación: ${error.message}`);
+    }
+
+    return mapFromDatabase(data);
+  },
+
+  /**
+   * Busca reservación por código (alias de getByCode)
+   */
+  async findByCode(code: string): Promise<Reservation | null> {
+    return this.getByCode(code);
   },
 
   /**
    * Actualiza una reservación
    */
   async update(id: string, data: UpdateReservationDTO): Promise<Reservation> {
-    const reservations = getReservationsFromStorage();
-    const index = reservations.findIndex(r => r.id === id);
-
-    if (index === -1) {
+    // Primero obtener la reservación actual
+    const existing = await this.getById(id);
+    if (!existing) {
       throw new Error('Reservación no encontrada');
     }
 
     // Si está cambiando el número de invitados, verificar capacidad
-    if (data.numberOfGuests && data.numberOfGuests !== reservations[index].numberOfGuests) {
+    if (data.numberOfGuests && data.numberOfGuests !== existing.numberOfGuests) {
       const stats = await this.getStats();
-      const currentGuests = reservations[index].numberOfGuests;
-      const difference = data.numberOfGuests - currentGuests;
+      const difference = data.numberOfGuests - existing.numberOfGuests;
       const newTotal = stats.totalGuests + difference;
 
       if (newTotal > eventConfig.maxCapacity) {
@@ -152,103 +228,146 @@ export const reservationService = {
       }
     }
 
-    const updated: Reservation = {
-      ...reservations[index],
-      ...data,
-      updatedAt: new Date().toISOString()
-    };
+    const updateData = mapToDatabase(data);
 
-    reservations[index] = updated;
-    saveReservationsToStorage(reservations);
+    const { data: updated, error } = await supabase
+      .from('reservations')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
 
-    return updated;
+    if (error) {
+      console.error('Error updating reservation:', error);
+      throw new Error(`Error al actualizar la reservación: ${error.message}`);
+    }
+
+    return mapFromDatabase(updated);
   },
 
   /**
    * Marca una reservación como ingresada (check-in)
    */
   async checkIn(id: string): Promise<Reservation> {
-    const reservations = getReservationsFromStorage();
-    const index = reservations.findIndex(r => r.id === id);
-
-    if (index === -1) {
+    const existing = await this.getById(id);
+    if (!existing) {
       throw new Error('Reservación no encontrada');
     }
 
-    if (reservations[index].status === 'ingreso-registrado') {
+    if (existing.status === 'ingreso-registrado') {
       throw new Error('Esta reservación ya fue utilizada');
     }
 
-    const updated: Reservation = {
-      ...reservations[index],
-      status: 'ingreso-registrado',
-      checkedInAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
+    const { data: updated, error } = await supabase
+      .from('reservations')
+      .update({
+        status: 'ingreso-registrado',
+        checked_in_at: new Date().toISOString()
+      })
+      .eq('id', id)
+      .select()
+      .single();
 
-    reservations[index] = updated;
-    saveReservationsToStorage(reservations);
+    if (error) {
+      console.error('Error checking in reservation:', error);
+      throw new Error(`Error al registrar el ingreso: ${error.message}`);
+    }
 
-    return updated;
+    return mapFromDatabase(updated);
   },
 
   /**
    * Elimina una reservación
    */
   async delete(id: string): Promise<void> {
-    const reservations = getReservationsFromStorage();
-    const filtered = reservations.filter(r => r.id !== id);
+    const { error } = await supabase
+      .from('reservations')
+      .delete()
+      .eq('id', id);
 
-    if (filtered.length === reservations.length) {
-      throw new Error('Reservación no encontrada');
+    if (error) {
+      console.error('Error deleting reservation:', error);
+      throw new Error(`Error al eliminar la reservación: ${error.message}`);
     }
-
-    saveReservationsToStorage(filtered);
   },
 
   /**
    * Busca reservaciones por nombre
    */
   async search(query: string): Promise<Reservation[]> {
-    const reservations = getReservationsFromStorage();
     const lowerQuery = query.toLowerCase();
 
-    return reservations.filter(r =>
-      r.guestName.toLowerCase().includes(lowerQuery) ||
-      r.code.toLowerCase().includes(lowerQuery) ||
-      r.group?.toLowerCase().includes(lowerQuery)
-    );
+    const { data, error } = await supabase
+      .from('reservations')
+      .select('*')
+      .or(`guest_name.ilike.%${lowerQuery}%,code.ilike.%${lowerQuery}%,group.ilike.%${lowerQuery}%`)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error searching reservations:', error);
+      throw new Error(`Error al buscar reservaciones: ${error.message}`);
+    }
+
+    return (data || []).map(mapFromDatabase);
   },
 
   /**
    * Filtra reservaciones por estado
    */
   async filterByStatus(status: ReservationStatus): Promise<Reservation[]> {
-    const reservations = getReservationsFromStorage();
-    return reservations.filter(r => r.status === status);
+    const { data, error } = await supabase
+      .from('reservations')
+      .select('*')
+      .eq('status', status)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error filtering reservations:', error);
+      throw new Error(`Error al filtrar reservaciones: ${error.message}`);
+    }
+
+    return (data || []).map(mapFromDatabase);
   },
 
   /**
    * Obtiene estadísticas de las reservaciones
    */
   async getStats(): Promise<ReservationStats> {
-    const reservations = getReservationsFromStorage();
-    const totalGuests = reservations.reduce((sum, r) => sum + r.numberOfGuests, 0);
+    const { data, error } = await supabase
+      .from('reservations')
+      .select('number_of_guests, status');
+
+    if (error) {
+      console.error('Error getting stats:', error);
+      throw new Error(`Error al obtener estadísticas: ${error.message}`);
+    }
+
+    const reservations = data || [];
+    const totalGuests = reservations.reduce((sum, r) => sum + r.number_of_guests, 0);
 
     return {
       totalReservations: reservations.length,
       totalGuests,
       availableSpots: eventConfig.maxCapacity - totalGuests,
-      pendingReservations: reservations.filter(r => r.status === 'pendiente').length,
-      confirmedReservations: reservations.filter(r => r.status === 'confirmada').length,
-      checkedInReservations: reservations.filter(r => r.status === 'ingreso-registrado').length
+      pendingReservations: reservations.filter((r: any) => r.status === 'pendiente').length,
+      confirmedReservations: reservations.filter((r: any) => r.status === 'confirmada').length,
+      checkedInReservations: reservations.filter((r: any) => r.status === 'ingreso-registrado').length
     };
   },
 
   /**
    * Limpia todas las reservaciones (útil para desarrollo/testing)
+   * CUIDADO: Esto eliminará TODAS las reservaciones
    */
   async clearAll(): Promise<void> {
-    localStorage.removeItem(STORAGE_KEY);
+    const { error } = await supabase
+      .from('reservations')
+      .delete()
+      .neq('id', '00000000-0000-0000-0000-000000000000'); // Eliminar todas
+
+    if (error) {
+      console.error('Error clearing reservations:', error);
+      throw new Error(`Error al limpiar reservaciones: ${error.message}`);
+    }
   }
 };

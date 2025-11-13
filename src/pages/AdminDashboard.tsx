@@ -9,9 +9,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { StatsCards } from '@/components/admin/StatsCards';
 import { ReservationForm } from '@/components/admin/ReservationForm';
 import { ReservationList } from '@/components/admin/ReservationList';
-import { LogOut, Home, ListChecks } from 'lucide-react';
+import { LogOut, Home, ListChecks, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { eventConfig } from '@/config/eventConfig';
+import { reservationService } from '@/services/reservationService';
+import { exportReservationsToCSV } from '@/utils/csvExport';
 
 export function AdminDashboard() {
   const { logout } = useAuth();
@@ -19,6 +21,16 @@ export function AdminDashboard() {
 
   const handleUpdate = () => {
     setRefreshTrigger(prev => prev + 1);
+  };
+
+  const handleExportCSV = async () => {
+    try {
+      const reservations = await reservationService.getAll();
+      exportReservationsToCSV(reservations);
+    } catch (error) {
+      console.error('Error exporting CSV:', error);
+      alert('Error al exportar el archivo CSV');
+    }
   };
 
   return (
@@ -40,6 +52,14 @@ export function AdminDashboard() {
               <Home className="w-4 h-4" />
               <span>Ver Landing</span>
             </Link>
+            <button
+              onClick={handleExportCSV}
+              className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white hover:bg-green-700 rounded-lg transition-colors"
+              title="Exportar lista de invitados a CSV"
+            >
+              <Download className="w-4 h-4" />
+              <span>Exportar CSV</span>
+            </button>
             <Link
               to="/lista-invitados"
               className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg transition-colors"
