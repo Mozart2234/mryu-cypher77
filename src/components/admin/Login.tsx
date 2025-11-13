@@ -6,6 +6,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { Lock, User } from 'lucide-react';
 
 export function Login() {
@@ -13,6 +14,7 @@ export function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -20,7 +22,9 @@ export function Login() {
 
     const success = login(username, password);
 
-    if (!success) {
+    if (success) {
+      navigate('/admin');
+    } else {
       setError('Usuario o contraseña incorrectos');
     }
   };
@@ -83,7 +87,7 @@ export function Login() {
 
           <div className="mt-6 p-4 bg-gray-50 rounded-lg">
             <p className="text-xs text-gray-500 text-center">
-              Credenciales por defecto: admin / boda2024
+              Credenciales por defecto: admin / boda2026
             </p>
           </div>
         </div>

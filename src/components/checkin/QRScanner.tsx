@@ -48,7 +48,7 @@ export function QRScanner({ onScan, onClose }: QRScannerProps) {
           onScan(code);
           stopScanner();
         },
-        (errorMessage) => {
+        () => {
           // Error de escaneo (normal cuando no detecta QR)
           // No hacer nada aquí para evitar spam de errores
         }

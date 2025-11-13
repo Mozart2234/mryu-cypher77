@@ -9,9 +9,7 @@ import type { Reservation } from '@/types/reservation';
 import { QRCodeSVG } from 'qrcode.react';
 import { eventConfig } from '@/config/eventConfig';
 import {
-  Eye,
   CheckCircle,
-  Edit,
   Trash2,
   QrCode,
   Users,

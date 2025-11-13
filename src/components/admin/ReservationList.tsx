@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { reservationService } from '@/services/reservationService';
 import type { Reservation, ReservationStatus } from '@/types/reservation';
 import { ReservationRow } from './ReservationRow';
-import { Search, Filter, SortAsc } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 
 interface ReservationListProps {
   refreshTrigger: number;
