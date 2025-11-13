@@ -85,7 +85,7 @@ export function PhotoGallery() {
                 <img
                   src={photo.url}
                   alt={photo.alt}
-                  className="w-full h-full object-cover grayscale-[30%] transition-all duration-300 group-hover:grayscale-0 group-hover:scale-105"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
                 />
 
                 {/* Overlay con gradiente al hacer hover */}

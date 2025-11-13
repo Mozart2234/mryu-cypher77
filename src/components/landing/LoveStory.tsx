@@ -44,21 +44,33 @@ export function LoveStory() {
 
                 {/* Contenido */}
                 <div className={`md:w-11/12 ${index % 2 === 0 ? 'md:ml-0' : 'md:ml-auto'}`}>
-                  <div className="newspaper-box hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div className="flex items-center gap-3 mb-3 md:hidden">
-                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-newspaper-accent/10 border-2 border-newspaper-accent">
-                        <Heart className="w-4 h-4 text-newspaper-accent" fill="currentColor" />
+                  <div className="newspaper-box hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden">
+                    {/* Badge del año - esquina superior */}
+                    <div className={`absolute top-0 ${index % 2 === 0 ? 'md:right-0' : 'md:left-0'} right-0 bg-newspaper-accent text-white px-4 py-1 text-sm font-bold`}>
+                      {item.year}
+                    </div>
+
+                    <div className="pt-8">
+                      <div className="flex items-center gap-3 mb-3 md:hidden">
+                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-newspaper-accent/10 border-2 border-newspaper-accent flex-shrink-0">
+                          <Heart className="w-4 h-4 text-newspaper-accent" fill="currentColor" />
+                        </div>
+                        <h3 className="font-serif font-bold text-lg text-newspaper-black">
+                          {item.title}
+                        </h3>
                       </div>
-                      <h3 className="font-serif font-bold text-lg text-newspaper-black">
+                      <h3 className="hidden md:block font-serif font-bold text-xl md:text-2xl mb-4 text-newspaper-black">
                         {item.title}
                       </h3>
+                      <p className="newspaper-body leading-relaxed text-base">
+                        {item.text}
+                      </p>
                     </div>
-                    <h3 className="hidden md:block font-serif font-bold text-lg md:text-xl mb-3 text-newspaper-black">
-                      {item.title}
-                    </h3>
-                    <p className="newspaper-body leading-relaxed">
-                      {item.text}
-                    </p>
+
+                    {/* Línea decorativa inferior */}
+                    <div className="mt-4 pt-4 border-t border-newspaper-gray-300">
+                      <p className="newspaper-page-number text-center">{item.year}</p>
+                    </div>
                   </div>
                 </div>
               </div>

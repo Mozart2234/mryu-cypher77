@@ -20,8 +20,8 @@ export const eventConfig = {
   newspaper: {
     edition: "Edición Especial Arequipa",
     headline: "se casan en ENERO",
-    subheadline: "Los novios protagonizan una de las historias de amor más esperadas del año",
-    subtitle: "El enlace se celebrará el 11 de enero"
+    subheadline: "Una historia de amor que comenzó en 2016 culmina en el altar",
+    subtitle: "La pareja sellará su amor ante Dios el domingo 11 de enero"
   },
 
   // Fecha y hora del evento
@@ -78,36 +78,44 @@ export const eventConfig = {
   // Historia de la pareja (para la sección tipo artículo)
   loveStory: [
     {
-      title: "Sabías que:",
-      text: "Alexei vio por primera vez a Estephanie en el año 2016 y quedó completamente flechado…, pero pasaron seis años antes que se atreviera a escribirle"
+      year: "2016",
+      title: "El Primer Encuentro",
+      text: "Alexei vio por primera vez a Estephanie y quedó completamente flechado. Sin embargo, pasarían seis años antes de que se atreviera a dar el primer paso."
     },
     {
-      title: "Primer Mensaje:",
-      text: "Un simple 'hola' por Facebook en el 2022 se convirtió en largas conversaciones llenas de risas, fe y complicidad."
+      year: "2022",
+      title: "Un Simple 'Hola'",
+      text: "Un mensaje por Facebook se convirtió en el inicio de largas conversaciones llenas de risas, fe y complicidad. La conexión fue instantánea y profunda."
     },
     {
-      title: "De amigos a algo más:",
-      text: "Durante el 2023 empezaron a salir, compartiendo risas, charlas y sueños."
+      year: "2023",
+      title: "De Amigos a Algo Más",
+      text: "Empezaron a salir y compartir momentos especiales. Cada charla, cada risa y cada sueño compartido los acercaba más."
     },
     {
-      title: "Primera Cita:",
-      text: "Una cena sencilla y bonita… donde todo fluyó de forma natural, como si se conocieran de toda la vida."
+      year: "2023",
+      title: "La Primera Cita",
+      text: "Una cena sencilla y bonita donde todo fluyó de forma natural, como si se conocieran de toda la vida. Fue el inicio de algo hermoso."
     },
     {
-      title: "El gran paso:",
-      text: "En el 2025 se convirtieron en novios, y ahora, en 2026 celebran su amor eterno ante Dios."
+      year: "2025",
+      title: "¡Novios!",
+      text: "Oficializaron su relación como novios, dando un paso importante hacia su futuro juntos con Dios en el centro."
     },
     {
-      title: "Amor Viajero:",
-      text: "Ambos comparten una gran pasión por viajar y descubrir juntos nuevos lugares, culturas y sabores."
+      year: "2025-2026",
+      title: "Viajeros del Amor",
+      text: "Descubriendo juntos nuevos lugares, culturas y sabores. Cada viaje fortalece su vínculo y crea memorias inolvidables."
     },
     {
-      title: "Palabra que los define:",
-      text: "'Propósito', porque creen que su amor no fue casualidad, sino un hermoso plan divino."
+      year: "2026",
+      title: "'Propósito'",
+      text: "La palabra que define su amor. Creen firmemente que su encuentro no fue casualidad, sino parte de un hermoso plan divino."
     },
     {
-      title: "Lo que más valoran:",
-      text: "Orar juntos, apoyarse siempre y mantener a Dios como el centro de su relación."
+      year: "2026",
+      title: "El Día Más Esperado",
+      text: "El 11 de enero celebran su amor eterno ante Dios. Lo que más valoran: orar juntos y mantener su fe como el centro de su relación."
     }
   ],
 
@@ -120,7 +128,7 @@ export const eventConfig = {
     },
     {
       title: "Confirmación oficial",
-      content: "Según un comunicado, la pareja ha confirmado su enlace para el Domingo 11 de enero del 2026 sellando su promesa de amor ante Dios. Ambos viven con entusiasmo la cuenta regresiva hacia su gran día, soñando con una boda llena de amor, fe y felicidad.",
+      content: "Alexei y Estephanie unirán sus vidas en matrimonio el domingo 11 de enero de 2026. La ceremonia religiosa se celebrará en la Iglesia Adventista de Parra a las 10:00 AM, seguida de una recepción en el Club del Odontólogo. La pareja, que se conoció en 2016 y formalizó su noviazgo en 2025, ha compartido que mantener a Dios en el centro de su relación ha sido fundamental. Familiares y amigos cercanos han sido invitados a este momento especial que promete ser una celebración inolvidable.",
       page: "Pág. 01"
     },
     {
