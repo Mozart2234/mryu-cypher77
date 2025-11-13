@@ -1,0 +1,164 @@
+/**
+ * COMPONENTE FILA DE RESERVACIÓN
+ *
+ * Representa una fila en la tabla de reservaciones con acciones
+ */
+
+import { useState } from 'react';
+import type { Reservation } from '@/types/reservation';
+import { QRCodeSVG } from 'qrcode.react';
+import { eventConfig } from '@/config/eventConfig';
+import {
+  Eye,
+  CheckCircle,
+  Edit,
+  Trash2,
+  QrCode,
+  Users,
+  X
+} from 'lucide-react';
+
+interface ReservationRowProps {
+  reservation: Reservation;
+  onCheckIn: (id: string) => void;
+  onDelete: (id: string) => void;
+}
+
+export function ReservationRow({ reservation, onCheckIn, onDelete }: ReservationRowProps) {
+  const [showQR, setShowQR] = useState(false);
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'pendiente':
+        return <span className="badge badge-pending">Pendiente</span>;
+      case 'confirmada':
+        return <span className="badge badge-confirmed">Confirmada</span>;
+      case 'ingreso-registrado':
+        return <span className="badge badge-checked-in">Ingresado</span>;
+      default:
+        return <span className="badge">{status}</span>;
+    }
+  };
+
+  const qrUrl = `${eventConfig.appUrl}/check-in?code=${reservation.code}`;
+  const canCheckIn = reservation.status !== 'ingreso-registrado';
+
+  return (
+    <>
+      <tr>
+        <td className="font-medium">{reservation.guestName}</td>
+        <td>
+          <div className="flex items-center">
+            <Users className="w-4 h-4 mr-1 text-gray-500" />
+            {reservation.numberOfGuests}
+          </div>
+        </td>
+        <td>
+          <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono">
+            {reservation.code}
+          </code>
+        </td>
+        <td>{reservation.table || '-'}</td>
+        <td>{reservation.group || '-'}</td>
+        <td>{getStatusBadge(reservation.status)}</td>
+        <td>
+          <div className="flex items-center space-x-2">
+            {/* Ver QR */}
+            <button
+              onClick={() => setShowQR(true)}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              title="Ver QR"
+            >
+              <QrCode className="w-4 h-4 text-blue-600" />
+            </button>
+
+            {/* Check-in */}
+            {canCheckIn && (
+              <button
+                onClick={() => onCheckIn(reservation.id)}
+                className="p-2 hover:bg-green-100 rounded-lg transition-colors"
+                title="Marcar ingreso"
+              >
+                <CheckCircle className="w-4 h-4 text-green-600" />
+              </button>
+            )}
+
+            {/* Eliminar */}
+            <button
+              onClick={() => {
+                if (confirm('¿Eliminar esta reservación?')) {
+                  onDelete(reservation.id);
+                }
+              }}
+              className="p-2 hover:bg-red-100 rounded-lg transition-colors"
+              title="Eliminar"
+            >
+              <Trash2 className="w-4 h-4 text-red-600" />
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      {/* Modal QR */}
+      {showQR && (
+        <tr>
+          <td colSpan={7} className="bg-gray-50">
+            <div className="p-6">
+              <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h4 className="font-semibold text-lg">{reservation.guestName}</h4>
+                    <p className="text-sm text-gray-600">Código: {reservation.code}</p>
+                  </div>
+                  <button
+                    onClick={() => setShowQR(false)}
+                    className="p-1 hover:bg-gray-100 rounded"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="flex justify-center bg-white p-4 rounded-lg border-2 border-gray-200">
+                  <QRCodeSVG
+                    value={qrUrl}
+                    size={200}
+                    level="H"
+                    includeMargin={true}
+                  />
+                </div>
+
+                <div className="mt-4 space-y-2 text-sm text-gray-600">
+                  <p className="flex justify-between">
+                    <span>Personas:</span>
+                    <span className="font-semibold">{reservation.numberOfGuests}</span>
+                  </p>
+                  {reservation.table && (
+                    <p className="flex justify-between">
+                      <span>Mesa:</span>
+                      <span className="font-semibold">{reservation.table}</span>
+                    </p>
+                  )}
+                  <p className="flex justify-between">
+                    <span>Estado:</span>
+                    {getStatusBadge(reservation.status)}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-4 border-t text-xs text-gray-500 text-center">
+                  Este QR puede ser escaneado en la entrada del evento
+                </div>
+
+                <button
+                  onClick={() => window.print()}
+                  className="w-full mt-4 btn-secondary"
+                >
+                  Imprimir QR
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      )}
+    </>
+  );
+}
