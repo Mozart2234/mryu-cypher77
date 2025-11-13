@@ -13,6 +13,8 @@ import { Landing } from '@/pages/Landing';
 import { AdminDashboard } from '@/pages/AdminDashboard';
 import { Login } from '@/components/admin/Login';
 import { CheckIn } from '@/pages/CheckIn';
+import { InvitationPass } from '@/pages/InvitationPass';
+import { GuestList } from '@/pages/GuestList';
 
 function App() {
   return (
@@ -21,6 +23,12 @@ function App() {
         <Routes>
           {/* Ruta pública - Landing */}
           <Route path="/" element={<Landing />} />
+
+          {/* Ruta de invitación individual (pase digital) */}
+          <Route path="/invitacion/:code" element={<InvitationPass />} />
+
+          {/* Ruta de lista para portero (accesible sin autenticación) */}
+          <Route path="/lista-invitados" element={<GuestList />} />
 
           {/* Ruta de check-in (accesible sin autenticación) */}
           <Route path="/check-in" element={<CheckIn />} />

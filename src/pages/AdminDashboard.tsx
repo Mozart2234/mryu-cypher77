@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { StatsCards } from '@/components/admin/StatsCards';
 import { ReservationForm } from '@/components/admin/ReservationForm';
 import { ReservationList } from '@/components/admin/ReservationList';
-import { LogOut, Home } from 'lucide-react';
+import { LogOut, Home, ListChecks } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { eventConfig } from '@/config/eventConfig';
 
@@ -39,6 +39,13 @@ export function AdminDashboard() {
             >
               <Home className="w-4 h-4" />
               <span>Ver Landing</span>
+            </Link>
+            <Link
+              to="/lista-invitados"
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg transition-colors"
+            >
+              <ListChecks className="w-4 h-4" />
+              <span>Lista para Portero</span>
             </Link>
             <button
               onClick={logout}
