@@ -20,11 +20,11 @@ export function Landing() {
       {/* Header tipo New York Times */}
       <NewspaperHeader />
 
+      {/* Contador regresivo - destacado en la parte superior */}
+      <Countdown />
+
       {/* Portada principal */}
       <Hero />
-
-      {/* Contador regresivo */}
-      <Countdown />
 
       {/* Detalles del evento */}
       <EventDetails />

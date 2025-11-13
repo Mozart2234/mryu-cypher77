@@ -66,14 +66,15 @@ export function PhotoGallery() {
 
         {/* Grid de fotos tipo periódico */}
         <div className="grid md:grid-cols-3 gap-6">
-          {photos.map((photo) => (
+          {photos.map((photo, index) => (
             <div
               key={photo.id}
-              className={`newspaper-box-simple hover:shadow-xl transition-shadow ${
+              className={`newspaper-box-simple hover:shadow-xl transition-shadow stagger-animation ${
                 photo.size === 'large' ? 'md:col-span-2 md:row-span-2' :
                 photo.size === 'medium' ? 'md:col-span-1' :
                 'md:col-span-1'
               }`}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Imagen de ejemplo - reemplazar con fotos reales */}
               <div className={`bg-newspaper-gray-200 ${
