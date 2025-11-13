@@ -15,11 +15,11 @@ export function DressCode() {
       <div className="max-w-6xl mx-auto">
         {/* Título de sección */}
         <div className="text-center mb-12">
-          <div className="inline-block newspaper-box mb-6 px-8 py-4">
+          <div className="inline-block newspaper-box mb-6 px-8 py-4 border-4 border-newspaper-black">
             <h2 className="newspaper-subheadline mb-2">
               {dressCode.title}
             </h2>
-            <p className="font-serif text-lg text-newspaper-accent">
+            <p className="font-serif text-lg text-newspaper-black font-bold">
               {dressCode.subtitle}
             </p>
           </div>
@@ -69,7 +69,7 @@ export function DressCode() {
 
             {/* Footer decorativo */}
             <div className="border-t-2 border-newspaper-gray-300 p-4 bg-newspaper-gray-50">
-              <p className="newspaper-page-number text-center">Estilo femenino elegante</p>
+              <p className="newspaper-page-number text-center">Vestimenta de gala para damas</p>
             </div>
           </div>
 
@@ -91,7 +91,7 @@ export function DressCode() {
             <div className="p-6">
               <ul className="space-y-4">
                 {dressCode.men.items.map((item, index) => {
-                  const isProhibition = item.toLowerCase().includes('no tenis');
+                  const isProhibition = item.includes('NO');
                   return (
                     <li key={index} className="flex items-start gap-3">
                       <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-newspaper-gray-200 border border-newspaper-gray-400">
@@ -114,7 +114,7 @@ export function DressCode() {
 
             {/* Footer decorativo */}
             <div className="border-t-2 border-newspaper-gray-300 p-4 bg-newspaper-gray-50">
-              <p className="newspaper-page-number text-center">Estilo masculino formal</p>
+              <p className="newspaper-page-number text-center">Traje formal obligatorio para caballeros</p>
             </div>
           </div>
         </div>
@@ -122,9 +122,14 @@ export function DressCode() {
         {/* Nota importante */}
         <div className="mt-8 max-w-3xl mx-auto">
           <div className="bg-newspaper-gray-100 border-4 border-newspaper-black p-6">
-            <p className="text-center font-serif text-newspaper-gray-800 leading-relaxed">
-              <span className="font-bold text-newspaper-black uppercase">IMPORTANTE:</span> El código de vestimenta es obligatorio.
-              Se solicita respetar estas indicaciones para mantener la elegancia y formalidad de la ceremonia.
+            <p className="text-center font-serif text-newspaper-black leading-relaxed">
+              <span className="font-bold uppercase text-xl block mb-2">⚠ AVISO IMPORTANTE ⚠</span>
+              <span className="font-semibold">El código de vestimenta es de cumplimiento obligatorio para todos los invitados.</span>
+              <br />
+              <span className="text-base mt-2 block">
+                Se reserva el derecho de admisión. Agradecemos su comprensión y colaboración para mantener
+                la elegancia y solemnidad de esta celebración religiosa.
+              </span>
             </p>
           </div>
         </div>
