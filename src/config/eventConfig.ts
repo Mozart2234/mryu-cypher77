@@ -59,7 +59,7 @@ export const eventConfig = {
     },
     groom: {
       father: "Teófilo Mamani Quispe",
-      mother: "Reyna Claudia Coaquira Pari"
+      mother: "Reyna Claudia Coaquira Pari †"
     }
   },
 

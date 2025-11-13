@@ -12,42 +12,42 @@ export function PhotoGallery() {
       caption: "Primera foto juntos - 2023",
       alt: "Alexei y Estephanie en su primera foto juntos",
       size: "large" as const,
-      url: "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&h=600&fit=crop&q=80"
+      url: "https://placehold.co/800x600/d4d4d4/404040?text=Primera+Foto+Juntos"
     },
     {
       id: 2,
       caption: "Viaje a Cusco - Amor viajero en acción",
       alt: "La pareja explorando Cusco",
       size: "medium" as const,
-      url: "https://images.unsplash.com/photo-1529634597-c28e73695df4?w=400&h=500&fit=crop&q=80"
+      url: "https://placehold.co/400x500/d4d4d4/404040?text=Viaje+a+Cusco"
     },
     {
       id: 3,
       caption: "El día que se hicieron novios - 2025",
       alt: "Momento especial de compromiso",
       size: "medium" as const,
-      url: "https://images.unsplash.com/photo-1522673607196-b79f2e6dfaab?w=400&h=500&fit=crop&q=80"
+      url: "https://placehold.co/400x500/d4d4d4/404040?text=Novios+2025"
     },
     {
       id: 4,
       caption: "Compartiendo momentos de fe",
       alt: "En la iglesia juntos",
       size: "small" as const,
-      url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop&q=80"
+      url: "https://placehold.co/400x300/d4d4d4/404040?text=Momentos+de+Fe"
     },
     {
       id: 5,
       caption: "Aventuras culinarias - Probando nuevos sabores",
       alt: "Disfrutando de una cena",
       size: "small" as const,
-      url: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&h=300&fit=crop&q=80"
+      url: "https://placehold.co/400x300/d4d4d4/404040?text=Aventuras+Culinarias"
     },
     {
       id: 6,
       caption: "El 'propósito' hecho realidad",
       alt: "Sonriendo juntos",
       size: "large" as const,
-      url: "https://images.unsplash.com/photo-1525772639304-887684b1e40d?w=800&h=600&fit=crop&q=80"
+      url: "https://placehold.co/800x600/d4d4d4/404040?text=Proposito"
     }
   ];
 
@@ -64,43 +64,107 @@ export function PhotoGallery() {
           <div className="newspaper-divider-thick mt-4"></div>
         </div>
 
-        {/* Grid de fotos tipo periódico */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {photos.map((photo, index) => (
-            <div
-              key={photo.id}
-              className={`newspaper-box-simple hover:shadow-xl transition-shadow stagger-animation ${
-                photo.size === 'large' ? 'md:col-span-2 md:row-span-2' :
-                photo.size === 'medium' ? 'md:col-span-1' :
-                'md:col-span-1'
-              }`}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {/* Imagen de ejemplo - reemplazar con fotos reales */}
-              <div className={`bg-newspaper-gray-200 ${
-                photo.size === 'large' ? 'h-96' :
-                photo.size === 'medium' ? 'h-64' :
-                'h-48'
-              } relative overflow-hidden group`}>
-                <img
-                  src={photo.url}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
-                />
-
-                {/* Overlay con gradiente al hacer hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-newspaper-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              </div>
-
-              {/* Caption tipo periódico */}
-              <div className="mt-3 pb-2 border-b border-newspaper-border">
-                <p className="font-serif text-sm text-newspaper-black italic">
-                  {photo.caption}
-                </p>
-                <p className="newspaper-page-number mt-1">Foto: Archivo personal</p>
-              </div>
+        {/* Grid de fotos tipo periódico - Layout reorganizado */}
+        <div className="grid md:grid-cols-4 gap-4">
+          {/* Foto grande destacada 1 */}
+          <div className="md:col-span-2 md:row-span-2 newspaper-box-simple hover:shadow-xl transition-shadow">
+            <div className="bg-newspaper-gray-200 h-96 relative overflow-hidden group border-4 border-newspaper-black">
+              <img
+                src={photos[0].url}
+                alt={photos[0].alt}
+                className="w-full h-full object-cover grayscale transition-all duration-500"
+              />
             </div>
-          ))}
+            <div className="mt-3 pb-2 border-b-2 border-newspaper-black">
+              <p className="font-serif text-base text-newspaper-black font-bold">
+                {photos[0].caption}
+              </p>
+              <p className="newspaper-page-number mt-1">Foto: Archivo personal</p>
+            </div>
+          </div>
+
+          {/* Foto mediana 1 */}
+          <div className="md:col-span-2 newspaper-box-simple hover:shadow-xl transition-shadow">
+            <div className="bg-newspaper-gray-200 h-44 relative overflow-hidden border-2 border-newspaper-gray-400">
+              <img
+                src={photos[1].url}
+                alt={photos[1].alt}
+                className="w-full h-full object-cover grayscale transition-all duration-500"
+              />
+            </div>
+            <div className="mt-2 pb-2 border-b border-newspaper-border">
+              <p className="font-serif text-sm text-newspaper-black italic">
+                {photos[1].caption}
+              </p>
+              <p className="newspaper-page-number mt-1 text-xs">Archivo personal</p>
+            </div>
+          </div>
+
+          {/* Foto pequeña 1 */}
+          <div className="md:col-span-1 newspaper-box-simple hover:shadow-xl transition-shadow">
+            <div className="bg-newspaper-gray-200 h-44 relative overflow-hidden border-2 border-newspaper-gray-400">
+              <img
+                src={photos[3].url}
+                alt={photos[3].alt}
+                className="w-full h-full object-cover grayscale transition-all duration-500"
+              />
+            </div>
+            <div className="mt-2 pb-1 border-b border-newspaper-border">
+              <p className="font-serif text-xs text-newspaper-black italic">
+                {photos[3].caption}
+              </p>
+            </div>
+          </div>
+
+          {/* Foto pequeña 2 */}
+          <div className="md:col-span-1 newspaper-box-simple hover:shadow-xl transition-shadow">
+            <div className="bg-newspaper-gray-200 h-44 relative overflow-hidden border-2 border-newspaper-gray-400">
+              <img
+                src={photos[4].url}
+                alt={photos[4].alt}
+                className="w-full h-full object-cover grayscale transition-all duration-500"
+              />
+            </div>
+            <div className="mt-2 pb-1 border-b border-newspaper-border">
+              <p className="font-serif text-xs text-newspaper-black italic">
+                {photos[4].caption}
+              </p>
+            </div>
+          </div>
+
+          {/* Foto mediana 2 */}
+          <div className="md:col-span-2 newspaper-box-simple hover:shadow-xl transition-shadow">
+            <div className="bg-newspaper-gray-200 h-44 relative overflow-hidden border-2 border-newspaper-gray-400">
+              <img
+                src={photos[2].url}
+                alt={photos[2].alt}
+                className="w-full h-full object-cover grayscale transition-all duration-500"
+              />
+            </div>
+            <div className="mt-2 pb-2 border-b border-newspaper-border">
+              <p className="font-serif text-sm text-newspaper-black italic">
+                {photos[2].caption}
+              </p>
+              <p className="newspaper-page-number mt-1 text-xs">Archivo personal</p>
+            </div>
+          </div>
+
+          {/* Foto grande destacada 2 */}
+          <div className="md:col-span-2 newspaper-box-simple hover:shadow-xl transition-shadow">
+            <div className="bg-newspaper-gray-200 h-44 relative overflow-hidden border-4 border-newspaper-black">
+              <img
+                src={photos[5].url}
+                alt={photos[5].alt}
+                className="w-full h-full object-cover grayscale transition-all duration-500"
+              />
+            </div>
+            <div className="mt-3 pb-2 border-b-2 border-newspaper-black">
+              <p className="font-serif text-base text-newspaper-black font-bold">
+                {photos[5].caption}
+              </p>
+              <p className="newspaper-page-number mt-1">Foto: Archivo personal</p>
+            </div>
+          </div>
         </div>
 
         {/* Nota al pie */}

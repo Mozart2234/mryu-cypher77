@@ -26,15 +26,15 @@ export function DressCode() {
           <div className="newspaper-divider-thick"></div>
         </div>
 
-        {/* Grid de dress code con diseño mejorado */}
+        {/* Grid de dress code estilo periódico */}
         <div className="grid md:grid-cols-2 gap-8">
           {/* Mujeres */}
-          <div className="bg-white border-4 border-newspaper-black rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-            {/* Header con icono */}
-            <div className="bg-gradient-to-r from-pink-50 to-rose-50 border-b-4 border-newspaper-black p-6">
+          <div className="bg-white border-4 border-newspaper-black overflow-hidden">
+            {/* Header */}
+            <div className="bg-newspaper-gray-100 border-b-4 border-newspaper-black p-6">
               <div className="flex items-center justify-center gap-3 mb-2">
-                <div className="w-12 h-12 bg-pink-200 rounded-full flex items-center justify-center">
-                  <User className="w-6 h-6 text-pink-800" />
+                <div className="w-12 h-12 bg-newspaper-gray-300 rounded-full flex items-center justify-center">
+                  <User className="w-6 h-6 text-newspaper-black" />
                 </div>
                 <h3 className="font-headline text-3xl font-bold text-newspaper-black">
                   {dressCode.women.title}
@@ -49,17 +49,15 @@ export function DressCode() {
                   const isProhibition = item.includes('NO');
                   return (
                     <li key={index} className="flex items-start gap-3">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                        isProhibition ? 'bg-red-100' : 'bg-green-100'
-                      }`}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-newspaper-gray-200 border border-newspaper-gray-400">
                         {isProhibition ? (
-                          <X className="w-4 h-4 text-red-700" />
+                          <X className="w-4 h-4 text-newspaper-black" />
                         ) : (
-                          <CheckCircle className="w-4 h-4 text-green-700" />
+                          <CheckCircle className="w-4 h-4 text-newspaper-black" />
                         )}
                       </div>
                       <span className={`font-sans text-base leading-relaxed ${
-                        isProhibition ? 'text-red-800 font-bold' : 'text-newspaper-gray-800'
+                        isProhibition ? 'text-newspaper-black font-bold' : 'text-newspaper-gray-800'
                       }`}>
                         {item}
                       </span>
@@ -70,18 +68,18 @@ export function DressCode() {
             </div>
 
             {/* Footer decorativo */}
-            <div className="border-t-2 border-newspaper-gray-200 p-4 bg-newspaper-gray-50">
+            <div className="border-t-2 border-newspaper-gray-300 p-4 bg-newspaper-gray-50">
               <p className="newspaper-page-number text-center">Estilo femenino elegante</p>
             </div>
           </div>
 
           {/* Hombres */}
-          <div className="bg-white border-4 border-newspaper-black rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-            {/* Header con icono */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b-4 border-newspaper-black p-6">
+          <div className="bg-white border-4 border-newspaper-black overflow-hidden">
+            {/* Header */}
+            <div className="bg-newspaper-gray-100 border-b-4 border-newspaper-black p-6">
               <div className="flex items-center justify-center gap-3 mb-2">
-                <div className="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center">
-                  <Users className="w-6 h-6 text-blue-800" />
+                <div className="w-12 h-12 bg-newspaper-gray-300 rounded-full flex items-center justify-center">
+                  <Users className="w-6 h-6 text-newspaper-black" />
                 </div>
                 <h3 className="font-headline text-3xl font-bold text-newspaper-black">
                   {dressCode.men.title}
@@ -96,17 +94,15 @@ export function DressCode() {
                   const isProhibition = item.toLowerCase().includes('no tenis');
                   return (
                     <li key={index} className="flex items-start gap-3">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                        isProhibition ? 'bg-red-100' : 'bg-green-100'
-                      }`}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-newspaper-gray-200 border border-newspaper-gray-400">
                         {isProhibition ? (
-                          <X className="w-4 h-4 text-red-700" />
+                          <X className="w-4 h-4 text-newspaper-black" />
                         ) : (
-                          <CheckCircle className="w-4 h-4 text-green-700" />
+                          <CheckCircle className="w-4 h-4 text-newspaper-black" />
                         )}
                       </div>
                       <span className={`font-sans text-base leading-relaxed ${
-                        isProhibition ? 'text-red-800 font-bold' : 'text-newspaper-gray-800'
+                        isProhibition ? 'text-newspaper-black font-bold' : 'text-newspaper-gray-800'
                       }`}>
                         {item}
                       </span>
@@ -117,7 +113,7 @@ export function DressCode() {
             </div>
 
             {/* Footer decorativo */}
-            <div className="border-t-2 border-newspaper-gray-200 p-4 bg-newspaper-gray-50">
+            <div className="border-t-2 border-newspaper-gray-300 p-4 bg-newspaper-gray-50">
               <p className="newspaper-page-number text-center">Estilo masculino formal</p>
             </div>
           </div>
@@ -125,10 +121,10 @@ export function DressCode() {
 
         {/* Nota importante */}
         <div className="mt-8 max-w-3xl mx-auto">
-          <div className="bg-yellow-50 border-4 border-yellow-300 p-6 rounded-lg">
+          <div className="bg-newspaper-gray-100 border-4 border-newspaper-black p-6">
             <p className="text-center font-serif text-newspaper-gray-800 leading-relaxed">
-              <span className="font-bold text-newspaper-black">Nota importante:</span> Agradecemos tu cooperación
-              al seguir el código de vestimenta. Esto nos ayuda a mantener la elegancia y formalidad del evento.
+              <span className="font-bold text-newspaper-black uppercase">IMPORTANTE:</span> El código de vestimenta es obligatorio.
+              Se solicita respetar estas indicaciones para mantener la elegancia y formalidad de la ceremonia.
             </p>
           </div>
         </div>

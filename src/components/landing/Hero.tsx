@@ -47,9 +47,9 @@ export function Hero() {
               <div className="relative bg-newspaper-gray-200 aspect-[3/4] md:aspect-[4/5] overflow-hidden">
                 {/* Foto de ejemplo - reemplazar con foto real */}
                 <img
-                  src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&h=600&fit=crop"
+                  src="https://placehold.co/800x1000/d4d4d4/404040?text=Alexei+y+Estephanie"
                   alt="Alexei y Estephanie"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  className="w-full h-full object-cover grayscale transition-all duration-500"
                 />
                 {/* Overlay sutil */}
                 <div className="absolute inset-0 bg-gradient-to-t from-newspaper-black/40 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>

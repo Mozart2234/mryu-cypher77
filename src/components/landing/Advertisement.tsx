@@ -33,7 +33,7 @@ export function Advertisement() {
               <h3 className="font-headline text-2xl font-bold">ESTADÍSTICA</h3>
             </div>
             <div className="my-4">
-              <div className="text-6xl font-headline font-black text-newspaper-accent">
+              <div className="text-6xl font-headline font-black text-newspaper-black">
                 100%
               </div>
               <p className="font-sans text-xs mt-2">
