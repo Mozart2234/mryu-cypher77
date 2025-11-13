@@ -11,6 +11,7 @@ export interface Reservation {
   code: string; // Código único para el QR
   guestName: string;
   numberOfGuests: number;
+  accompanistNames?: string[]; // Array de nombres de acompañantes
   status: ReservationStatus;
   table?: string; // Opcional: número de mesa
   group?: string; // Opcional: familia, grupo, etc.
@@ -23,6 +24,7 @@ export interface Reservation {
 export interface CreateReservationDTO {
   guestName: string;
   numberOfGuests: number;
+  accompanistNames?: string[];
   table?: string;
   group?: string;
   notes?: string;
@@ -31,6 +33,7 @@ export interface CreateReservationDTO {
 export interface UpdateReservationDTO {
   guestName?: string;
   numberOfGuests?: number;
+  accompanistNames?: string[];
   status?: ReservationStatus;
   table?: string;
   group?: string;

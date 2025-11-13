@@ -69,7 +69,7 @@ export function DressCode() {
 
             {/* Footer decorativo */}
             <div className="border-t-2 border-newspaper-gray-300 p-4 bg-newspaper-gray-50">
-              <p className="newspaper-page-number text-center">Vestimenta de gala para damas</p>
+              <p className="newspaper-page-number text-center">Elegancia femenina</p>
             </div>
           </div>
 
@@ -91,18 +91,18 @@ export function DressCode() {
             <div className="p-6">
               <ul className="space-y-4">
                 {dressCode.men.items.map((item, index) => {
-                  const isProhibition = item.includes('NO');
+                  const isRecommendation = item.toLowerCase().includes('evitar');
                   return (
                     <li key={index} className="flex items-start gap-3">
                       <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-newspaper-gray-200 border border-newspaper-gray-400">
-                        {isProhibition ? (
+                        {isRecommendation ? (
                           <X className="w-4 h-4 text-newspaper-black" />
                         ) : (
                           <CheckCircle className="w-4 h-4 text-newspaper-black" />
                         )}
                       </div>
                       <span className={`font-sans text-base leading-relaxed ${
-                        isProhibition ? 'text-newspaper-black font-bold' : 'text-newspaper-gray-800'
+                        isRecommendation ? 'text-newspaper-gray-700 italic' : 'text-newspaper-gray-800'
                       }`}>
                         {item}
                       </span>
@@ -114,7 +114,7 @@ export function DressCode() {
 
             {/* Footer decorativo */}
             <div className="border-t-2 border-newspaper-gray-300 p-4 bg-newspaper-gray-50">
-              <p className="newspaper-page-number text-center">Traje formal obligatorio para caballeros</p>
+              <p className="newspaper-page-number text-center">Estilo formal caballeros</p>
             </div>
           </div>
         </div>
@@ -123,12 +123,14 @@ export function DressCode() {
         <div className="mt-8 max-w-3xl mx-auto">
           <div className="bg-newspaper-gray-100 border-4 border-newspaper-black p-6">
             <p className="text-center font-serif text-newspaper-black leading-relaxed">
-              <span className="font-bold uppercase text-xl block mb-2">⚠ AVISO IMPORTANTE ⚠</span>
-              <span className="font-semibold">El código de vestimenta es de cumplimiento obligatorio para todos los invitados.</span>
+              <span className="font-bold text-lg block mb-3">Una nota especial</span>
+              <span className="text-base">
+                Estas sugerencias nos ayudarán a mantener la elegancia y solemnidad que deseamos para nuestra celebración.
+                Tu cooperación significa mucho para nosotros y hará que este día sea aún más especial.
+              </span>
               <br />
-              <span className="text-base mt-2 block">
-                Se reserva el derecho de admisión. Agradecemos su comprensión y colaboración para mantener
-                la elegancia y solemnidad de esta celebración religiosa.
+              <span className="text-base mt-3 block italic">
+                Con cariño, Alexei y Estephanie
               </span>
             </p>
           </div>

@@ -152,21 +152,21 @@ export const eventConfig = {
   // Dress code
   dressCode: {
     title: "CÓDIGO DE VESTIMENTA",
-    subtitle: "Etiqueta formal - Cumplimiento obligatorio",
+    subtitle: "Te sugerimos seguir estas recomendaciones",
     women: {
       title: "MUJERES",
       items: [
-        "Vestido largo formal (hasta el tobillo)",
+        "Vestido largo elegante (preferentemente hasta el tobillo)",
         "Tacones y bolso pequeño o clutch",
-        "NO usar blanco, marfil, beige ni tonos nude"
+        "Evitar colores blanco, marfil, beige y tonos nude"
       ]
     },
     men: {
       title: "HOMBRES",
       items: [
-        "Traje oscuro completo (negro, azul marino o gris)",
-        "Corbata obligatoria",
-        "Zapato formal cerrado - NO tenis ni calzado casual"
+        "Traje oscuro (negro, azul marino o gris)",
+        "Corbata",
+        "Zapato formal cerrado"
       ]
     }
   },
