@@ -1,40 +1,63 @@
 /**
- * COMPONENTE DRESS CODE
+ * COMPONENTE DRESS CODE - CÓDIGO DE VESTIMENTA
  *
- * Muestra la información del código de vestimenta
+ * Recuadro informativo tipo periódico con el dress code
  */
 
 import { eventConfig } from '@/config/eventConfig';
-import { Shirt } from 'lucide-react';
 
 export function DressCode() {
   const { dressCode } = eventConfig;
 
   return (
-    <section className="py-20 px-4 bg-secondary">
-      <div className="max-w-4xl mx-auto text-center">
-        <div className="mb-8">
-          <Shirt className="w-16 h-16 text-primary mx-auto mb-4" strokeWidth={1.5} />
-          <h2 className="font-serif text-4xl md:text-5xl text-dark mb-4">
+    <section className="newspaper-page py-8 px-4 md:px-8 bg-newspaper-gray-100">
+      <div className="max-w-5xl mx-auto">
+        {/* Título como recuadro de periódico */}
+        <div className="newspaper-box mb-8">
+          <h2 className="newspaper-title text-center text-2xl md:text-3xl mb-2">
             {dressCode.title}
           </h2>
+          <p className="text-center font-serif text-lg text-newspaper-accent">
+            {dressCode.subtitle}
+          </p>
         </div>
 
-        <div className="card max-w-2xl mx-auto">
-          <div className="mb-4">
-            <p className="text-2xl font-semibold text-primary mb-4">
-              {dressCode.description}
-            </p>
+        <div className="newspaper-divider-double mb-8"></div>
+
+        {/* Grid de dress code */}
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Mujeres */}
+          <div className="newspaper-box-simple">
+            <h3 className="font-headline text-2xl font-bold text-center mb-4 text-newspaper-black border-b-2 border-newspaper-black pb-2">
+              {dressCode.women.title}
+            </h3>
+            <ul className="space-y-3">
+              {dressCode.women.items.map((item, index) => (
+                <li key={index} className="flex items-start">
+                  <span className="mr-3 text-newspaper-black font-bold">•</span>
+                  <span className="font-sans text-sm md:text-base text-newspaper-gray-700">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <p className="text-gray-700 leading-relaxed mb-4">
-            {dressCode.details}
-          </p>
-
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <p className="text-sm text-gray-600 italic">
-              {dressCode.colorNote}
-            </p>
+          {/* Hombres */}
+          <div className="newspaper-box-simple">
+            <h3 className="font-headline text-2xl font-bold text-center mb-4 text-newspaper-black border-b-2 border-newspaper-black pb-2">
+              {dressCode.men.title}
+            </h3>
+            <ul className="space-y-3">
+              {dressCode.men.items.map((item, index) => (
+                <li key={index} className="flex items-start">
+                  <span className="mr-3 text-newspaper-black font-bold">•</span>
+                  <span className="font-sans text-sm md:text-base text-newspaper-gray-700">
+                    {item}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

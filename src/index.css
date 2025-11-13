@@ -4,14 +4,104 @@
 
 @layer base {
   body {
-    @apply bg-white text-dark;
+    @apply bg-white text-newspaper-black font-sans;
   }
 }
 
 @layer components {
+  /* ========================================
+     ESTILOS TIPO PERIÓDICO
+     ======================================== */
+
+  /* Portada de periódico */
+  .newspaper-page {
+    @apply bg-white bg-newsprint;
+  }
+
+  /* Líneas divisorias tipo periódico */
+  .newspaper-divider {
+    @apply border-t border-newspaper-black my-4;
+  }
+
+  .newspaper-divider-thick {
+    @apply border-t-3 border-newspaper-black my-6;
+  }
+
+  .newspaper-divider-double {
+    position: relative;
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+    height: 4px;
+    margin: 1rem 0;
+  }
+
+  /* Titulares tipo periódico */
+  .newspaper-headline {
+    @apply font-headline text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-none text-newspaper-black tracking-tight;
+  }
+
+  .newspaper-subheadline {
+    @apply font-headline text-3xl md:text-4xl font-bold text-newspaper-black leading-tight;
+  }
+
+  .newspaper-title {
+    @apply font-serif text-xl md:text-2xl font-bold text-newspaper-black leading-snug;
+  }
+
+  /* Texto de cuerpo */
+  .newspaper-body {
+    @apply font-sans text-sm md:text-base leading-relaxed text-newspaper-gray-700 text-justify;
+  }
+
+  /* Recuadros tipo periódico */
+  .newspaper-box {
+    @apply border-2 border-newspaper-black p-4 bg-newspaper-gray-100;
+  }
+
+  .newspaper-box-simple {
+    @apply border border-newspaper-border p-4;
+  }
+
+  /* Columnas tipo periódico */
+  .newspaper-columns-2 {
+    @apply md:columns-2 md:gap-6;
+  }
+
+  .newspaper-columns-3 {
+    @apply md:columns-3 md:gap-6;
+  }
+
+  /* Metadatos */
+  .newspaper-meta {
+    @apply font-sans text-xs uppercase tracking-wider text-newspaper-gray-500;
+  }
+
+  .newspaper-page-number {
+    @apply font-serif text-xs text-newspaper-gray-500 italic;
+  }
+
+  /* Citas tipo periódico */
+  .newspaper-quote {
+    @apply border-l-4 border-newspaper-black pl-4 italic font-serif text-lg text-newspaper-gray-700;
+  }
+
+  /* Header de sección */
+  .newspaper-section-header {
+    @apply border-y-2 border-newspaper-black py-2 px-4 bg-newspaper-black text-white font-headline text-sm uppercase tracking-widest text-center;
+  }
+
+  /* Artículo */
+  .newspaper-article {
+    @apply mb-6 pb-6 border-b border-newspaper-border last:border-b-0;
+  }
+
+  /* ========================================
+     ESTILOS ADMIN (mantener compatibilidad)
+     ======================================== */
+
   /* Botones */
   .btn-primary {
-    @apply bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-opacity-90 transition-all duration-300 shadow-md hover:shadow-lg;
+    @apply bg-newspaper-black text-white px-6 py-3 rounded-lg font-medium hover:bg-newspaper-gray-800 transition-all duration-300 shadow-md hover:shadow-lg;
   }
 
   .btn-secondary {
@@ -33,7 +123,7 @@
 
   /* Inputs */
   .input {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all;
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-newspaper-black focus:border-transparent outline-none transition-all;
   }
 
   .label {
@@ -83,7 +173,10 @@
   }
 }
 
-/* Animaciones personalizadas */
+/* ========================================
+   ANIMACIONES
+   ======================================== */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -99,31 +192,38 @@
   animation: fadeIn 0.6s ease-out;
 }
 
-/* Sección hero con gradiente elegante */
-.hero-gradient {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(245, 230, 211, 0.2) 100%);
+/* Efecto máquina de escribir */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
-/* Ornamentos decorativos */
-.ornament {
-  position: relative;
+/* ========================================
+   UTILIDADES TIPO PERIÓDICO
+   ======================================== */
+
+/* Texto en mayúsculas con espaciado tipo periódico */
+.newspaper-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-.ornament::before,
-.ornament::after {
-  content: '❈';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #D4AF37;
-  font-size: 1.5rem;
-  opacity: 0.5;
+/* Inicial decorativa tipo drop cap */
+.drop-cap::first-letter {
+  font-size: 3.5em;
+  line-height: 0.9;
+  float: left;
+  margin: 0.05em 0.1em 0 0;
+  font-weight: bold;
 }
 
-.ornament::before {
-  left: -3rem;
-}
-
-.ornament::after {
-  right: -3rem;
+/* Línea vertical tipo separador de columnas */
+.column-divider {
+  border-right: 1px solid #d1d1d1;
+  padding-right: 1.5rem;
+  margin-right: 1.5rem;
 }

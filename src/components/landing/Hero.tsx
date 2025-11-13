@@ -1,58 +1,90 @@
 /**
- * COMPONENTE HERO
+ * COMPONENTE HERO - PORTADA DE PERIÓDICO
  *
- * Sección principal de la landing con los nombres de los novios
- * y la fecha del evento
+ * Diseño tipo primera plana de periódico con:
+ * - Encabezado con edición y fecha
+ * - Titular principal con nombres
+ * - Subtítulos y artículos de entrada
  */
 
 import { eventConfig } from '@/config/eventConfig';
-import { Heart } from 'lucide-react';
 
 export function Hero() {
-  const { bride, groom, date, messages } = eventConfig;
+  const { bride, groom, newspaper, date, articles } = eventConfig;
 
   return (
-    <section className="min-h-screen flex items-center justify-center hero-gradient px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center animate-fade-in">
-        {/* Ornamento superior */}
-        <div className="mb-8">
-          <Heart className="w-12 h-12 text-primary mx-auto" strokeWidth={1.5} />
-        </div>
-
-        {/* Título */}
-        <h2 className="text-2xl md:text-3xl font-sans text-gray-600 mb-6 tracking-wide">
-          {messages.hero.title}
-        </h2>
-
-        {/* Nombres de los novios */}
-        <div className="mb-8">
-          <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-dark mb-4">
-            {bride.name}
-            <span className="text-primary mx-4">&</span>
-            {groom.name}
-          </h1>
-        </div>
-
-        {/* Fecha */}
-        <div className="mb-8">
-          <div className="inline-block border-t-2 border-b-2 border-primary py-4 px-8">
-            <p className="font-sans text-lg md:text-xl text-gray-700 tracking-widest">
-              {date.full}
-            </p>
+    <section className="newspaper-page py-8 px-4 md:px-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Cabecera del periódico */}
+        <div className="text-center mb-6 pb-4 border-b-2 border-newspaper-black">
+          <div className="newspaper-meta mb-2">
+            {newspaper.edition}
+          </div>
+          <div className="newspaper-meta">
+            {date.full}
           </div>
         </div>
 
-        {/* Mensaje */}
-        <p className="font-sans text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          {messages.hero.subtitle}
-        </p>
+        {/* Titular principal */}
+        <div className="text-center mb-8">
+          <h1 className="newspaper-headline mb-4">
+            {groom.name} y {bride.name}
+          </h1>
+          <h2 className="newspaper-subheadline">
+            {newspaper.headline}
+          </h2>
+        </div>
 
-        {/* Ornamento inferior */}
-        <div className="mt-12">
-          <div className="flex items-center justify-center space-x-4">
-            <div className="h-px w-20 bg-primary"></div>
-            <Heart className="w-6 h-6 text-primary" fill="currentColor" />
-            <div className="h-px w-20 bg-primary"></div>
+        <div className="newspaper-divider-double"></div>
+
+        {/* Grid de artículos */}
+        <div className="grid md:grid-cols-3 gap-6 my-8">
+          {/* Artículo principal (ocupa 2 columnas) */}
+          <div className="md:col-span-2 newspaper-article">
+            <h3 className="newspaper-title mb-3">
+              {newspaper.subheadline}
+            </h3>
+            <p className="newspaper-meta mb-2">{newspaper.subtitle}. invitados.com</p>
+            <p className="newspaper-body drop-cap">
+              {articles[1].content}
+            </p>
+            <p className="newspaper-page-number mt-2">{articles[1].page}</p>
+          </div>
+
+          {/* Sidebar con artículo secundario */}
+          <div className="newspaper-box">
+            <h4 className="font-serif font-bold text-sm uppercase mb-2 text-newspaper-black">
+              {articles[0].title}
+            </h4>
+            <p className="newspaper-body text-xs">
+              {articles[0].content}
+            </p>
+            <p className="newspaper-page-number mt-2">{articles[0].page}</p>
+          </div>
+        </div>
+
+        <div className="newspaper-divider"></div>
+
+        {/* Artículos secundarios */}
+        <div className="grid md:grid-cols-2 gap-6 my-6">
+          <div className="newspaper-article">
+            <h4 className="newspaper-title text-lg mb-2">
+              {articles[2].title}
+            </h4>
+            <p className="newspaper-body">
+              {articles[2].content}
+            </p>
+            <p className="newspaper-page-number mt-2">{articles[2].page}</p>
+          </div>
+
+          <div className="newspaper-article">
+            <h4 className="newspaper-title text-lg mb-2">
+              {articles[3].title}
+            </h4>
+            <p className="newspaper-body">
+              {articles[3].content}
+            </p>
+            <p className="newspaper-page-number mt-2">{articles[3].page}</p>
           </div>
         </div>
       </div>
