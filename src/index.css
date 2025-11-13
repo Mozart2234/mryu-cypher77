@@ -227,3 +227,139 @@
   padding-right: 1.5rem;
   margin-right: 1.5rem;
 }
+
+/* ========================================
+   ESTILOS VINTAGE ADICIONALES
+   ======================================== */
+
+/* Efecto de sombra de texto tipo periódico antiguo */
+.vintage-text-shadow {
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+}
+
+/* Ornamentos decorativos tipo periódico */
+.newspaper-ornament {
+  position: relative;
+}
+
+.newspaper-ornament::before,
+.newspaper-ornament::after {
+  content: '❖';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #1a1a1a;
+  font-size: 1rem;
+  opacity: 0.3;
+}
+
+.newspaper-ornament::before {
+  left: -2rem;
+}
+
+.newspaper-ornament::after {
+  right: -2rem;
+}
+
+/* Efecto hover en imágenes */
+.photo-hover-effect {
+  transition: all 0.3s ease;
+}
+
+.photo-hover-effect:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilosvintage para contadores */
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.countdown-pulse {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+/* Efecto de máquina de escribir para textos especiales */
+.typewriter-effect {
+  overflow: hidden;
+  border-right: 2px solid #1a1a1a;
+  white-space: nowrap;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #1a1a1a }
+}
+
+/* Decoración de esquinas tipo periódico vintage */
+.corner-decoration {
+  position: relative;
+}
+
+.corner-decoration::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid #1a1a1a;
+  border-left: 2px solid #1a1a1a;
+}
+
+.corner-decoration::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid #1a1a1a;
+  border-right: 2px solid #1a1a1a;
+}
+
+/* Estilo para citas destacadas */
+.pull-quote {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border-left: 4px solid #1a1a1a;
+  border-right: 4px solid #1a1a1a;
+  background: linear-gradient(90deg, #f5f5f5 0%, #ffffff 50%, #f5f5f5 100%);
+}
+
+/* Sello tipo periódico */
+.newspaper-stamp {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 3px double #1a1a1a;
+  transform: rotate(-5deg);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Líneas decorativas onduladas */
+.wavy-divider {
+  height: 8px;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #1a1a1a,
+    #1a1a1a 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
