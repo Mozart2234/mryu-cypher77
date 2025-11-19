@@ -13,7 +13,7 @@ dist-ssr
 *.local
 
 # pnpm
-pnpm-lock.yaml
+# pnpm-lock.yaml (commented out - needed for Vercel reproducible builds)
 
 # Environment variables
 .env
