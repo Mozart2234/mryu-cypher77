@@ -156,7 +156,8 @@ export const eventConfig = {
       title: "La Gran Pregunta",
       text: "Bajo un cielo estrellado, con el corazón latiendo fuerte, Alexei se arrodilló. 'Estephanie, ¿quieres casarte conmigo?' Las lágrimas de alegría fueron la respuesta más hermosa.",
       icon: "💍",
-      color: "yellow"
+      color: "yellow",
+      quote: "¿Quieres casarte conmigo?"
     },
     {
       date: "Noviembre 2024",
@@ -174,7 +175,8 @@ export const eventConfig = {
       title: "Casi Ahí...",
       text: "Los últimos preparativos. La emoción es palpable. Pronto serán esposos. Miran atrás y ven un camino de 9 años que los preparó para este momento. Todo valió la pena.",
       icon: "⏰",
-      color: "orange"
+      color: "orange",
+      quote: "Todo valió la pena"
     },
     {
       date: "11 de Enero 2026",
@@ -184,7 +186,8 @@ export const eventConfig = {
       text: "Hoy se casan. Hoy dicen 'Sí, acepto' ante Dios, familia y amigos. Hoy comienza para siempre. De una mirada en 2016 a este altar en 2026. Una historia de amor, fe y propósito.",
       icon: "💒",
       color: "rose",
-      featured: true
+      featured: true,
+      quote: "Hoy comienza para siempre"
     }
   ],
 

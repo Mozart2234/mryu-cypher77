@@ -100,8 +100,8 @@
    ======================================== */
 
 @utility newspaper-page {
-  /* Portada de periódico con textura newsprint */
-  @apply bg-white bg-newsprint;
+  /* Portada de periódico - spacing reducido */
+  @apply bg-white py-8 px-4 md:py-10 md:px-6;
 }
 
 /* DIVISORES */
@@ -127,9 +127,19 @@
 }
 
 /* TIPOGRAFÍA */
+@utility newspaper-kicker {
+  /* Kicker - texto pequeño sobre el titular */
+  @apply text-xs font-sans font-bold uppercase tracking-widest text-newspaper-gray-600 border-t border-b border-newspaper-gray-400 py-1 inline-block px-3;
+}
+
 @utility newspaper-headline {
   /* Titular principal - extra grande para portada */
   @apply font-headline text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-none text-newspaper-black tracking-tight;
+}
+
+@utility newspaper-deck {
+  /* Deck - subtítulo descriptivo debajo del titular */
+  @apply text-lg md:text-xl font-serif italic text-newspaper-gray-700 leading-relaxed;
 }
 
 @utility newspaper-subheadline {
@@ -142,6 +152,11 @@
   @apply font-serif text-xl md:text-2xl font-bold text-newspaper-black leading-snug;
 }
 
+@utility newspaper-byline {
+  /* Byline - autor del artículo */
+  @apply text-xs font-sans uppercase tracking-wider text-newspaper-gray-600 border-l-2 border-newspaper-black pl-2 mb-3;
+}
+
 @utility newspaper-body {
   /* Texto de cuerpo - párrafos justificados */
   @apply font-sans text-sm md:text-base leading-relaxed text-newspaper-gray-700 text-justify;
@@ -149,23 +164,38 @@
 
 /* CONTENEDORES Y LAYOUT */
 @utility newspaper-box {
-  /* Recuadro destacado con borde grueso */
-  @apply border-2 border-newspaper-black p-4 bg-newspaper-gray-100;
+  /* Recuadro destacado con borde grueso - padding reducido */
+  @apply border-2 border-newspaper-black p-3 md:p-4;
+  background-color: var(--color-newspaper-gray-100);
 }
 
 @utility newspaper-box-simple {
-  /* Recuadro simple con borde fino */
-  @apply border border-newspaper-border p-4;
+  /* Recuadro simple con borde fino - padding reducido */
+  @apply border border-newspaper-border p-3 md:p-4;
 }
 
 @utility newspaper-columns-2 {
-  /* Layout de 2 columnas para artículos */
+  /* Layout de 2 columnas para artículos con línea separadora */
   @apply md:columns-2 md:gap-6;
+  column-rule: 1px solid var(--color-newspaper-gray-300);
 }
 
 @utility newspaper-columns-3 {
-  /* Layout de 3 columnas para artículos */
+  /* Layout de 3 columnas para artículos con línea separadora */
   @apply md:columns-3 md:gap-6;
+  column-rule: 1px solid var(--color-newspaper-gray-300);
+}
+
+@utility newspaper-folio {
+  /* Folio - pie de página con número de página */
+  @apply border-t border-newspaper-gray-300 mt-12;
+  background-color: var(--color-newspaper-gray-100);
+}
+
+@utility newspaper-pull-quote {
+  /* Pull quote - cita destacada dentro del artículo */
+  @apply border-l-4 border-newspaper-black p-4 my-4 italic text-lg font-serif text-newspaper-black float-right ml-6 mb-4 max-w-xs;
+  background-color: var(--color-newspaper-gray-100);
 }
 
 /* ELEMENTOS DE TEXTO ESPECIALES */
@@ -190,8 +220,8 @@
 }
 
 @utility newspaper-article {
-  /* Contenedor de artículo con separador inferior */
-  @apply mb-6 pb-6 border-b border-newspaper-border last:border-b-0;
+  /* Contenedor de artículo con separador inferior - margin reducido */
+  @apply mb-4 md:mb-5 pb-4 md:pb-5 border-b border-newspaper-border last:border-b-0;
 }
 
 /* ========================================

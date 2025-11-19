@@ -15,7 +15,7 @@ export function Hero() {
   const { bride, groom, newspaper, date, articles } = eventConfig;
 
   return (
-    <section className="newspaper-page py-12 px-4 md:px-8 relative">
+    <section className="newspaper-page relative">
       {/* Elemento de fondo decorativo */}
       <div className="absolute inset-0 pointer-events-none opacity-5">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==')] opacity-20"></div>
@@ -34,9 +34,20 @@ export function Hero() {
 
         {/* Titular principal */}
         <div className="text-center mb-8">
+          {/* KICKER - texto sobre el titular */}
+          <p className="newspaper-kicker mb-4">
+            Edición Especial Matrimonio
+          </p>
+
           <h1 className="newspaper-headline mb-4 animate-fade-in">
             {groom.name} y {bride.name}
           </h1>
+
+          {/* DECK - subtítulo descriptivo */}
+          <p className="newspaper-deck max-w-2xl mx-auto mb-4">
+            Tras una década de relación, la pareja sella su amor ante Dios y sus seres queridos
+          </p>
+
           <h2 className="newspaper-subheadline">
             {newspaper.headline}
           </h2>
@@ -45,7 +56,7 @@ export function Hero() {
         <div className="newspaper-divider-double"></div>
 
         {/* Layout tipo periódico con foto destacada */}
-        <div className="grid md:grid-cols-12 gap-6 my-8">
+        <div className="grid md:grid-cols-12 gap-4 md:gap-5 my-6 md:my-8">
           {/* Foto destacada de portada - 5 columnas */}
           <div className="md:col-span-5">
             <div className="border-2 border-newspaper-black h-full group overflow-hidden">
@@ -81,6 +92,10 @@ export function Hero() {
                 <h3 className="newspaper-title mb-3">
                   {newspaper.subheadline}
                 </h3>
+                {/* BYLINE - autor del artículo */}
+                <p className="newspaper-byline">
+                  Por Redacción Especial
+                </p>
                 <p className="newspaper-meta mb-3">{newspaper.subtitle}. invitados.com</p>
                 <p className="newspaper-body drop-cap leading-relaxed">
                   {articles[1].content}
@@ -100,6 +115,9 @@ export function Hero() {
               <h4 className="font-serif font-bold text-sm uppercase mb-2 text-newspaper-black">
                 {articles[0].title}
               </h4>
+              <p className="newspaper-byline text-[10px]">
+                Por Dr. Juan Pérez
+              </p>
               <p className="newspaper-body text-xs leading-relaxed">
                 {articles[0].content}
               </p>
@@ -111,12 +129,15 @@ export function Hero() {
         <div className="newspaper-divider"></div>
 
         {/* Artículos secundarios */}
-        <div className="grid md:grid-cols-2 gap-6 my-6">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-5 my-5 md:my-6">
           <div className="newspaper-article hover:bg-newspaper-gray-100 hover:shadow-md transition-all duration-300 p-4 rounded-sm">
             <h4 className="newspaper-title text-lg mb-2">
               {articles[2].title}
             </h4>
-            <p className="newspaper-body">
+            <p className="newspaper-byline">
+              Por María Sánchez
+            </p>
+            <p className="newspaper-body newspaper-columns-2">
               {articles[2].content}
             </p>
             <p className="newspaper-page-number mt-2">{articles[2].page}</p>
@@ -126,10 +147,24 @@ export function Hero() {
             <h4 className="newspaper-title text-lg mb-2">
               {articles[3].title}
             </h4>
+            <p className="newspaper-byline">
+              Por Carlos Rodríguez
+            </p>
             <p className="newspaper-body">
               {articles[3].content}
             </p>
             <p className="newspaper-page-number mt-2">{articles[3].page}</p>
+          </div>
+        </div>
+
+        {/* FOLIO - pie de página con número */}
+        <div className="newspaper-folio">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-600">
+            <span>Página 1</span>
+            <span>•</span>
+            <span>Sección: Bodas</span>
+            <span>•</span>
+            <span className="hidden md:inline">{date.full}</span>
           </div>
         </div>
       </div>

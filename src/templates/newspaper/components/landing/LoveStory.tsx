@@ -97,6 +97,13 @@ function TimelineItem({ event, index, isEven, isFeatured, badgeClass }: Timeline
               {event.text}
             </p>
 
+            {/* PULL QUOTE - cita destacada (solo en algunos eventos) */}
+            {event.quote && (
+              <blockquote className="border-l-4 border-newspaper-black bg-newspaper-gray-50 p-4 my-4 italic text-base font-serif text-newspaper-black md:float-right md:ml-6 md:mb-4 md:max-w-xs">
+                "{event.quote}"
+              </blockquote>
+            )}
+
             {/* Footer decorativo */}
             <div className="mt-4 pt-4 border-t-2 border-newspaper-gray-200">
               <p className="newspaper-page-number text-xs text-center uppercase tracking-wider">
@@ -147,7 +154,7 @@ export function LoveStory() {
   return (
     <section
       ref={elementRef}
-      className={`newspaper-page py-12 px-4 md:px-8 bg-newspaper-gray-50 transition-all duration-1000 ease-out ${
+      className={`newspaper-page bg-newspaper-gray-50 transition-all duration-1000 ease-out ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
     >
@@ -174,7 +181,7 @@ export function LoveStory() {
           <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-newspaper-gray-300 transform -translate-x-1/2"></div>
 
           {/* Eventos */}
-          <div className="space-y-12">
+          <div className="space-y-8 md:space-y-10">
             {loveStory.map((event: any, index: number) => {
               const isEven = index % 2 === 0;
               const isFeatured = event.featured;
@@ -226,14 +233,33 @@ export function LoveStory() {
         </div>
 
         {/* Editorial de cierre */}
-        <div className="mt-12 text-center max-w-2xl mx-auto">
+        <div className="mt-12 text-center max-w-4xl mx-auto">
           <div className="newspaper-divider-thin mb-4"></div>
-          <p className="newspaper-body italic text-newspaper-gray-700 leading-relaxed">
-            Esta historia, que comenzó con una mirada tímida y se fortaleció con cada mensaje,
-            cada cita y cada momento compartido, nos recuerda que el amor verdadero vale la espera.
-            Hoy celebramos no solo una boda, sino el cumplimiento de una promesa de 10 años.
-          </p>
+          <div className="border-2 border-newspaper-black p-6 bg-white">
+            <p className="font-headline text-xs uppercase tracking-wider text-newspaper-gray-600 mb-4">
+              Editorial
+            </p>
+            <p className="newspaper-body newspaper-columns-2 text-justify italic text-newspaper-gray-700 leading-relaxed">
+              Esta historia, que comenzó con una mirada tímida y se fortaleció con cada mensaje,
+              cada cita y cada momento compartido, nos recuerda que el amor verdadero vale la espera.
+              Hoy celebramos no solo una boda, sino el cumplimiento de una promesa de 10 años. El camino
+              no siempre fue fácil, pero cada obstáculo superado fortaleció su vínculo. Cada risa compartida,
+              cada lágrima secada, cada sueño construido juntos, todo forma parte de este hermoso tapiz
+              que hoy presentan ante el altar.
+            </p>
+          </div>
           <div className="newspaper-divider-thin mt-4"></div>
+        </div>
+
+        {/* FOLIO - pie de página */}
+        <div className="newspaper-folio">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-600">
+            <span>Página 3-4</span>
+            <span>•</span>
+            <span>Sección: Historia de Amor</span>
+            <span>•</span>
+            <span className="hidden md:inline">{eventConfig.date.full}</span>
+          </div>
         </div>
       </div>
     </section>

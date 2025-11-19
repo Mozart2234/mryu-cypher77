@@ -17,7 +17,7 @@ export function EventDetails() {
   return (
     <section
       ref={elementRef}
-      className={`newspaper-page py-8 md:py-12 px-4 md:px-8 bg-newspaper-gray-100 transition-all duration-700 ease-out ${
+      className={`newspaper-page bg-newspaper-gray-100 transition-all duration-700 ease-out ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}
     >
@@ -136,6 +136,17 @@ export function EventDetails() {
                 Ver ubicación
               </a>
             </div>
+          </div>
+        </div>
+
+        {/* FOLIO - pie de página */}
+        <div className="newspaper-folio">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-600">
+            <span>Página 2</span>
+            <span>•</span>
+            <span>Sección: Información del Evento</span>
+            <span>•</span>
+            <span className="hidden md:inline">{date.full}</span>
           </div>
         </div>
       </div>
