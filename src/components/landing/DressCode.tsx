@@ -49,7 +49,7 @@ export function DressCode() {
                   const isProhibition = item.includes('NO');
                   return (
                     <li key={index} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-newspaper-gray-200 border border-newspaper-gray-400">
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 bg-newspaper-gray-200 border border-newspaper-gray-400">
                         {isProhibition ? (
                           <X className="w-4 h-4 text-newspaper-black" />
                         ) : (
@@ -94,7 +94,7 @@ export function DressCode() {
                   const isRecommendation = item.toLowerCase().includes('evitar');
                   return (
                     <li key={index} className="flex items-start gap-3">
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 bg-newspaper-gray-200 border border-newspaper-gray-400">
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 bg-newspaper-gray-200 border border-newspaper-gray-400">
                         {isRecommendation ? (
                           <X className="w-4 h-4 text-newspaper-black" />
                         ) : (

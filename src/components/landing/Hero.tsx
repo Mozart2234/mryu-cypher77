@@ -44,7 +44,7 @@ export function Hero() {
           {/* Foto destacada de portada - 5 columnas */}
           <div className="md:col-span-5">
             <div className="border-2 border-newspaper-black h-full group">
-              <div className="relative bg-newspaper-gray-200 aspect-[3/4] md:aspect-[4/5] overflow-hidden">
+              <div className="relative bg-newspaper-gray-200 aspect-3/4 md:aspect-4/5 overflow-hidden">
                 {/* Foto de ejemplo - reemplazar con foto real */}
                 <img
                   src="https://placehold.co/800x1000/d4d4d4/404040?text=Alexei+y+Estephanie"
@@ -52,7 +52,7 @@ export function Hero() {
                   className="w-full h-full object-cover grayscale transition-all duration-500"
                 />
                 {/* Overlay sutil */}
-                <div className="absolute inset-0 bg-gradient-to-t from-newspaper-black/40 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-newspaper-black/40 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
               </div>
               <div className="p-4 bg-white border-t-2 border-newspaper-black">
                 <p className="font-serif text-sm italic text-newspaper-black leading-relaxed">

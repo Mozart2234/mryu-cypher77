@@ -105,7 +105,7 @@ export function CheckIn() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8 px-4">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-purple-50 py-8 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
@@ -162,7 +162,7 @@ export function CheckIn() {
 
             {error && (
               <div className="mt-4 bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg flex items-start">
-                <XCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
+                <XCircle className="w-5 h-5 mr-2 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
@@ -241,7 +241,7 @@ export function CheckIn() {
 
               <div className="flex items-center justify-between py-3 border-b">
                 <span className="text-gray-600">Código</span>
-                <code className="font-mono bg-gray-100 px-3 py-1 rounded">
+                <code className="font-mono bg-gray-100 px-3 py-1 rounded-sm">
                   {reservation.code}
                 </code>
               </div>
@@ -295,7 +295,7 @@ export function CheckIn() {
 
             {error && (
               <div className="mt-4 bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg flex items-start">
-                <XCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
+                <XCircle className="w-5 h-5 mr-2 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}

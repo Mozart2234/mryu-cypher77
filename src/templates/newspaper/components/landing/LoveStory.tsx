@@ -99,7 +99,7 @@ export function LoveStory() {
                           `}>
                             {event.title}
                           </h3>
-                          <span className="newspaper-page-number flex-shrink-0 ml-3">
+                          <span className="newspaper-page-number shrink-0 ml-3">
                             #{index + 1}
                           </span>
                         </div>

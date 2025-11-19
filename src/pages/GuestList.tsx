@@ -208,7 +208,7 @@ export function GuestList() {
                       </div>
                     </td>
                     <td className="px-4 py-3 text-center print:hidden">
-                      <code className="bg-gray-100 px-2 py-1 rounded text-xs font-mono">
+                      <code className="bg-gray-100 px-2 py-1 rounded-sm text-xs font-mono">
                         {reservation.code}
                       </code>
                     </td>

@@ -60,7 +60,7 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
           </div>
         </td>
         <td>
-          <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono">
+          <code className="bg-gray-100 px-2 py-1 rounded-sm text-sm font-mono">
             {reservation.code}
           </code>
         </td>
@@ -141,7 +141,7 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
                   </div>
                   <button
                     onClick={() => setShowQR(false)}
-                    className="p-1 hover:bg-gray-100 rounded"
+                    className="p-1 hover:bg-gray-100 rounded-sm"
                   >
                     <X className="w-5 h-5" />
                   </button>

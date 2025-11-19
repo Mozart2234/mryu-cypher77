@@ -357,7 +357,7 @@ export function InvitationPass() {
                 </div>
                 <div className="newspaper-divider-thin mb-3"></div>
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-newspaper-gray-600 mt-1 flex-shrink-0" />
+                  <MapPin className="w-5 h-5 text-newspaper-gray-600 mt-1 shrink-0" />
                   <div>
                     <p className="newspaper-body font-semibold text-newspaper-black">
                       {eventConfig.ceremony.name}
@@ -384,7 +384,7 @@ export function InvitationPass() {
                 </div>
                 <div className="h-px bg-white/30 mb-3"></div>
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 mt-1 flex-shrink-0 opacity-90" />
+                  <MapPin className="w-5 h-5 mt-1 shrink-0 opacity-90" />
                   <div>
                     <p className="font-serif font-semibold">
                       {eventConfig.reception.name}
@@ -497,7 +497,7 @@ export function InvitationPass() {
                             setAccompanists(updated);
                           }}
                           placeholder="Nombre completo"
-                          className="w-full px-4 py-2 border-2 border-newspaper-gray-300 newspaper-body focus:border-newspaper-black focus:outline-none"
+                          className="w-full px-4 py-2 border-2 border-newspaper-gray-300 newspaper-body focus:border-newspaper-black focus:outline-hidden"
                         />
                       </div>
                     ))}

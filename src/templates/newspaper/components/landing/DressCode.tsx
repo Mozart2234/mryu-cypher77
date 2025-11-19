@@ -51,7 +51,7 @@ export function DressCode() {
                   return (
                     <li key={index} className="border-l-4 border-newspaper-gray-400 pl-4 py-2">
                       <div className="flex items-start gap-3">
-                        <span className="font-headline text-2xl font-bold text-newspaper-gray-400 flex-shrink-0 leading-none">
+                        <span className="font-headline text-2xl font-bold text-newspaper-gray-400 shrink-0 leading-none">
                           {isAvoid ? '✗' : '✓'}
                         </span>
                         <span className={`newspaper-body text-base leading-relaxed ${
@@ -95,7 +95,7 @@ export function DressCode() {
                   return (
                     <li key={index} className="border-l-4 border-newspaper-gray-400 pl-4 py-2">
                       <div className="flex items-start gap-3">
-                        <span className="font-headline text-2xl font-bold text-newspaper-gray-400 flex-shrink-0 leading-none">
+                        <span className="font-headline text-2xl font-bold text-newspaper-gray-400 shrink-0 leading-none">
                           {isAvoid ? '✗' : '✓'}
                         </span>
                         <span className={`newspaper-body text-base leading-relaxed ${
