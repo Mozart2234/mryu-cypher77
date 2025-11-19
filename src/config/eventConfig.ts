@@ -91,7 +91,7 @@ export const eventConfig = {
       month: "JUN",
       year: "2022",
       title: "El Mensaje Que Lo Cambió Todo",
-      text: "Después de 6 años, Alexei finalmente reunió el coraje. Un simple 'Hola' en Facebook abrió la puerta a conversaciones interminables. Hablaban de todo: sueños, fe, familia. La química era innegable.",
+      text: "Después de 6 años, Alexei se encontro con Estephanie en un campamento. Un mensaje en Facebook abrió la puerta a conversaciones interminables.",
       icon: "💬",
       color: "blue"
     },

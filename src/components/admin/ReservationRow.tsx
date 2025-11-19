@@ -74,29 +74,38 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
               href={`${eventConfig.appUrl}/invitacion/${reservation.code}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 hover:bg-purple-100 rounded-lg transition-colors"
-              title="Ver Pase Digital"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors group relative"
             >
-              <Ticket className="w-4 h-4 text-purple-600" />
+              <Ticket className="w-4 h-4 text-gray-600" />
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-50">
+                Ver pase digital
+                <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></span>
+              </span>
             </a>
 
             {/* Ver QR */}
             <button
               onClick={() => setShowQR(true)}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              title="Ver QR"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors group relative"
             >
-              <QrCode className="w-4 h-4 text-blue-600" />
+              <QrCode className="w-4 h-4 text-gray-600" />
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-50">
+                Mostrar código QR
+                <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></span>
+              </span>
             </button>
 
             {/* Check-in */}
             {canCheckIn && (
               <button
                 onClick={() => onCheckIn(reservation.id)}
-                className="p-2 hover:bg-green-100 rounded-lg transition-colors"
-                title="Marcar ingreso"
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors group relative"
               >
-                <CheckCircle className="w-4 h-4 text-green-600" />
+                <CheckCircle className="w-4 h-4 text-gray-600" />
+                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-50">
+                  Registrar ingreso
+                  <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></span>
+                </span>
               </button>
             )}
 
@@ -107,10 +116,13 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
                   onDelete(reservation.id);
                 }
               }}
-              className="p-2 hover:bg-red-100 rounded-lg transition-colors"
-              title="Eliminar"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors group relative"
             >
-              <Trash2 className="w-4 h-4 text-red-600" />
+              <Trash2 className="w-4 h-4 text-gray-600" />
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-50">
+                Eliminar reservación
+                <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></span>
+              </span>
             </button>
           </div>
         </td>

@@ -79,7 +79,7 @@ marriedyou/
 ### 1. Instalar Dependencias
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### 2. Configurar el Evento
@@ -166,7 +166,7 @@ export const eventConfig = {
 ### 3. Ejecutar en Modo Desarrollo
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 La aplicación estará disponible en `http://localhost:5173`
@@ -174,7 +174,7 @@ La aplicación estará disponible en `http://localhost:5173`
 ### 4. Compilar para Producción
 
 ```bash
-npm run build
+pnpm build
 ```
 
 Los archivos compilados estarán en la carpeta `dist/`
@@ -352,10 +352,10 @@ El resto de la app no necesita cambios porque la interfaz del servicio es la mis
 ### Comandos Disponibles
 
 ```bash
-npm run dev      # Iniciar servidor de desarrollo
-npm run build    # Compilar para producción
-npm run preview  # Preview del build de producción
-npm run lint     # Ejecutar linter
+pnpm dev      # Iniciar servidor de desarrollo
+pnpm build    # Compilar para producción
+pnpm preview  # Preview del build de producción
+pnpm lint     # Ejecutar linter
 ```
 
 ### Validaciones Configurables
@@ -386,66 +386,67 @@ El sistema:
 - ✅ Previene sobrecupo
 - ✅ Alerta cuando está cerca del límite
 
-## 🚀 Deployment
+## 🚀 Deployment en Vercel
 
-### Opción 1: Vercel (Recomendado)
+Este proyecto está optimizado para desplegarse en **Vercel** (100% gratis).
+
+### Guía Completa de Despliegue
+
+📖 **Ver `DEPLOYMENT.md`** para instrucciones paso a paso detalladas.
+
+### Despliegue Rápido
 
 ```bash
-npm install -g vercel
+# Opción 1: Desde GitHub (Recomendado)
+# 1. Sube tu código a GitHub
+# 2. Ve a vercel.com/new
+# 3. Importa tu repositorio
+# 4. Configura las variables de entorno
+# 5. Deploy!
+
+# Opción 2: Desde CLI
+pnpm add -g vercel
 vercel login
 vercel
 ```
 
-### Opción 2: Netlify
+### Variables de Entorno en Vercel
 
-```bash
-npm run build
-# Arrastra la carpeta dist/ a Netlify
-```
+Configura estas variables en **Settings → Environment Variables**:
 
-### Opción 3: GitHub Pages
+- `VITE_SUPABASE_URL`: Tu URL de Supabase
+- `VITE_SUPABASE_ANON_KEY`: Tu anon key de Supabase
 
-Instala:
-```bash
-npm install -D gh-pages
-```
+### Después del Deploy
 
-Agrega a `package.json`:
-```json
-{
-  "scripts": {
-    "deploy": "npm run build && gh-pages -d dist"
-  },
-  "homepage": "https://tu-usuario.github.io/tu-repo"
+⚠️ **IMPORTANTE:** Actualiza `src/config/eventConfig.ts`:
+
+```typescript
+export const eventConfig = {
+  // ... otras config
+
+  // 🔥 Actualiza con tu URL de Vercel
+  appUrl: "https://tu-proyecto.vercel.app",
+
+  // 🔒 Cambia las credenciales de admin
+  admin: {
+    credentials: {
+      username: "nuevo-admin",
+      password: "contraseña-segura"
+    }
+  }
 }
 ```
 
-Configura `vite.config.ts`:
-```typescript
-export default defineConfig({
-  base: '/tu-repo/',
-  // ...resto
-})
-```
+Luego commit y push:
 
-Despliega:
 ```bash
-npm run deploy
+git add src/config/eventConfig.ts
+git commit -m "Update production config"
+git push
 ```
 
-### Configuración Post-Deploy
-
-⚠️ **IMPORTANTE:** Después de desplegar, actualiza `eventConfig.ts`:
-
-```typescript
-// Cambiar de:
-appUrl: "http://localhost:5173"
-
-// A tu dominio real:
-appUrl: "https://tu-dominio.com"
-```
-
-Esto es necesario para que los QR codes apunten a la URL correcta.
+Vercel desplegará automáticamente los cambios.
 
 ## 📸 Screenshots
 
@@ -484,7 +485,7 @@ Esto es necesario para que los QR codes apunten a la URL correcta.
 
 **Solución:**
 1. Actualiza `appUrl` en `eventConfig.ts` con tu dominio real
-2. Recompila: `npm run build`
+2. Recompila: `pnpm build`
 3. Redespliega
 
 ### Los datos se pierden al cerrar el navegador
@@ -502,7 +503,7 @@ Lee `PERSISTENCE_OPTIONS.md` e implementa una estrategia de persistencia real (B
 ```bash
 # Limpiar caché y reinstalar
 rm -rf node_modules
-npm install
+pnpm install
 ```
 
 ## 📝 Notas Importantes

@@ -15,13 +15,13 @@
 
 ```bash
 # Instalar dependencias
-npm install
+pnpm install
 
 # Verificar que el build funcione
-npm run build
+pnpm build
 
 # Preview del build localmente
-npm run preview
+pnpm preview
 ```
 
 ### 2. Configurar Supabase
@@ -92,7 +92,7 @@ En la sección "Environment Variables", agrega:
 #### C. Configurar Build
 Vercel detectará automáticamente Vite. Verifica:
 - **Framework Preset**: Vite
-- **Build Command**: `npm run build`
+- **Build Command**: `pnpm build`
 - **Output Directory**: `dist`
 
 #### D. Deploy
@@ -133,7 +133,7 @@ Vercel detectará automáticamente Vite. Verifica:
 
 ```toml
 [build]
-  command = "npm run build"
+  command = "pnpm build"
   publish = "dist"
 
 [[redirects]]
@@ -173,7 +173,7 @@ Vercel detectará automáticamente Vite. Verifica:
 - [ ] Cambiar entre temas
 
 ### Rendimiento
-- [ ] Build optimizado (`npm run build` sin errores)
+- [ ] Build optimizado (`pnpm build` sin errores)
 - [ ] Imágenes optimizadas
 - [ ] Lighthouse score > 90
 

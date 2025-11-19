@@ -229,20 +229,20 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
             {/* Header */}
-            <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-t-2xl">
+            <div className="bg-gray-900 text-white p-6 rounded-t-2xl">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                    <CheckCircle className="w-6 h-6 text-green-600" />
+                    <CheckCircle className="w-6 h-6 text-gray-900" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold">¡Reservación Creada!</h3>
-                    <p className="text-green-100 text-sm">La invitación está lista</p>
+                    <h3 className="text-2xl font-semibold">Reservación Creada</h3>
+                    <p className="text-gray-300 text-sm">La invitación está lista</p>
                   </div>
                 </div>
                 <button
                   onClick={handleCloseModal}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -310,10 +310,10 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
                   />
                   <button
                     onClick={handleCopyLink}
-                    className={`px-6 py-3 rounded-lg font-bold transition-all flex items-center gap-2 ${
+                    className={`px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 ${
                       copied
-                        ? 'bg-green-500 text-white'
-                        : 'bg-newspaper-black text-white hover:bg-newspaper-gray-800'
+                        ? 'bg-gray-900 text-white'
+                        : 'bg-gray-800 text-white hover:bg-gray-900'
                     }`}
                   >
                     {copied ? (
@@ -354,7 +354,7 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
               <div className="flex gap-3">
                 <button
                   onClick={handleCloseModal}
-                  className="flex-1 bg-newspaper-black text-white px-6 py-3 rounded-lg font-bold hover:bg-newspaper-gray-800 transition-colors"
+                  className="flex-1 bg-white text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 border border-gray-300 transition-colors"
                 >
                   Crear Otra Reservación
                 </button>
@@ -362,7 +362,7 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
                   href={`${eventConfig.appUrl}/invitacion/${createdReservation.code}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors text-center"
+                  className="flex-1 bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors text-center"
                 >
                   Ver Pase Digital
                 </a>
