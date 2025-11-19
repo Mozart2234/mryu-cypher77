@@ -11,14 +11,19 @@ import { eventConfig } from '@/config/eventConfig';
 import { reservationService } from '@/services/reservationService';
 import { useAuth } from '@/contexts/AuthContext';
 import type { Reservation, Accompanist } from '@/types/reservation';
-import { CheckCircle, Calendar, MapPin, Users, Printer, X, Check } from 'lucide-react';
+import { CheckCircle, Calendar, MapPin, Users, Printer, X, Check, AlertCircle, RefreshCw } from 'lucide-react';
+import { InvitationTicketSkeleton } from '@/components/SkeletonLoader';
+import { useToast } from '@/hooks/useToast';
+import { ToastContainer } from '@/components/Toast';
 
 export function InvitationPass() {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  const toast = useToast();
   const [reservation, setReservation] = useState<Reservation | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [mainGuestAttending, setMainGuestAttending] = useState(true);
   const [accompanists, setAccompanists] = useState<Accompanist[]>([]);
@@ -33,6 +38,8 @@ export function InvitationPass() {
     if (!code) return;
 
     setLoading(true);
+    setError(null);
+
     try {
       const res = await reservationService.getByCode(code);
       if (res) {
@@ -53,9 +60,16 @@ export function InvitationPass() {
           }
           setAccompanists(emptyAccompanists);
         }
+      } else {
+        setError('not_found');
       }
     } catch (error) {
       console.error('Error loading reservation:', error);
+      setError('network_error');
+      toast.error(
+        'Error de conexión',
+        'No se pudo cargar la invitación. Verifica tu conexión a internet.'
+      );
     } finally {
       setLoading(false);
     }
@@ -77,9 +91,17 @@ export function InvitationPass() {
 
       setShowConfirmModal(false);
       await loadReservation();
+
+      toast.success(
+        '¡Confirmación guardada!',
+        'Tu asistencia ha sido confirmada correctamente.'
+      );
     } catch (error) {
       console.error('Error saving confirmation:', error);
-      alert('Error al guardar la confirmación');
+      toast.error(
+        'Error al guardar',
+        'No se pudo guardar la confirmación. Por favor intenta de nuevo.'
+      );
     }
   };
 
@@ -95,31 +117,74 @@ export function InvitationPass() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-newspaper-gray-100">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-newspaper-gray-300 border-t-newspaper-black rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="newspaper-body">Cargando invitación...</p>
-        </div>
-      </div>
+      <>
+        <InvitationTicketSkeleton />
+        <ToastContainer toasts={toast.toasts} onClose={toast.closeToast} />
+      </>
     );
   }
 
-  if (!reservation) {
+  if (!reservation || error === 'not_found') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-newspaper-gray-100 px-4">
-        <div className="max-w-md text-center">
-          <h1 className="font-headline text-4xl font-bold text-newspaper-black mb-4">Invitación no encontrada</h1>
-          <p className="newspaper-body text-newspaper-gray-700 mb-8">
-            El código que proporcionaste no corresponde a ninguna reservación.
-          </p>
-          <button
-            onClick={() => navigate('/')}
-            className="bg-newspaper-black text-white px-6 py-3 font-headline uppercase tracking-wider hover:bg-newspaper-gray-900 transition"
-          >
-            Volver al inicio
-          </button>
+      <>
+        <div className="min-h-screen flex items-center justify-center bg-newspaper-gray-100 px-4">
+          <div className="max-w-md">
+            {/* Icono de error */}
+            <div className="flex justify-center mb-6">
+              <div className="w-20 h-20 bg-newspaper-gray-200 border-4 border-newspaper-black rounded-full flex items-center justify-center">
+                <AlertCircle className="w-10 h-10 text-newspaper-gray-600" />
+              </div>
+            </div>
+
+            <h1 className="font-headline text-4xl font-bold text-newspaper-black mb-4 text-center">
+              Invitación no encontrada
+            </h1>
+            <p className="newspaper-body text-newspaper-gray-700 mb-8 text-center">
+              El código <code className="bg-newspaper-gray-200 px-2 py-1 rounded font-mono text-sm">{code}</code> no corresponde a ninguna reservación.
+            </p>
+
+            {/* Sugerencias */}
+            <div className="bg-white border-2 border-newspaper-black p-6 mb-6">
+              <p className="font-headline text-sm font-bold uppercase tracking-wider mb-3 text-newspaper-black">
+                Verifica lo siguiente:
+              </p>
+              <ul className="space-y-2 text-sm text-newspaper-gray-700">
+                <li className="flex items-start gap-2">
+                  <span className="text-newspaper-accent font-bold">•</span>
+                  <span>El código debe tener el formato <strong>WED-1234</strong></span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-newspaper-accent font-bold">•</span>
+                  <span>Revisa que no haya espacios adicionales</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-newspaper-accent font-bold">•</span>
+                  <span>Consulta el mensaje original con tu código</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => navigate('/')}
+                className="flex-1 bg-newspaper-gray-200 text-newspaper-black px-6 py-3 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-300 transition border-2 border-newspaper-black"
+              >
+                Volver al inicio
+              </button>
+              {error === 'network_error' && (
+                <button
+                  onClick={() => loadReservation()}
+                  className="flex-1 bg-newspaper-black text-white px-6 py-3 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition flex items-center justify-center gap-2"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  Reintentar
+                </button>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+        <ToastContainer toasts={toast.toasts} onClose={toast.closeToast} />
+      </>
     );
   }
 
@@ -534,6 +599,9 @@ export function InvitationPass() {
           </div>
         </div>
       )}
+
+      {/* Toast Container */}
+      <ToastContainer toasts={toast.toasts} onClose={toast.closeToast} />
 
       {/* Estilos de impresión mejorados */}
       <style>{`

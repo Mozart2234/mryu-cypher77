@@ -6,11 +6,11 @@
 
 export function Advertisement() {
   return (
-    <section className="newspaper-page py-8 px-4 md:px-8 bg-newspaper-gray-100">
+    <section className="newspaper-page py-12 px-4 md:px-8 bg-newspaper-gray-100">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-3 gap-6">
           {/* Anuncio 1 - Recomendación */}
-          <div className="newspaper-box text-center">
+          <div className="newspaper-box text-center hover:shadow-xl transition-all duration-300">
             <div className="border-b-2 border-newspaper-black pb-3 mb-3">
               <h3 className="font-headline text-2xl font-bold">RECOMENDACIÓN</h3>
             </div>
@@ -28,7 +28,7 @@ export function Advertisement() {
           </div>
 
           {/* Anuncio 2 - Estadística */}
-          <div className="newspaper-box text-center">
+          <div className="newspaper-box text-center hover:shadow-xl transition-all duration-300">
             <div className="border-b-2 border-newspaper-black pb-3 mb-3">
               <h3 className="font-headline text-2xl font-bold">ESTADÍSTICA</h3>
             </div>
@@ -49,7 +49,7 @@ export function Advertisement() {
           </div>
 
           {/* Anuncio 3 - Dato curioso */}
-          <div className="newspaper-box text-center">
+          <div className="newspaper-box text-center hover:shadow-xl transition-all duration-300">
             <div className="border-b-2 border-newspaper-black pb-3 mb-3">
               <h3 className="font-headline text-2xl font-bold">SABÍAS QUE</h3>
             </div>

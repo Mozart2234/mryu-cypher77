@@ -1,5 +1,44 @@
 @import 'tailwindcss';
 
+/* ========================================
+   ÍNDICE DE CONTENIDO
+   ========================================
+
+   1. THEME CONFIGURATION (línea 3-39)
+      - Colores del tema newspaper
+      - Fuentes y tipografía
+      - Bordes y backgrounds
+
+   2. ESTILOS TIPO PERIÓDICO (línea 59-156)
+      - newspaper-page, divisores
+      - Tipografía (headlines, titles, body)
+      - Contenedores y layout
+      - Elementos de texto especiales
+
+   3. ESTILOS ADMIN DASHBOARD (línea 158-246)
+      - Botones (primary, secondary, danger, success)
+      - Componentes UI (card, input, label)
+      - Badges de estado
+      - Tablas
+
+   4. ANIMACIONES (línea 254-330)
+      - fadeIn, slideInRight, slideDown
+      - typewriter, pulseRing
+
+   5. UTILIDADES TIPO PERIÓDICO (línea 332-492)
+      - newspaper-caps, drop-cap, column-divider
+      - Efectos vintage (text-shadow, ornamentos)
+      - Photo hover effects
+      - Estilos de contador y máquina de escribir
+
+   6. ANIMACIONES TIMELINE Y FADE IN (línea 494-667)
+      - Timeline animations (growLine, slideInLeft)
+      - Fade in up, heartbeat, rotate
+      - Stagger animations para galería
+      - Text shine effect
+
+   ======================================== */
+
 @theme {
   --color-newspaper-black: #1a1a1a;
 
@@ -56,18 +95,23 @@
   }
 }
 
-@utility newspaper-page {
-  /* ========================================
-     ESTILOS TIPO PERIÓDICO
-     ======================================== */
+/* ========================================
+   ESTILOS TIPO PERIÓDICO
+   ======================================== */
 
-  /* Portada de periódico */
+@utility newspaper-page {
+  /* Portada de periódico con textura newsprint */
   @apply bg-white bg-newsprint;
 }
 
+/* DIVISORES */
 @utility newspaper-divider {
-  /* Líneas divisorias tipo periódico */
+  /* Línea divisoria estándar */
   @apply border-t border-newspaper-black my-4;
+}
+
+@utility newspaper-divider-thin {
+  @apply border-t border-newspaper-gray-300 my-2;
 }
 
 @utility newspaper-divider-thick {
@@ -82,124 +126,145 @@
   margin: 1rem 0;
 }
 
+/* TIPOGRAFÍA */
 @utility newspaper-headline {
-  /* Titulares tipo periódico */
+  /* Titular principal - extra grande para portada */
   @apply font-headline text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-none text-newspaper-black tracking-tight;
 }
 
 @utility newspaper-subheadline {
+  /* Subtitular - para secciones importantes */
   @apply font-headline text-3xl md:text-4xl font-bold text-newspaper-black leading-tight;
 }
 
 @utility newspaper-title {
+  /* Título de artículo - tamaño medio */
   @apply font-serif text-xl md:text-2xl font-bold text-newspaper-black leading-snug;
 }
 
 @utility newspaper-body {
-  /* Texto de cuerpo */
+  /* Texto de cuerpo - párrafos justificados */
   @apply font-sans text-sm md:text-base leading-relaxed text-newspaper-gray-700 text-justify;
 }
 
+/* CONTENEDORES Y LAYOUT */
 @utility newspaper-box {
-  /* Recuadros tipo periódico */
+  /* Recuadro destacado con borde grueso */
   @apply border-2 border-newspaper-black p-4 bg-newspaper-gray-100;
 }
 
 @utility newspaper-box-simple {
+  /* Recuadro simple con borde fino */
   @apply border border-newspaper-border p-4;
 }
 
 @utility newspaper-columns-2 {
-  /* Columnas tipo periódico */
+  /* Layout de 2 columnas para artículos */
   @apply md:columns-2 md:gap-6;
 }
 
 @utility newspaper-columns-3 {
+  /* Layout de 3 columnas para artículos */
   @apply md:columns-3 md:gap-6;
 }
 
+/* ELEMENTOS DE TEXTO ESPECIALES */
 @utility newspaper-meta {
-  /* Metadatos */
+  /* Metadatos y bylines (fecha, autor, etc.) */
   @apply font-sans text-xs uppercase tracking-wider text-newspaper-gray-500;
 }
 
 @utility newspaper-page-number {
+  /* Números de página estilo periódico */
   @apply font-serif text-xs text-newspaper-gray-500 italic;
 }
 
 @utility newspaper-quote {
-  /* Citas tipo periódico */
+  /* Citas destacadas tipo pull quote */
   @apply border-l-4 border-newspaper-black pl-4 italic font-serif text-lg text-newspaper-gray-700;
 }
 
 @utility newspaper-section-header {
-  /* Header de sección */
+  /* Header de sección con fondo negro */
   @apply border-y-2 border-newspaper-black py-2 px-4 bg-newspaper-black text-white font-headline text-sm uppercase tracking-widest text-center;
 }
 
 @utility newspaper-article {
-  /* Artículo */
+  /* Contenedor de artículo con separador inferior */
   @apply mb-6 pb-6 border-b border-newspaper-border last:border-b-0;
 }
 
-@utility btn-primary {
-  /* ========================================
-     ESTILOS ADMIN (mantener compatibilidad)
-     ======================================== */
+/* ========================================
+   ESTILOS ADMIN DASHBOARD
+   Estilos para el panel de administración
+   ======================================== */
 
-  /* Botones */
+/* BOTONES */
+@utility btn-primary {
+  /* Botón primario del sistema */
   @apply bg-newspaper-black text-white px-6 py-3 rounded-lg font-medium hover:bg-newspaper-gray-800 transition-all duration-300 shadow-md hover:shadow-lg;
 }
 
 @utility btn-secondary {
+  /* Botón secundario */
   @apply bg-gray-200 text-dark px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition-all duration-300;
 }
 
 @utility btn-danger {
+  /* Botón para acciones destructivas */
   @apply bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-all duration-300;
 }
 
 @utility btn-success {
+  /* Botón para acciones positivas */
   @apply bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-all duration-300;
 }
 
+/* COMPONENTES UI */
 @utility card {
-  /* Cards */
+  /* Card container para dashboard */
   @apply bg-white rounded-xl shadow-lg p-6;
 }
 
 @utility input {
-  /* Inputs */
+  /* Input estándar con focus ring */
   @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-newspaper-black focus:border-transparent outline-hidden transition-all;
 }
 
 @utility label {
+  /* Label para formularios */
   @apply block text-sm font-medium text-gray-700 mb-2;
 }
 
+/* BADGES DE ESTADO */
 @utility badge {
-  /* Badges */
+  /* Badge base */
   @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
 }
 
 @utility badge-pending {
+  /* Estado: Pendiente */
   @apply bg-yellow-100 text-yellow-800;
 }
 
 @utility badge-confirmed {
+  /* Estado: Confirmada */
   @apply bg-blue-100 text-blue-800;
 }
 
 @utility badge-checked-in {
+  /* Estado: Ingreso Registrado */
   @apply bg-green-100 text-green-800;
 }
 
+/* TABLAS */
 @utility table-container {
-  /* Tables */
+  /* Contenedor responsive para tablas */
   @apply overflow-x-auto rounded-lg border border-gray-200;
 }
 
 @utility table {
+  /* Tabla estilizada para admin dashboard */
   @apply w-full;
 
   & thead {
@@ -244,6 +309,38 @@
   animation: fadeIn 0.6s ease-out;
 }
 
+/* Slide in desde la derecha (para toasts y timeline items) */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* Slide down desde arriba (para sticky nav) */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
 /* Efecto máquina de escribir */
 @keyframes typewriter {
   from {
@@ -252,6 +349,23 @@
   to {
     width: 100%;
   }
+}
+
+/* Animación pulse ring - para elemento destacado */
+@keyframes pulseRing {
+  0% {
+    box-shadow: 0 0 0 0 var(--color-newspaper-accent);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(139, 69, 19, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(139, 69, 19, 0);
+  }
+}
+
+.pulse-ring {
+  animation: pulseRing 2s infinite;
 }
 
 /* ========================================
@@ -446,16 +560,7 @@
   }
 }
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+/* Nota: slideInRight ya está definido arriba (línea 274) */
 
 .timeline-item {
   animation: slideInLeft 0.6s ease-out forwards;
@@ -513,21 +618,7 @@
   animation: heartbeat 2s ease-in-out infinite;
 }
 
-/* Animación de entrada desde arriba */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.slide-down {
-  animation: slideDown 0.6s ease-out forwards;
-}
+/* Nota: slideDown ya está definido arriba para sticky nav */
 
 /* Animación de rotación suave para elementos interactivos */
 @keyframes rotateIn {
@@ -590,4 +681,9 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: shine 3s linear infinite;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
 }

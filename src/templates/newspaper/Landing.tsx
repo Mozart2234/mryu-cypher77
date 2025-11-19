@@ -4,6 +4,7 @@
  * Landing pública tipo periódico con toda la información del evento
  */
 
+import { useState } from 'react';
 import { NewspaperHeader } from './components/landing/NewspaperHeader';
 import { Hero } from './components/landing/Hero';
 import { Countdown } from './components/landing/Countdown';
@@ -12,12 +13,18 @@ import { Advertisement } from './components/landing/Advertisement';
 import { LoveStory } from './components/landing/LoveStory';
 import { PhotoGallery } from './components/landing/PhotoGallery';
 import { DressCode } from './components/landing/DressCode';
+import { FAQ } from './components/landing/FAQ';
 import { ThankYou } from './components/landing/ThankYou';
+import { FloatingCTA } from './components/landing/FloatingCTA';
+import { InvitationSearchModal } from './components/landing/InvitationSearchModal';
+import { CTASection } from './components/landing/CTASection';
+import { StickyNav } from './components/landing/StickyNav';
+import { Ornament } from '@/components/Ornament';
 
 // Componente separador de secciones tipo periódico
 function PageSeparator() {
   return (
-    <div className="w-full py-8 px-4">
+    <div className="w-full py-4 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="border-t-4 border-b-4 border-newspaper-black py-2 flex items-center justify-center gap-4">
           <div className="w-20 border-t-2 border-newspaper-gray-400"></div>
@@ -32,48 +39,88 @@ function PageSeparator() {
 }
 
 export function Landing() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      {/* Navegación Sticky */}
+      <StickyNav />
+
       {/* Header tipo New York Times */}
       <NewspaperHeader />
 
       {/* Contador regresivo - destacado en la parte superior */}
       <Countdown />
 
-      <PageSeparator />
+      <Ornament type="banner" size="lg" />
 
       {/* Portada principal */}
-      <Hero />
+      <section id="hero">
+        <Hero />
+      </section>
 
-      <PageSeparator />
+      {/* CTA Principal - después del Hero */}
+      <CTASection variant="primary" onOpenModal={handleOpenModal} />
+
+      <Ornament type="flourish" size="lg" />
 
       {/* Detalles del evento */}
-      <EventDetails />
+      <section id="event-details">
+        <EventDetails />
+      </section>
 
       <PageSeparator />
 
       {/* Anuncios decorativos */}
       <Advertisement />
 
-      <PageSeparator />
+      <Ornament type="divider" size="md" />
 
       {/* Historia de la pareja */}
-      <LoveStory />
+      <section id="love-story">
+        <LoveStory />
+      </section>
 
-      <PageSeparator />
+      <Ornament type="flourish" size="md" />
 
       {/* Galería de fotos */}
-      <PhotoGallery />
+      <section id="photo-gallery">
+        <PhotoGallery />
+      </section>
 
-      <PageSeparator />
+      <Ornament type="banner" size="md" />
 
       {/* Código de vestimenta */}
-      <DressCode />
+      <section id="dress-code">
+        <DressCode />
+      </section>
 
       <PageSeparator />
+
+      {/* Preguntas Frecuentes */}
+      <FAQ />
+
+      {/* CTA Secundario - antes del cierre */}
+      <CTASection variant="secondary" onOpenModal={handleOpenModal} />
+
+      <Ornament type="divider" size="lg" />
 
       {/* Cierre y firma */}
       <ThankYou />
+
+      {/* Botón CTA Flotante */}
+      <FloatingCTA onOpenModal={handleOpenModal} />
+
+      {/* Modal de búsqueda de invitación */}
+      <InvitationSearchModal isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
 }

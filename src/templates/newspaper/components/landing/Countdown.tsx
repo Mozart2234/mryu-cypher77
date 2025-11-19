@@ -38,31 +38,31 @@ export function Countdown() {
   }, []);
 
   return (
-    <section className="newspaper-page py-12 px-4 md:px-8 bg-newspaper-black text-white slide-down">
+    <section className="newspaper-page py-8 md:py-12 px-4 md:px-8 bg-newspaper-black text-white slide-down">
       <div className="max-w-7xl mx-auto">
         {/* Título tipo headline urgente */}
-        <div className="text-center mb-8">
-          <div className="inline-block border-2 border-white px-6 py-2 mb-4 rotate-in">
+        <div className="text-center mb-6 md:mb-8">
+          <div className="inline-block border-2 border-white px-4 md:px-6 py-1.5 md:py-2 mb-3 md:mb-4 rotate-in">
             <span className="text-xs uppercase tracking-widest">ÚLTIMA HORA</span>
           </div>
-          <h2 className="font-headline text-3xl md:text-5xl font-bold mb-4">
+          <h2 className="font-headline text-2xl md:text-5xl font-bold mb-3 md:mb-4 leading-tight">
             ¡LA CUENTA REGRESIVA HA COMENZADO!
           </h2>
-          <p className="font-serif text-lg md:text-xl text-gray-300">
+          <p className="font-serif text-base md:text-xl text-gray-300">
             Faltan exactamente...
           </p>
         </div>
 
         {/* Contador estilo periódico */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 max-w-5xl mx-auto">
           {/* Días */}
           <div className="text-center">
-            <div className="bg-white text-newspaper-black p-6 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-              <div className="font-headline text-5xl md:text-7xl font-black leading-none mb-2 countdown-pulse">
+            <div className="bg-white text-newspaper-black p-4 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+              <div className="font-headline text-4xl md:text-7xl font-black leading-none mb-1 md:mb-2 countdown-pulse">
                 {timeLeft.days}
               </div>
-              <div className="border-t-2 border-newspaper-black pt-2 mt-2">
-                <span className="font-sans text-sm md:text-base uppercase tracking-wider font-bold">
+              <div className="border-t-2 border-newspaper-black pt-1.5 md:pt-2 mt-1.5 md:mt-2">
+                <span className="font-sans text-xs md:text-base uppercase tracking-wider font-bold">
                   Días
                 </span>
               </div>
@@ -71,12 +71,12 @@ export function Countdown() {
 
           {/* Horas */}
           <div className="text-center">
-            <div className="bg-white text-newspaper-black p-6 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-              <div className="font-headline text-5xl md:text-7xl font-black leading-none mb-2 countdown-pulse">
+            <div className="bg-white text-newspaper-black p-4 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+              <div className="font-headline text-4xl md:text-7xl font-black leading-none mb-1 md:mb-2 countdown-pulse">
                 {timeLeft.hours}
               </div>
-              <div className="border-t-2 border-newspaper-black pt-2 mt-2">
-                <span className="font-sans text-sm md:text-base uppercase tracking-wider font-bold">
+              <div className="border-t-2 border-newspaper-black pt-1.5 md:pt-2 mt-1.5 md:mt-2">
+                <span className="font-sans text-xs md:text-base uppercase tracking-wider font-bold">
                   Horas
                 </span>
               </div>
@@ -85,12 +85,12 @@ export function Countdown() {
 
           {/* Minutos */}
           <div className="text-center">
-            <div className="bg-white text-newspaper-black p-6 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-              <div className="font-headline text-5xl md:text-7xl font-black leading-none mb-2 countdown-pulse">
+            <div className="bg-white text-newspaper-black p-4 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+              <div className="font-headline text-4xl md:text-7xl font-black leading-none mb-1 md:mb-2 countdown-pulse">
                 {timeLeft.minutes}
               </div>
-              <div className="border-t-2 border-newspaper-black pt-2 mt-2">
-                <span className="font-sans text-sm md:text-base uppercase tracking-wider font-bold">
+              <div className="border-t-2 border-newspaper-black pt-1.5 md:pt-2 mt-1.5 md:mt-2">
+                <span className="font-sans text-xs md:text-base uppercase tracking-wider font-bold">
                   Min
                 </span>
               </div>
@@ -99,12 +99,12 @@ export function Countdown() {
 
           {/* Segundos */}
           <div className="text-center">
-            <div className="bg-white text-newspaper-black p-6 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-              <div className="font-headline text-5xl md:text-7xl font-black leading-none mb-2 countdown-pulse">
+            <div className="bg-white text-newspaper-black p-4 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+              <div className="font-headline text-4xl md:text-7xl font-black leading-none mb-1 md:mb-2 countdown-pulse">
                 {timeLeft.seconds}
               </div>
-              <div className="border-t-2 border-newspaper-black pt-2 mt-2">
-                <span className="font-sans text-sm md:text-base uppercase tracking-wider font-bold">
+              <div className="border-t-2 border-newspaper-black pt-1.5 md:pt-2 mt-1.5 md:mt-2">
+                <span className="font-sans text-xs md:text-base uppercase tracking-wider font-bold">
                   Seg
                 </span>
               </div>
@@ -113,14 +113,14 @@ export function Countdown() {
         </div>
 
         {/* Subtexto */}
-        <div className="text-center mt-8">
-          <p className="font-serif text-base md:text-lg text-gray-300 italic">
+        <div className="text-center mt-6 md:mt-8">
+          <p className="font-serif text-sm md:text-lg text-gray-300 italic">
             ...hasta el evento más esperado del año
           </p>
-          <div className="mt-4 flex items-center justify-center space-x-2">
-            <div className="h-px w-12 bg-white"></div>
-            <span className="text-2xl">❤</span>
-            <div className="h-px w-12 bg-white"></div>
+          <div className="mt-3 md:mt-4 flex items-center justify-center space-x-2">
+            <div className="h-px w-8 md:w-12 bg-white"></div>
+            <span className="text-xl md:text-2xl">❤</span>
+            <div className="h-px w-8 md:w-12 bg-white"></div>
           </div>
         </div>
       </div>

@@ -15,7 +15,7 @@ export function Hero() {
   const { bride, groom, newspaper, date, articles } = eventConfig;
 
   return (
-    <section className="newspaper-page py-8 px-4 md:px-8 relative">
+    <section className="newspaper-page py-12 px-4 md:px-8 relative">
       {/* Elemento de fondo decorativo */}
       <div className="absolute inset-0 pointer-events-none opacity-5">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==')] opacity-20"></div>
@@ -96,7 +96,7 @@ export function Hero() {
             <WeatherBox />
 
             {/* Artículo secundario */}
-            <div className="newspaper-box hover:shadow-lg transition-shadow duration-300">
+            <div className="newspaper-box hover:shadow-xl transition-all duration-300">
               <h4 className="font-serif font-bold text-sm uppercase mb-2 text-newspaper-black">
                 {articles[0].title}
               </h4>
@@ -112,7 +112,7 @@ export function Hero() {
 
         {/* Artículos secundarios */}
         <div className="grid md:grid-cols-2 gap-6 my-6">
-          <div className="newspaper-article hover:bg-newspaper-gray-100 transition-colors duration-300 p-4 rounded-sm">
+          <div className="newspaper-article hover:bg-newspaper-gray-100 hover:shadow-md transition-all duration-300 p-4 rounded-sm">
             <h4 className="newspaper-title text-lg mb-2">
               {articles[2].title}
             </h4>
@@ -122,7 +122,7 @@ export function Hero() {
             <p className="newspaper-page-number mt-2">{articles[2].page}</p>
           </div>
 
-          <div className="newspaper-article hover:bg-newspaper-gray-100 transition-colors duration-300 p-4 rounded-sm">
+          <div className="newspaper-article hover:bg-newspaper-gray-100 hover:shadow-md transition-all duration-300 p-4 rounded-sm">
             <h4 className="newspaper-title text-lg mb-2">
               {articles[3].title}
             </h4>

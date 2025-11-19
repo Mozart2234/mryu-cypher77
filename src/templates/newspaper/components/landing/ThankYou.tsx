@@ -11,19 +11,19 @@ export function ThankYou() {
 
   return (
     <section className="newspaper-page py-12 px-4 md:px-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Divisor decorativo */}
         <div className="newspaper-divider-double mb-8"></div>
 
         {/* Firma de los novios */}
         <div className="text-center">
-          <p className="font-headline text-4xl md:text-5xl font-bold text-newspaper-black mb-4">
+          <p className="newspaper-subheadline mb-4">
             {groom.fullName}
           </p>
-          <p className="font-headline text-2xl md:text-3xl text-newspaper-gray-500 mb-2">
+          <p className="newspaper-title text-newspaper-gray-500 mb-2">
             &
           </p>
-          <p className="font-headline text-4xl md:text-5xl font-bold text-newspaper-black mb-8">
+          <p className="newspaper-subheadline mb-8">
             {bride.fullName}
           </p>
         </div>

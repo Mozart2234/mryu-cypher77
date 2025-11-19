@@ -6,20 +6,27 @@
 
 import { eventConfig } from '@/config/eventConfig';
 import { Shirt, Sparkles } from 'lucide-react';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 export function DressCode() {
   const { dressCode } = eventConfig;
+  const { elementRef, isVisible } = useScrollAnimation();
 
   return (
-    <section className="newspaper-page py-16 px-4 md:px-8 bg-white">
-      <div className="max-w-6xl mx-auto">
+    <section
+      ref={elementRef}
+      className={`newspaper-page py-12 px-4 md:px-8 bg-white transition-all duration-700 ease-out ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto">
         {/* Título de sección estilo titular de periódico */}
         <div className="text-center mb-12">
           <div className="newspaper-divider-thick mb-6"></div>
-          <h2 className="newspaper-headline text-4xl md:text-5xl mb-3">
+          <h2 className="newspaper-subheadline mb-3">
             {dressCode.title}
           </h2>
-          <p className="newspaper-meta text-lg mb-2">
+          <p className="newspaper-meta mb-2">
             {dressCode.subtitle}
           </p>
           <div className="newspaper-divider-thick mt-6"></div>
@@ -29,15 +36,15 @@ export function DressCode() {
         </div>
 
         {/* Grid de dress code estilo columnas de periódico */}
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
           {/* Mujeres */}
-          <div className="bg-white border-4 border-newspaper-black overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+          <div className="bg-white border-2 border-newspaper-black overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300">
             {/* Header estilo periódico */}
             <div className="bg-newspaper-black text-white p-8 text-center">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
                 <Sparkles className="w-8 h-8 text-newspaper-black" />
               </div>
-              <h3 className="font-headline text-4xl font-bold mb-2">
+              <h3 className="newspaper-subheadline mb-2">
                 {dressCode.women.title}
               </h3>
               <div className="w-24 h-1 bg-white mx-auto"></div>
@@ -49,12 +56,12 @@ export function DressCode() {
                 {dressCode.women.items.map((item: any, index: number) => {
                   const isAvoid = item.toLowerCase().includes('evitar');
                   return (
-                    <li key={index} className="border-l-4 border-newspaper-gray-400 pl-4 py-2">
+                    <li key={index} className="border-l-2 border-newspaper-gray-400 pl-4 py-2">
                       <div className="flex items-start gap-3">
                         <span className="font-headline text-2xl font-bold text-newspaper-gray-400 shrink-0 leading-none">
                           {isAvoid ? '✗' : '✓'}
                         </span>
-                        <span className={`newspaper-body text-base leading-relaxed ${
+                        <span className={`newspaper-body ${
                           isAvoid ? 'text-newspaper-gray-700 italic' : 'text-newspaper-black'
                         }`}>
                           {item}
@@ -67,7 +74,7 @@ export function DressCode() {
             </div>
 
             {/* Footer con icono */}
-            <div className="border-t-4 border-newspaper-black p-4 bg-white text-center">
+            <div className="border-t-2 border-newspaper-black p-4 bg-white text-center">
               <p className="font-headline text-sm uppercase tracking-widest text-newspaper-gray-600">
                 Elegancia Femenina
               </p>
@@ -75,13 +82,13 @@ export function DressCode() {
           </div>
 
           {/* Hombres */}
-          <div className="bg-white border-4 border-newspaper-black overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+          <div className="bg-white border-2 border-newspaper-black overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300">
             {/* Header estilo periódico */}
             <div className="bg-newspaper-gray-900 text-white p-8 text-center">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shirt className="w-8 h-8 text-newspaper-black" />
               </div>
-              <h3 className="font-headline text-4xl font-bold mb-2">
+              <h3 className="newspaper-subheadline mb-2">
                 {dressCode.men.title}
               </h3>
               <div className="w-24 h-1 bg-white mx-auto"></div>
@@ -93,12 +100,12 @@ export function DressCode() {
                 {dressCode.men.items.map((item: any, index: number) => {
                   const isAvoid = item.toLowerCase().includes('evitar');
                   return (
-                    <li key={index} className="border-l-4 border-newspaper-gray-400 pl-4 py-2">
+                    <li key={index} className="border-l-2 border-newspaper-gray-400 pl-4 py-2">
                       <div className="flex items-start gap-3">
                         <span className="font-headline text-2xl font-bold text-newspaper-gray-400 shrink-0 leading-none">
                           {isAvoid ? '✗' : '✓'}
                         </span>
-                        <span className={`newspaper-body text-base leading-relaxed ${
+                        <span className={`newspaper-body ${
                           isAvoid ? 'text-newspaper-gray-700 italic' : 'text-newspaper-black'
                         }`}>
                           {item}
@@ -111,7 +118,7 @@ export function DressCode() {
             </div>
 
             {/* Footer con icono */}
-            <div className="border-t-4 border-newspaper-black p-4 bg-white text-center">
+            <div className="border-t-2 border-newspaper-black p-4 bg-white text-center">
               <p className="font-headline text-sm uppercase tracking-widest text-newspaper-gray-600">
                 Estilo Formal Caballeros
               </p>
@@ -119,9 +126,115 @@ export function DressCode() {
           </div>
         </div>
 
+        {/* Paleta de colores sugerida */}
+        <div className="max-w-5xl mx-auto mb-8">
+          <div className="bg-newspaper-gray-50 border-2 border-newspaper-black p-6">
+            <h3 className="newspaper-title text-center mb-6">Paleta de Colores Sugerida</h3>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Colores recomendados */}
+              <div>
+                <h4 className="font-serif font-bold text-sm uppercase mb-4 text-center text-newspaper-black">
+                  ✓ Colores Recomendados
+                </h4>
+                <div className="grid grid-cols-4 gap-3">
+                  {/* Azul marino */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-full aspect-square bg-[#1a2332] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Azul marino</span>
+                  </div>
+                  {/* Gris oscuro */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-full aspect-square bg-[#4a5568] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Gris oscuro</span>
+                  </div>
+                  {/* Negro */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-full aspect-square bg-[#1a1a1a] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Negro</span>
+                  </div>
+                  {/* Borgoña */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-full aspect-square bg-[#722f37] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Borgoña</span>
+                  </div>
+                  {/* Verde bosque */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-full aspect-square bg-[#2d4a2b] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Verde bosque</span>
+                  </div>
+                  {/* Morado profundo */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-full aspect-square bg-[#4a148c] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Morado</span>
+                  </div>
+                  {/* Terracota */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-full aspect-square bg-[#8b4513] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Terracota</span>
+                  </div>
+                  {/* Dorado oscuro */}
+                  <div className="flex flex-col items-center group">
+                    <div className="w-full aspect-square bg-[#b8860b] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Dorado</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Colores a evitar */}
+              <div>
+                <h4 className="font-serif font-bold text-sm uppercase mb-4 text-center text-newspaper-gray-700">
+                  ✗ Colores a Evitar
+                </h4>
+                <div className="grid grid-cols-4 gap-3">
+                  {/* Blanco */}
+                  <div className="flex flex-col items-center group opacity-60">
+                    <div className="w-full aspect-square bg-white border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-2xl text-red-600 font-bold">✗</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Blanco</span>
+                  </div>
+                  {/* Marfil */}
+                  <div className="flex flex-col items-center group opacity-60">
+                    <div className="w-full aspect-square bg-[#fffff0] border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-2xl text-red-600 font-bold">✗</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Marfil</span>
+                  </div>
+                  {/* Beige */}
+                  <div className="flex flex-col items-center group opacity-60">
+                    <div className="w-full aspect-square bg-[#f5f5dc] border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-2xl text-red-600 font-bold">✗</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Beige</span>
+                  </div>
+                  {/* Crema */}
+                  <div className="flex flex-col items-center group opacity-60">
+                    <div className="w-full aspect-square bg-[#fffdd0] border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-2xl text-red-600 font-bold">✗</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Crema</span>
+                  </div>
+                </div>
+                <p className="text-xs text-center mt-4 text-newspaper-gray-600 italic">
+                  Reservados para la novia
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Nota especial estilo editorial */}
         <div className="max-w-4xl mx-auto">
-          <div className="bg-newspaper-gray-50 border-4 border-newspaper-black p-8 md:p-12">
+          <div className="bg-newspaper-gray-50 border-2 border-newspaper-black p-8 md:p-12">
             <div className="text-center mb-6">
               <div className="inline-block bg-newspaper-black text-white px-6 py-2 mb-4">
                 <p className="font-headline text-sm uppercase tracking-widest">
@@ -132,7 +245,7 @@ export function DressCode() {
 
             <div className="newspaper-divider-thin mb-6"></div>
 
-            <p className="font-serif text-lg text-newspaper-black leading-relaxed text-center mb-6">
+            <p className="newspaper-body text-center mb-6 text-newspaper-black">
               Estas sugerencias nos ayudarán a mantener la <strong>elegancia y solemnidad</strong> que deseamos
               para nuestra celebración. Tu cooperación significa mucho para nosotros y hará que este día
               sea aún más especial.
@@ -140,10 +253,10 @@ export function DressCode() {
 
             <div className="newspaper-divider-thin mb-6"></div>
 
-            <p className="font-serif text-base text-center italic text-newspaper-gray-700">
+            <p className="newspaper-body text-center italic text-newspaper-gray-700">
               Con cariño,
             </p>
-            <p className="font-headline text-xl text-center font-bold text-newspaper-black mt-2">
+            <p className="newspaper-title text-center mt-2">
               Alexei y Estephanie
             </p>
 
