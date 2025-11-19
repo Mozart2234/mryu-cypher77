@@ -10,6 +10,7 @@
 
 import { eventConfig } from '@/config/eventConfig';
 import { WeatherBox } from './WeatherBox';
+import { IndexBox } from './IndexBox';
 
 export function Hero() {
   const { bride, groom, newspaper, date, articles } = eventConfig;
@@ -109,6 +110,9 @@ export function Hero() {
           <div className="md:col-span-3 space-y-6">
             {/* Pronóstico del día */}
             <WeatherBox />
+
+            {/* Índice de contenidos */}
+            <IndexBox />
 
             {/* Artículo secundario */}
             <div className="newspaper-box hover:shadow-xl transition-all duration-300">

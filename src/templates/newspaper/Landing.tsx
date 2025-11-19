@@ -14,6 +14,7 @@ import { LoveStory } from './components/landing/LoveStory';
 import { PhotoGallery } from './components/landing/PhotoGallery';
 import { DressCode } from './components/landing/DressCode';
 import { FAQ } from './components/landing/FAQ';
+import { ClassifiedAds } from './components/landing/ClassifiedAds';
 import { ThankYou } from './components/landing/ThankYou';
 import { FloatingCTA } from './components/landing/FloatingCTA';
 import { InvitationSearchModal } from './components/landing/InvitationSearchModal';
@@ -107,6 +108,13 @@ export function Landing() {
 
       {/* Preguntas Frecuentes */}
       <FAQ />
+
+      <Ornament type="divider" size="md" />
+
+      {/* Anuncios Clasificados */}
+      <section id="classified-ads">
+        <ClassifiedAds />
+      </section>
 
       {/* CTA Secundario - antes del cierre */}
       <CTASection variant="secondary" onOpenModal={handleOpenModal} />

@@ -63,6 +63,7 @@
   --font-serif: Libre Baskerville, Georgia, serif;
   --font-sans: Inter, Helvetica, Arial, sans-serif;
   --font-mono: Courier New, monospace;
+  --font-condensed: Oswald, Arial Narrow, sans-serif;
 
   --text-headline: 4rem;
   --text-headline--line-height: 1;
@@ -222,6 +223,25 @@
 @utility newspaper-article {
   /* Contenedor de artículo con separador inferior - margin reducido */
   @apply mb-4 md:mb-5 pb-4 md:pb-5 border-b border-newspaper-border last:border-b-0;
+}
+
+/* TIPOGRAFÍA CONDENSADA (NIVEL 3) */
+@utility newspaper-condensed {
+  /* Fuente condensada para kickers y labels */
+  font-family: var(--font-condensed);
+  @apply font-semibold uppercase tracking-wider;
+}
+
+@utility newspaper-condensed-label {
+  /* Label condensado pequeño */
+  font-family: var(--font-condensed);
+  @apply text-xs font-semibold uppercase tracking-widest text-newspaper-gray-600;
+}
+
+@utility newspaper-condensed-title {
+  /* Título condensado para secciones */
+  font-family: var(--font-condensed);
+  @apply text-lg md:text-xl font-bold uppercase tracking-wide text-newspaper-black;
 }
 
 /* ========================================
