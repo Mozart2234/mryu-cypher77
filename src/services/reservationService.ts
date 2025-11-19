@@ -33,6 +33,8 @@ function mapFromDatabase(record: any): Reservation {
     guestName: record.guest_name,
     numberOfGuests: record.number_of_guests,
     accompanistNames: record.accompanist_names,
+    accompanists: record.accompanists ? JSON.parse(record.accompanists) : undefined,
+    mainGuestAttending: record.main_guest_attending ?? true,
     status: record.status,
     table: record.table,
     group: record.group,
@@ -53,6 +55,8 @@ function mapToDatabase(data: Partial<Reservation>): any {
   if (data.guestName !== undefined) dbData.guest_name = data.guestName;
   if (data.numberOfGuests !== undefined) dbData.number_of_guests = data.numberOfGuests;
   if (data.accompanistNames !== undefined) dbData.accompanist_names = data.accompanistNames;
+  if (data.accompanists !== undefined) dbData.accompanists = JSON.stringify(data.accompanists);
+  if (data.mainGuestAttending !== undefined) dbData.main_guest_attending = data.mainGuestAttending;
   if (data.status !== undefined) dbData.status = data.status;
   if (data.table !== undefined) dbData.table = data.table;
   if (data.group !== undefined) dbData.group = data.group;
@@ -333,9 +337,9 @@ export const reservationService = {
    * Obtiene estadísticas de las reservaciones
    */
   async getStats(): Promise<ReservationStats> {
-    const { data, error } = await supabase
+    const { data, error} = await supabase
       .from('reservations')
-      .select('number_of_guests, status');
+      .select('number_of_guests, status, main_guest_attending, accompanists');
 
     if (error) {
       console.error('Error getting stats:', error);
@@ -345,9 +349,35 @@ export const reservationService = {
     const reservations = data || [];
     const totalGuests = reservations.reduce((sum, r) => sum + r.number_of_guests, 0);
 
+    // Calcular asistentes confirmados
+    let confirmedAttendees = 0;
+    for (const r of reservations) {
+      // Si tiene sistema nuevo de acompañantes
+      if (r.accompanists) {
+        try {
+          const accompanists = JSON.parse(r.accompanists);
+          // Contar invitado principal si asiste
+          if (r.main_guest_attending !== false) {
+            confirmedAttendees += 1;
+          }
+          // Contar acompañantes que confirmaron
+          confirmedAttendees += accompanists.filter((a: any) => a.willAttend).length;
+        } catch (e) {
+          // Si falla el parse, asumir que asisten todos
+          confirmedAttendees += r.number_of_guests;
+        }
+      } else {
+        // Sistema antiguo: si está confirmada, asumen todos
+        if (r.status === 'confirmada' || r.status === 'ingreso-registrado') {
+          confirmedAttendees += r.number_of_guests;
+        }
+      }
+    }
+
     return {
       totalReservations: reservations.length,
       totalGuests,
+      confirmedAttendees,
       availableSpots: eventConfig.maxCapacity - totalGuests,
       pendingReservations: reservations.filter((r: any) => r.status === 'pendiente').length,
       confirmedReservations: reservations.filter((r: any) => r.status === 'confirmada').length,

@@ -1,53 +1,53 @@
 /**
  * COMPONENTE PHOTO GALLERY
  *
- * Galería de fotos estilo periódico editorial
+ * Galería de fotos estilo periódico editorial con fotos reales
  */
 
 export function PhotoGallery() {
-  // Fotos de ejemplo - reemplazar con fotos reales
+  // Tus fotos reales de la boda
   const photos = [
     {
       id: 1,
       caption: "Primera foto juntos - 2023",
       alt: "Alexei y Estephanie en su primera foto juntos",
       size: "large" as const,
-      url: "https://placehold.co/800x600/d4d4d4/404040?text=Primera+Foto+Juntos"
+      url: "/photos/_Z638761.jpg"
     },
     {
       id: 2,
       caption: "Viaje a Cusco - Amor viajero en acción",
       alt: "La pareja explorando Cusco",
       size: "medium" as const,
-      url: "https://placehold.co/400x500/d4d4d4/404040?text=Viaje+a+Cusco"
+      url: "/photos/_Z638873.jpg"
     },
     {
       id: 3,
       caption: "El día que se hicieron novios - 2025",
       alt: "Momento especial de compromiso",
       size: "medium" as const,
-      url: "https://placehold.co/400x500/d4d4d4/404040?text=Novios+2025"
+      url: "/photos/_Z638874.jpg"
     },
     {
       id: 4,
       caption: "Compartiendo momentos de fe",
       alt: "En la iglesia juntos",
       size: "small" as const,
-      url: "https://placehold.co/400x300/d4d4d4/404040?text=Momentos+de+Fe"
+      url: "/photos/_Z638896.jpg"
     },
     {
       id: 5,
       caption: "Aventuras culinarias - Probando nuevos sabores",
       alt: "Disfrutando de una cena",
       size: "small" as const,
-      url: "https://placehold.co/400x300/d4d4d4/404040?text=Aventuras+Culinarias"
+      url: "/photos/_Z638955.jpg"
     },
     {
       id: 6,
       caption: "El 'propósito' hecho realidad",
       alt: "Sonriendo juntos",
       size: "large" as const,
-      url: "https://placehold.co/800x600/d4d4d4/404040?text=Proposito"
+      url: "/photos/_Z639000.jpg"
     }
   ];
 
@@ -72,7 +72,8 @@ export function PhotoGallery() {
               <img
                 src={photos[0].url}
                 alt={photos[0].alt}
-                className="w-full h-full object-cover grayscale transition-all duration-500"
+                loading="lazy"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
               />
             </div>
             <div className="mt-3 pb-2 border-b-2 border-newspaper-black">
@@ -89,7 +90,8 @@ export function PhotoGallery() {
               <img
                 src={photos[1].url}
                 alt={photos[1].alt}
-                className="w-full h-full object-cover grayscale transition-all duration-500"
+                loading="lazy"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
               />
             </div>
             <div className="mt-2 pb-2 border-b border-newspaper-border">
@@ -106,7 +108,8 @@ export function PhotoGallery() {
               <img
                 src={photos[3].url}
                 alt={photos[3].alt}
-                className="w-full h-full object-cover grayscale transition-all duration-500"
+                loading="lazy"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
               />
             </div>
             <div className="mt-2 pb-1 border-b border-newspaper-border">
@@ -122,7 +125,8 @@ export function PhotoGallery() {
               <img
                 src={photos[4].url}
                 alt={photos[4].alt}
-                className="w-full h-full object-cover grayscale transition-all duration-500"
+                loading="lazy"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
               />
             </div>
             <div className="mt-2 pb-1 border-b border-newspaper-border">
@@ -138,7 +142,8 @@ export function PhotoGallery() {
               <img
                 src={photos[2].url}
                 alt={photos[2].alt}
-                className="w-full h-full object-cover grayscale transition-all duration-500"
+                loading="lazy"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
               />
             </div>
             <div className="mt-2 pb-2 border-b border-newspaper-border">
@@ -155,7 +160,8 @@ export function PhotoGallery() {
               <img
                 src={photos[5].url}
                 alt={photos[5].alt}
-                className="w-full h-full object-cover grayscale transition-all duration-500"
+                loading="lazy"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
               />
             </div>
             <div className="mt-3 pb-2 border-b-2 border-newspaper-black">
@@ -174,6 +180,9 @@ export function PhotoGallery() {
               Nota del Editor: Las fotografías mostradas capturan momentos significativos
               de la historia de Alexei y Estephanie. Cada imagen representa un capítulo
               de su hermoso viaje hacia el altar.
+            </p>
+            <p className="text-xs text-newspaper-gray-500 mt-2">
+              Fotos ilustrativas - Reemplaza con tus fotos reales editando este archivo
             </p>
           </div>
         </div>

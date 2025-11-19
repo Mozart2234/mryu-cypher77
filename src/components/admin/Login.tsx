@@ -1,31 +1,41 @@
 /**
- * COMPONENTE LOGIN
+ * COMPONENTE LOGIN CON SUPABASE AUTH
  *
  * Formulario de autenticación para acceder al panel de administración
+ * Usa Supabase Auth para autenticación real
  */
 
 import { useState, FormEvent } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Lock, User } from 'lucide-react';
+import { Lock, Mail } from 'lucide-react';
 
 export function Login() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
-    const success = login(username, password);
+    try {
+      const { success, error: loginError } = await login(email, password);
 
-    if (success) {
-      navigate('/admin');
-    } else {
-      setError('Usuario o contraseña incorrectos');
+      if (success) {
+        navigate('/admin');
+      } else {
+        setError(loginError || 'Error al iniciar sesión');
+      }
+    } catch (err) {
+      setError('Error inesperado al iniciar sesión');
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,23 +48,24 @@ export function Login() {
               <Lock className="w-8 h-8 text-primary" />
             </div>
             <h2 className="text-2xl font-bold text-dark">Panel de Administración</h2>
-            <p className="text-gray-600 mt-2">Ingresa tus credenciales</p>
+            <p className="text-gray-600 mt-2">Ingresa con tu cuenta Supabase</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="label">
-                <User className="w-4 h-4 inline mr-2" />
-                Usuario
+                <Mail className="w-4 h-4 inline mr-2" />
+                Email
               </label>
               <input
-                type="text"
+                type="email"
                 className="input"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="admin"
-                autoComplete="username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@example.com"
+                autoComplete="email"
                 required
+                disabled={loading}
               />
             </div>
 
@@ -71,6 +82,7 @@ export function Login() {
                 placeholder="••••••••"
                 autoComplete="current-password"
                 required
+                disabled={loading}
               />
             </div>
 
@@ -80,14 +92,18 @@ export function Login() {
               </div>
             )}
 
-            <button type="submit" className="w-full btn-primary">
-              Iniciar Sesión
+            <button
+              type="submit"
+              className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={loading}
+            >
+              {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
             </button>
           </form>
 
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <p className="text-xs text-gray-500 text-center">
-              Credenciales por defecto: admin / boda2026
+          <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <p className="text-xs text-blue-700 text-center">
+              <strong>Nota:</strong> Ahora usa Supabase Auth. Crea un usuario en el dashboard de Supabase.
             </p>
           </div>
         </div>

@@ -14,8 +14,7 @@ import {
   QrCode,
   Users,
   X,
-  Ticket,
-  ExternalLink
+  Ticket
 } from 'lucide-react';
 
 interface ReservationRowProps {

@@ -1,7 +1,7 @@
 /**
- * PASE DE INVITACIÓN - ESTILO NEWSPAPER MEJORADO
+ * PASE DE INVITACIÓN - ESTILO NEWSPAPER
  *
- * Diseño minimalista tipo ticket de invitación, optimizado para impresión
+ * Ticket tipo periódico vintage con confirmación individual de acompañantes
  */
 
 import { useState, useEffect } from 'react';
@@ -9,16 +9,19 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { eventConfig } from '@/config/eventConfig';
 import { reservationService } from '@/services/reservationService';
-import type { Reservation } from '@/types/reservation';
-import { CheckCircle, Calendar, MapPin, Users, Printer, X } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import type { Reservation, Accompanist } from '@/types/reservation';
+import { CheckCircle, Calendar, MapPin, Users, Printer, X, Check } from 'lucide-react';
 
 export function InvitationPass() {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [reservation, setReservation] = useState<Reservation | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showAccompanistModal, setShowAccompanistModal] = useState(false);
-  const [accompanistNames, setAccompanistNames] = useState<string[]>([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [mainGuestAttending, setMainGuestAttending] = useState(true);
+  const [accompanists, setAccompanists] = useState<Accompanist[]>([]);
 
   useEffect(() => {
     if (code) {
@@ -34,13 +37,21 @@ export function InvitationPass() {
       const res = await reservationService.getByCode(code);
       if (res) {
         setReservation(res);
-        // Inicializar nombres de acompañantes
-        if (res.accompanistNames && res.accompanistNames.length > 0) {
-          setAccompanistNames(res.accompanistNames);
+        setMainGuestAttending(res.mainGuestAttending);
+
+        // Inicializar acompañantes
+        if (res.accompanists && res.accompanists.length > 0) {
+          setAccompanists(res.accompanists);
         } else {
-          // Crear array vacío para acompañantes
-          const emptyNames = Array(Math.max(0, res.numberOfGuests - 1)).fill('');
-          setAccompanistNames(emptyNames);
+          // Crear estructura vacía basado en numberOfGuests
+          const emptyAccompanists: Accompanist[] = [];
+          for (let i = 0; i < res.numberOfGuests - 1; i++) {
+            emptyAccompanists.push({
+              name: res.accompanistNames?.[i] || '',
+              willAttend: true
+            });
+          }
+          setAccompanists(emptyAccompanists);
         }
       }
     } catch (error) {
@@ -50,44 +61,44 @@ export function InvitationPass() {
     }
   };
 
-  const handleAcceptInvitation = async () => {
-    if (!reservation) return;
-
-    await reservationService.update(reservation.id, {
-      status: 'confirmada'
-    });
-
-    // Si hay más de 1 invitado y no hay nombres, mostrar modal
-    if (reservation.numberOfGuests > 1 && (!reservation.accompanistNames || reservation.accompanistNames.length === 0)) {
-      setShowAccompanistModal(true);
-    }
-
-    await loadReservation();
+  const handleOpenConfirmModal = () => {
+    setShowConfirmModal(true);
   };
 
-  const handleSaveAccompanists = async () => {
+  const handleSaveConfirmation = async () => {
     if (!reservation) return;
 
-    const filteredNames = accompanistNames.filter(name => name.trim() !== '');
+    try {
+      await reservationService.update(reservation.id, {
+        status: 'confirmada',
+        mainGuestAttending,
+        accompanists: accompanists.filter(a => a.name.trim() !== '')
+      });
 
-    await reservationService.update(reservation.id, {
-      accompanistNames: filteredNames.length > 0 ? filteredNames : undefined
-    });
-
-    setShowAccompanistModal(false);
-    await loadReservation();
+      setShowConfirmModal(false);
+      await loadReservation();
+    } catch (error) {
+      console.error('Error saving confirmation:', error);
+      alert('Error al guardar la confirmación');
+    }
   };
 
   const handlePrint = () => {
     window.print();
   };
 
+  const getConfirmedCount = () => {
+    let count = mainGuestAttending ? 1 : 0;
+    count += accompanists.filter(a => a.willAttend && a.name.trim() !== '').length;
+    return count;
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-newspaper-gray-100">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-gray-300 border-t-gray-900 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Cargando invitación...</p>
+          <div className="w-16 h-16 border-4 border-newspaper-gray-300 border-t-newspaper-black rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="newspaper-body">Cargando invitación...</p>
         </div>
       </div>
     );
@@ -95,13 +106,15 @@ export function InvitationPass() {
 
   if (!reservation) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-newspaper-gray-100 px-4">
         <div className="max-w-md text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Invitación no encontrada</h1>
-          <p className="text-gray-600 mb-8">El código que proporcionaste no corresponde a ninguna reservación.</p>
+          <h1 className="font-headline text-4xl font-bold text-newspaper-black mb-4">Invitación no encontrada</h1>
+          <p className="newspaper-body text-newspaper-gray-700 mb-8">
+            El código que proporcionaste no corresponde a ninguna reservación.
+          </p>
           <button
             onClick={() => navigate('/')}
-            className="bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
+            className="bg-newspaper-black text-white px-6 py-3 font-headline uppercase tracking-wider hover:bg-newspaper-gray-900 transition"
           >
             Volver al inicio
           </button>
@@ -113,184 +126,272 @@ export function InvitationPass() {
   const isPending = reservation.status === 'pendiente';
   const isConfirmed = reservation.status === 'confirmada';
   const isCheckedIn = reservation.status === 'ingreso-registrado';
-  const qrUrl = `${eventConfig.appUrl}/check-in?code=${reservation.code}`;
+  const qrUrl = `${eventConfig.appUrl}/invitacion/${reservation.code}`;
+  const confirmedCount = getConfirmedCount();
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4 print:bg-white print:p-0">
-      {/* Botón de impresión (oculto en print) */}
-      <div className="max-w-4xl mx-auto mb-4 print:hidden">
+    <div className="min-h-screen bg-newspaper-gray-100 py-8 px-4 print:bg-white print:p-0">
+      {/* Botones de acción (ocultos en print) */}
+      <div className="max-w-5xl mx-auto mb-6 flex gap-3 print:hidden">
         <button
           onClick={handlePrint}
-          className="flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
+          className="flex items-center gap-2 bg-newspaper-black text-white px-6 py-3 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition"
         >
           <Printer className="w-5 h-5" />
-          Imprimir Pase
+          Imprimir
         </button>
+        {isPending && (
+          <button
+            onClick={handleOpenConfirmModal}
+            className="flex-1 flex items-center justify-center gap-2 bg-newspaper-gray-900 text-white px-6 py-3 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-800 transition"
+          >
+            <CheckCircle className="w-5 h-5" />
+            Confirmar Asistencia
+          </button>
+        )}
+        {/* Solo el admin puede editar confirmaciones ya realizadas */}
+        {isConfirmed && isAuthenticated && (
+          <button
+            onClick={handleOpenConfirmModal}
+            className="flex items-center gap-2 bg-newspaper-gray-700 text-white px-6 py-3 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-600 transition"
+          >
+            Editar Confirmación (Admin)
+          </button>
+        )}
       </div>
 
-      {/* Pase de invitación */}
-      <div className="max-w-4xl mx-auto bg-white shadow-2xl print:shadow-none">
-        {/* Header elegante */}
-        <div className="border-b-2 border-gray-900 p-8 md:p-12 text-center">
-          <div className="border-2 border-gray-300 p-6 inline-block">
-            <p className="text-xs uppercase tracking-widest text-gray-500 mb-2">
-              Pase de Invitación
-            </p>
-            <h1 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 mb-2">
-              {eventConfig.bride.name} & {eventConfig.groom.name}
-            </h1>
-            <p className="text-gray-600 font-serif text-lg">
-              {eventConfig.date.full}
-            </p>
-          </div>
-        </div>
-
-        {/* Estado de confirmación */}
-        <div className="bg-gray-50 border-b border-gray-200 p-6 print:bg-gray-50">
-          {isPending && (
-            <div className="flex items-center justify-between max-w-3xl mx-auto">
-              <div>
-                <p className="font-semibold text-gray-900">Confirmación Pendiente</p>
-                <p className="text-sm text-gray-600">Por favor confirma tu asistencia</p>
+      {/* TICKET ESTILO PERIÓDICO */}
+      <div className="max-w-5xl mx-auto bg-white border-8 border-newspaper-black print:border-4">
+        {/* HEADER ESTILO PERIÓDICO */}
+        <div className="border-b-4 border-newspaper-black p-8 md:p-12 bg-white">
+          <div className="text-center">
+            {/* Masthead */}
+            <div className="mb-6">
+              <div className="flex items-center justify-center gap-4 mb-3">
+                <div className="flex-1 h-0.5 bg-newspaper-black"></div>
+                <div className="newspaper-page-number text-xs">PASE OFICIAL</div>
+                <div className="flex-1 h-0.5 bg-newspaper-black"></div>
               </div>
-              <button
-                onClick={handleAcceptInvitation}
-                className="bg-gray-900 text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition font-medium print:hidden"
-              >
-                Confirmar Asistencia
-              </button>
+              <h1 className="font-headline text-5xl md:text-6xl font-bold text-newspaper-black mb-2 leading-none">
+                THE WEDDING TIMES
+              </h1>
+              <div className="newspaper-divider-double my-3"></div>
+              <p className="newspaper-meta text-sm">
+                {eventConfig.date.full.toUpperCase()}
+              </p>
             </div>
-          )}
-          {isConfirmed && (
-            <div className="flex items-center justify-center gap-3 text-green-700">
-              <CheckCircle className="w-6 h-6" />
-              <span className="font-semibold">Asistencia Confirmada</span>
-            </div>
-          )}
-          {isCheckedIn && (
-            <div className="flex items-center justify-center gap-3 text-blue-700">
-              <CheckCircle className="w-6 h-6" />
-              <span className="font-semibold">Ingreso Registrado</span>
-            </div>
-          )}
-        </div>
 
-        {/* Información del invitado */}
-        <div className="p-8 md:p-12">
-          <div className="max-w-3xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
-              {/* QR Code */}
-              <div className="flex flex-col items-center justify-center p-6 border-2 border-gray-300">
-                <QRCodeSVG
-                  value={qrUrl}
-                  size={200}
-                  level="H"
-                  includeMargin={true}
-                  className="mb-4"
-                />
-                <p className="text-xs text-center text-gray-500 font-mono">
-                  {reservation.code}
+            {/* Titular Principal */}
+            <div className="bg-newspaper-gray-900 text-white p-6 my-6">
+              <h2 className="font-headline text-3xl md:text-4xl font-bold leading-tight">
+                {eventConfig.bride.name} & {eventConfig.groom.name}
+              </h2>
+              <p className="font-headline text-lg mt-2 opacity-90">
+                SE CASAN EN {eventConfig.date.month}
+              </p>
+            </div>
+
+            {/* Badge de Estado */}
+            {isPending && (
+              <div className="inline-block bg-newspaper-gray-200 border-2 border-newspaper-black px-6 py-2">
+                <p className="font-headline text-sm uppercase tracking-widest text-newspaper-black">
+                  ⚠ Confirmación Pendiente
                 </p>
-              </div>
-
-              {/* Detalles del invitado */}
-              <div className="space-y-4">
-                <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Invitado Principal</p>
-                  <p className="text-2xl font-serif font-bold text-gray-900">{reservation.guestName}</p>
-                </div>
-
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Users className="w-5 h-5" />
-                  <span className="font-medium">{reservation.numberOfGuests} {reservation.numberOfGuests === 1 ? 'Persona' : 'Personas'}</span>
-                </div>
-
-                {reservation.table && (
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Mesa Asignada</p>
-                    <p className="text-xl font-semibold text-gray-900">{reservation.table}</p>
-                  </div>
-                )}
-
-                {reservation.group && (
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Grupo</p>
-                    <p className="text-gray-700">{reservation.group}</p>
-                  </div>
-                )}
-
-                {/* Botón para agregar acompañantes si no existen */}
-                {isConfirmed && reservation.numberOfGuests > 1 && (!reservation.accompanistNames || reservation.accompanistNames.length === 0) && (
-                  <button
-                    onClick={() => setShowAccompanistModal(true)}
-                    className="w-full bg-gray-100 text-gray-900 px-4 py-3 rounded-lg hover:bg-gray-200 transition border border-gray-300 print:hidden"
-                  >
-                    Agregar Nombres de Acompañantes
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Acompañantes */}
-            {reservation.accompanistNames && reservation.accompanistNames.length > 0 && (
-              <div className="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
-                <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <Users className="w-5 h-5" />
-                  Acompañantes
-                </h3>
-                <ul className="grid md:grid-cols-2 gap-3">
-                  {reservation.accompanistNames.map((name, index) => (
-                    <li key={index} className="flex items-center gap-2">
-                      <span className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs font-semibold">
-                        {index + 1}
-                      </span>
-                      <span className="text-gray-700">{name}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
             )}
+            {isConfirmed && (
+              <div className="inline-block bg-newspaper-black text-white px-6 py-2">
+                <p className="font-headline text-sm uppercase tracking-widest flex items-center gap-2 justify-center">
+                  <Check className="w-4 h-4" />
+                  Asistencia Confirmada
+                </p>
+              </div>
+            )}
+            {isCheckedIn && (
+              <div className="inline-block bg-newspaper-gray-700 text-white px-6 py-2">
+                <p className="font-headline text-sm uppercase tracking-widest">
+                  ✓ Ingreso Registrado
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
 
-            {/* Detalles del evento */}
-            <div className="space-y-6 border-t-2 border-gray-200 pt-8">
-              <h3 className="font-serif text-2xl font-bold text-gray-900 text-center mb-6">
-                Detalles del Evento
+        {/* CONTENIDO PRINCIPAL - ESTILO COLUMNAS DE PERIÓDICO */}
+        <div className="p-8 md:p-12">
+          <div className="grid md:grid-cols-12 gap-8">
+            {/* COLUMNA IZQUIERDA - QR Y CÓDIGO */}
+            <div className="md:col-span-4">
+              <div className="border-4 border-newspaper-black p-6 bg-newspaper-gray-50 h-full">
+                <p className="font-headline text-xs uppercase tracking-widest text-center mb-4 text-newspaper-gray-600">
+                  Código de Acceso
+                </p>
+                <div className="bg-white p-4 border-2 border-newspaper-gray-300 mb-4">
+                  <QRCodeSVG
+                    value={qrUrl}
+                    size={200}
+                    level="H"
+                    includeMargin={true}
+                    className="w-full h-auto"
+                  />
+                </div>
+                <p className="font-mono text-center text-xl font-bold text-newspaper-black mb-2">
+                  {reservation.code}
+                </p>
+                <div className="newspaper-divider-thin my-3"></div>
+                <p className="newspaper-body text-xs text-center text-newspaper-gray-700 leading-relaxed">
+                  Presenta este código QR en la entrada del evento
+                </p>
+              </div>
+            </div>
+
+            {/* COLUMNA DERECHA - INFORMACIÓN DEL INVITADO */}
+            <div className="md:col-span-8 space-y-6">
+              {/* Invitado Principal */}
+              <div className="border-l-4 border-newspaper-black pl-6">
+                <p className="newspaper-page-number text-xs mb-2">INVITADO PRINCIPAL</p>
+                <h3 className="font-headline text-3xl md:text-4xl font-bold text-newspaper-black">
+                  {reservation.guestName}
+                </h3>
+              </div>
+
+              {/* Estadísticas de Pases */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-newspaper-gray-100 border-2 border-newspaper-black p-4 text-center">
+                  <p className="font-headline text-3xl font-bold text-newspaper-black">
+                    {reservation.numberOfGuests}
+                  </p>
+                  <p className="newspaper-page-number text-xs mt-1">
+                    {reservation.numberOfGuests === 1 ? 'Pase Otorgado' : 'Pases Otorgados'}
+                  </p>
+                </div>
+                <div className="bg-newspaper-black text-white p-4 text-center">
+                  <p className="font-headline text-3xl font-bold">
+                    {confirmedCount}
+                  </p>
+                  <p className="font-headline text-xs uppercase tracking-wider mt-1">
+                    {confirmedCount === 1 ? 'Confirmado' : 'Confirmados'}
+                  </p>
+                </div>
+              </div>
+
+              {/* Acompañantes */}
+              {reservation.numberOfGuests > 1 && (
+                <div className="border-2 border-newspaper-gray-300 p-6 bg-white">
+                  <h4 className="font-headline text-lg font-bold text-newspaper-black mb-4 flex items-center gap-2">
+                    <Users className="w-5 h-5" />
+                    ACOMPAÑANTES
+                  </h4>
+
+                  {reservation.accompanists && reservation.accompanists.length > 0 ? (
+                    <ul className="space-y-3">
+                      {reservation.accompanists.map((acc, index) => (
+                        <li key={index} className="flex items-center gap-3 border-b border-newspaper-gray-200 pb-2">
+                          <span className={`
+                            w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
+                            ${acc.willAttend ? 'bg-newspaper-black text-white' : 'bg-newspaper-gray-300 text-newspaper-gray-600'}
+                          `}>
+                            {acc.willAttend ? '✓' : '✗'}
+                          </span>
+                          <span className={`newspaper-body flex-1 ${acc.willAttend ? 'text-newspaper-black' : 'text-newspaper-gray-500 line-through'}`}>
+                            {acc.name || `Acompañante ${index + 1}`}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="newspaper-body text-newspaper-gray-600 italic text-sm">
+                      {reservation.numberOfGuests - 1} {reservation.numberOfGuests - 1 === 1 ? 'acompañante disponible' : 'acompañantes disponibles'}.
+                      Presiona "Confirmar Asistencia" para agregar nombres.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Información Adicional */}
+              {(reservation.table || reservation.group) && (
+                <div className="grid grid-cols-2 gap-4">
+                  {reservation.table && (
+                    <div className="border-2 border-newspaper-black p-4">
+                      <p className="newspaper-page-number text-xs mb-1">MESA ASIGNADA</p>
+                      <p className="font-headline text-2xl font-bold text-newspaper-black">
+                        {reservation.table}
+                      </p>
+                    </div>
+                  )}
+                  {reservation.group && (
+                    <div className="border-2 border-newspaper-gray-400 p-4">
+                      <p className="newspaper-page-number text-xs mb-1">GRUPO</p>
+                      <p className="newspaper-body text-newspaper-black">
+                        {reservation.group}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* DETALLES DEL EVENTO - ESTILO ANUNCIO DE PERIÓDICO */}
+          <div className="mt-10 border-t-4 border-newspaper-black pt-8">
+            <div className="text-center mb-8">
+              <h3 className="font-headline text-2xl md:text-3xl font-bold text-newspaper-black mb-2">
+                DETALLES DEL EVENTO
               </h3>
+              <div className="newspaper-divider-thick"></div>
+            </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Ceremonia */}
-                <div className="p-4 border border-gray-300">
-                  <div className="flex items-start gap-3 mb-2">
-                    <Calendar className="w-5 h-5 text-gray-600 mt-1" />
-                    <div>
-                      <p className="font-semibold text-gray-900">Ceremonia Religiosa</p>
-                      <p className="text-sm text-gray-600">{eventConfig.ceremony.time}</p>
-                    </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Ceremonia */}
+              <div className="border-4 border-newspaper-black p-6 bg-white">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-newspaper-black text-white flex items-center justify-center">
+                    <Calendar className="w-6 h-6" />
                   </div>
-                  <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-gray-600 mt-1" />
-                    <div>
-                      <p className="text-gray-700">{eventConfig.ceremony.name}</p>
-                      <p className="text-sm text-gray-600">{eventConfig.ceremony.address}</p>
-                    </div>
+                  <div>
+                    <p className="font-headline text-lg font-bold text-newspaper-black">
+                      CEREMONIA RELIGIOSA
+                    </p>
+                    <p className="newspaper-meta text-sm">{eventConfig.ceremony.time}</p>
                   </div>
                 </div>
-
-                {/* Recepción */}
-                <div className="p-4 border border-gray-300">
-                  <div className="flex items-start gap-3 mb-2">
-                    <Calendar className="w-5 h-5 text-gray-600 mt-1" />
-                    <div>
-                      <p className="font-semibold text-gray-900">Recepción</p>
-                      <p className="text-sm text-gray-600">{eventConfig.reception.time}</p>
-                    </div>
+                <div className="newspaper-divider-thin mb-3"></div>
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-newspaper-gray-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <p className="newspaper-body font-semibold text-newspaper-black">
+                      {eventConfig.ceremony.name}
+                    </p>
+                    <p className="newspaper-body text-sm text-newspaper-gray-700">
+                      {eventConfig.ceremony.address}, {eventConfig.ceremony.city}
+                    </p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 text-gray-600 mt-1" />
-                    <div>
-                      <p className="text-gray-700">{eventConfig.reception.name}</p>
-                      <p className="text-sm text-gray-600">{eventConfig.reception.address}</p>
-                    </div>
+                </div>
+              </div>
+
+              {/* Recepción */}
+              <div className="border-4 border-newspaper-black p-6 bg-newspaper-gray-900 text-white">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-white text-newspaper-black flex items-center justify-center">
+                    <Calendar className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="font-headline text-lg font-bold">
+                      RECEPCIÓN
+                    </p>
+                    <p className="font-headline text-sm opacity-90">{eventConfig.reception.time}</p>
+                  </div>
+                </div>
+                <div className="h-px bg-white/30 mb-3"></div>
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 mt-1 flex-shrink-0 opacity-90" />
+                  <div>
+                    <p className="font-serif font-semibold">
+                      {eventConfig.reception.name}
+                    </p>
+                    <p className="font-serif text-sm opacity-90">
+                      {eventConfig.reception.address}, {eventConfig.reception.city}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -298,69 +399,134 @@ export function InvitationPass() {
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="border-t-2 border-gray-900 p-8 text-center bg-gray-50">
-          <p className="font-serif text-gray-700 italic">
-            Con cariño, Alexei y Estephanie
+        {/* FOOTER ESTILO PERIÓDICO */}
+        <div className="border-t-4 border-newspaper-black p-8 bg-newspaper-gray-50 text-center">
+          <div className="newspaper-divider-thin mb-4"></div>
+          <p className="font-serif text-lg italic text-newspaper-black mb-2">
+            Con cariño,
           </p>
-          <p className="text-xs text-gray-500 mt-2">
-            Por favor presenta este pase digital en la entrada
+          <p className="font-headline text-xl font-bold text-newspaper-black">
+            {eventConfig.groom.name} y {eventConfig.bride.name}
+          </p>
+          <div className="newspaper-divider-thin mt-4 mb-4"></div>
+          <p className="newspaper-page-number text-xs">
+            Por favor presenta este pase digital en la entrada del evento
           </p>
         </div>
       </div>
 
-      {/* Modal para agregar acompañantes */}
-      {showAccompanistModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 print:hidden">
-          <div className="bg-white rounded-xl max-w-2xl w-full p-8">
-            <div className="flex justify-between items-start mb-6">
+      {/* MODAL DE CONFIRMACIÓN */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 print:hidden overflow-y-auto">
+          <div className="bg-white border-4 border-newspaper-black max-w-3xl w-full my-8">
+            {/* Header */}
+            <div className="bg-newspaper-black text-white p-6 flex justify-between items-center">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                  Nombres de Acompañantes
+                <h3 className="font-headline text-2xl font-bold mb-1">
+                  CONFIRMAR ASISTENCIA
                 </h3>
-                <p className="text-gray-600">
-                  Por favor completa los nombres de las personas que te acompañarán
+                <p className="font-headline text-sm opacity-90 uppercase tracking-wider">
+                  {reservation.guestName}
                 </p>
               </div>
               <button
-                onClick={() => setShowAccompanistModal(false)}
-                className="p-2 hover:bg-gray-100 rounded-lg"
+                onClick={() => setShowConfirmModal(false)}
+                className="p-2 hover:bg-white/20 transition"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4 mb-6">
-              {accompanistNames.map((name, index) => (
-                <div key={index}>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Acompañante {index + 1}
-                  </label>
+            {/* Contenido */}
+            <div className="p-6 md:p-8 max-h-[60vh] overflow-y-auto">
+              <div className="mb-6">
+                <p className="newspaper-body text-newspaper-gray-700 leading-relaxed mb-4">
+                  Por favor confirma quién asistirá al evento. Puedes marcar individualmente cada invitado.
+                </p>
+              </div>
+
+              {/* Invitado Principal */}
+              <div className="border-2 border-newspaper-black p-4 mb-4">
+                <label className="flex items-center gap-3 cursor-pointer">
                   <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => {
-                      const newNames = [...accompanistNames];
-                      newNames[index] = e.target.value;
-                      setAccompanistNames(newNames);
-                    }}
-                    placeholder="Nombre completo"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    type="checkbox"
+                    checked={mainGuestAttending}
+                    onChange={(e) => setMainGuestAttending(e.target.checked)}
+                    className="w-6 h-6 accent-newspaper-black"
                   />
+                  <div>
+                    <p className="font-headline font-bold text-lg text-newspaper-black">
+                      {reservation.guestName}
+                    </p>
+                    <p className="newspaper-page-number text-xs">Invitado Principal</p>
+                  </div>
+                </label>
+              </div>
+
+              {/* Acompañantes */}
+              {accompanists.length > 0 && (
+                <div>
+                  <h4 className="font-headline font-bold text-lg text-newspaper-black mb-4 flex items-center gap-2">
+                    <Users className="w-5 h-5" />
+                    ACOMPAÑANTES ({accompanists.length})
+                  </h4>
+                  <div className="space-y-3">
+                    {accompanists.map((acc, index) => (
+                      <div key={index} className="border border-newspaper-gray-300 p-4 bg-newspaper-gray-50">
+                        <label className="flex items-start gap-3 cursor-pointer mb-3">
+                          <input
+                            type="checkbox"
+                            checked={acc.willAttend}
+                            onChange={(e) => {
+                              const updated = [...accompanists];
+                              updated[index].willAttend = e.target.checked;
+                              setAccompanists(updated);
+                            }}
+                            className="w-5 h-5 mt-1 accent-newspaper-black"
+                          />
+                          <span className="newspaper-body font-semibold text-newspaper-black">
+                            Acompañante {index + 1}
+                          </span>
+                        </label>
+                        <input
+                          type="text"
+                          value={acc.name}
+                          onChange={(e) => {
+                            const updated = [...accompanists];
+                            updated[index].name = e.target.value;
+                            setAccompanists(updated);
+                          }}
+                          placeholder="Nombre completo"
+                          className="w-full px-4 py-2 border-2 border-newspaper-gray-300 newspaper-body focus:border-newspaper-black focus:outline-none"
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              )}
+
+              {/* Resumen */}
+              <div className="mt-6 bg-newspaper-black text-white p-4 text-center">
+                <p className="font-headline text-sm uppercase tracking-wider mb-1">
+                  Total Confirmados
+                </p>
+                <p className="font-headline text-4xl font-bold">
+                  {getConfirmedCount()} / {reservation.numberOfGuests}
+                </p>
+              </div>
             </div>
 
-            <div className="flex gap-3">
+            {/* Footer */}
+            <div className="border-t-2 border-newspaper-gray-300 p-6 flex gap-3">
               <button
-                onClick={handleSaveAccompanists}
-                className="flex-1 bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition font-medium"
+                onClick={handleSaveConfirmation}
+                className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition"
               >
-                Guardar Nombres
+                Guardar Confirmación
               </button>
               <button
-                onClick={() => setShowAccompanistModal(false)}
-                className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+                onClick={() => setShowConfirmModal(false)}
+                className="px-6 py-4 border-2 border-newspaper-black font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-100 transition"
               >
                 Cancelar
               </button>
@@ -369,27 +535,119 @@ export function InvitationPass() {
         </div>
       )}
 
-      {/* Estilos de impresión */}
+      {/* Estilos de impresión mejorados */}
       <style>{`
         @media print {
-          body {
-            print-color-adjust: exact;
-            -webkit-print-color-adjust: exact;
+          /* Preservar colores y estilos */
+          * {
+            print-color-adjust: exact !important;
+            -webkit-print-color-adjust: exact !important;
+            color-adjust: exact !important;
           }
+
+          /* Configuración de página */
+          @page {
+            size: A4 portrait;
+            margin: 0;
+          }
+
+          body {
+            margin: 0;
+            padding: 0;
+          }
+
+          /* Ocultar elementos no imprimibles */
           .print\\:hidden {
             display: none !important;
           }
+
+          /* Ajustar contenedor principal */
           .print\\:bg-white {
             background-color: white !important;
           }
+
           .print\\:p-0 {
             padding: 0 !important;
           }
-          .print\\:shadow-none {
-            box-shadow: none !important;
+
+          /* Reducir border del ticket para impresión */
+          .print\\:border-4 {
+            border-width: 4px !important;
           }
-          .print\\:bg-gray-50 {
-            background-color: #f9fafb !important;
+
+          /* Asegurar que el ticket ocupe toda la página */
+          .max-w-5xl {
+            max-width: 100% !important;
+            margin: 0 !important;
+          }
+
+          /* Ajustar padding interno para impresión */
+          section {
+            padding: 1cm !important;
+          }
+
+          /* Evitar saltos de página dentro de secciones importantes */
+          .border-4.border-newspaper-black {
+            page-break-inside: avoid;
+          }
+
+          /* Asegurar que el QR sea del tamaño correcto */
+          svg {
+            width: 180px !important;
+            height: 180px !important;
+          }
+
+          /* Mejorar contraste para impresión */
+          .bg-newspaper-black {
+            background-color: #000 !important;
+          }
+
+          .border-newspaper-black {
+            border-color: #000 !important;
+          }
+
+          .text-newspaper-black {
+            color: #000 !important;
+          }
+
+          /* Asegurar que backgrounds se impriman */
+          .bg-newspaper-gray-900,
+          .bg-newspaper-gray-50 {
+            print-color-adjust: exact !important;
+            -webkit-print-color-adjust: exact !important;
+          }
+
+          /* Reducir espacios para que todo quepa en una página */
+          .py-8, .py-12, .py-16 {
+            padding-top: 0.5cm !important;
+            padding-bottom: 0.5cm !important;
+          }
+
+          .p-8, .p-12 {
+            padding: 0.5cm !important;
+          }
+
+          .mb-8, .mb-12, .mb-16 {
+            margin-bottom: 0.5cm !important;
+          }
+
+          .mt-10, .mt-12, .mt-20 {
+            margin-top: 0.5cm !important;
+          }
+
+          /* Ajustar tamaños de fuente para impresión */
+          .text-5xl, .text-6xl {
+            font-size: 2.5rem !important;
+          }
+
+          .text-3xl, .text-4xl {
+            font-size: 1.75rem !important;
+          }
+
+          /* Asegurar legibilidad */
+          body {
+            font-size: 12pt !important;
+            line-height: 1.4 !important;
           }
         }
       `}</style>

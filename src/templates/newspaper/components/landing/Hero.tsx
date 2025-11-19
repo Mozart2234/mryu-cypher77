@@ -15,8 +15,13 @@ export function Hero() {
   const { bride, groom, newspaper, date, articles } = eventConfig;
 
   return (
-    <section className="newspaper-page py-8 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section className="newspaper-page py-8 px-4 md:px-8 relative">
+      {/* Elemento de fondo decorativo */}
+      <div className="absolute inset-0 pointer-events-none opacity-5">
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==')] opacity-20"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Cabecera del periódico */}
         <div className="text-center mb-6 pb-4 border-b-2 border-newspaper-black">
           <div className="newspaper-meta mb-2">
@@ -29,7 +34,7 @@ export function Hero() {
 
         {/* Titular principal */}
         <div className="text-center mb-8">
-          <h1 className="newspaper-headline mb-4">
+          <h1 className="newspaper-headline mb-4 animate-fade-in">
             {groom.name} y {bride.name}
           </h1>
           <h2 className="newspaper-subheadline">
@@ -39,20 +44,26 @@ export function Hero() {
 
         <div className="newspaper-divider-double"></div>
 
-        {/* Layout tipo periódico con foto destacada - ocupa todo el espacio */}
+        {/* Layout tipo periódico con foto destacada */}
         <div className="grid md:grid-cols-12 gap-6 my-8">
           {/* Foto destacada de portada - 5 columnas */}
           <div className="md:col-span-5">
-            <div className="border-2 border-newspaper-black h-full group">
+            <div className="border-2 border-newspaper-black h-full group overflow-hidden">
               <div className="relative bg-newspaper-gray-200 aspect-[3/4] md:aspect-[4/5] overflow-hidden">
-                {/* Foto de ejemplo - reemplazar con foto real */}
+                {/* Foto de portada */}
                 <img
-                  src="https://placehold.co/800x1000/d4d4d4/404040?text=Alexei+y+Estephanie"
+                  src="/photos/_Z639120.jpg"
                   alt="Alexei y Estephanie"
-                  className="w-full h-full object-cover grayscale transition-all duration-500"
+                  loading="eager"
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                 />
-                {/* Overlay sutil */}
+                {/* Overlay sutil con hover */}
                 <div className="absolute inset-0 bg-gradient-to-t from-newspaper-black/40 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-500"></div>
+
+                {/* Badge decorativo */}
+                <div className="absolute top-4 right-4 bg-newspaper-black text-white px-3 py-1 text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  Exclusiva
+                </div>
               </div>
               <div className="p-4 bg-white border-t-2 border-newspaper-black">
                 <p className="font-serif text-sm italic text-newspaper-black leading-relaxed">
@@ -85,7 +96,7 @@ export function Hero() {
             <WeatherBox />
 
             {/* Artículo secundario */}
-            <div className="newspaper-box">
+            <div className="newspaper-box hover:shadow-lg transition-shadow duration-300">
               <h4 className="font-serif font-bold text-sm uppercase mb-2 text-newspaper-black">
                 {articles[0].title}
               </h4>
@@ -101,7 +112,7 @@ export function Hero() {
 
         {/* Artículos secundarios */}
         <div className="grid md:grid-cols-2 gap-6 my-6">
-          <div className="newspaper-article">
+          <div className="newspaper-article hover:bg-newspaper-gray-100 transition-colors duration-300 p-4 rounded">
             <h4 className="newspaper-title text-lg mb-2">
               {articles[2].title}
             </h4>
@@ -111,7 +122,7 @@ export function Hero() {
             <p className="newspaper-page-number mt-2">{articles[2].page}</p>
           </div>
 
-          <div className="newspaper-article">
+          <div className="newspaper-article hover:bg-newspaper-gray-100 transition-colors duration-300 p-4 rounded">
             <h4 className="newspaper-title text-lg mb-2">
               {articles[3].title}
             </h4>

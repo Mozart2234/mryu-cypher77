@@ -8,7 +8,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
-import { ThemeSelector } from '@/components/ThemeSelector';
 
 // Páginas
 import { Landing } from '@/pages/Landing';
@@ -23,9 +22,6 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <BrowserRouter>
-          {/* Selector de tema flotante (solo en páginas públicas) */}
-          <ThemeSelector />
-
           <Routes>
           {/* Ruta pública - Landing */}
           <Route path="/" element={<Landing />} />

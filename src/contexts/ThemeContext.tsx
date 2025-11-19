@@ -1,10 +1,10 @@
 /**
  * CONTEXTO DE TEMA
  *
- * Maneja el tema activo de la aplicación
+ * Solo tema newspaper disponible (simplificado)
  */
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useEffect, ReactNode } from 'react';
 import type { ThemeType, ThemeConfig } from '@/types/theme';
 import { themes } from '@/types/theme';
 
@@ -18,35 +18,13 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Leer tema de localStorage o URL, default a 'newspaper'
-  const getInitialTheme = (): ThemeType => {
-    // Primero intentar leer de URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const themeFromUrl = urlParams.get('theme') as ThemeType;
-    if (themeFromUrl && themes[themeFromUrl]) {
-      return themeFromUrl;
-    }
+  // Solo newspaper está disponible
+  const currentTheme: ThemeType = 'newspaper';
+  const themeConfig = themes.newspaper;
 
-    // Luego de localStorage
-    const stored = localStorage.getItem('wedding-theme') as ThemeType;
-    if (stored && themes[stored]) {
-      return stored;
-    }
-
-    return 'newspaper';
-  };
-
-  const [currentTheme, setCurrentTheme] = useState<ThemeType>(getInitialTheme);
-  const themeConfig = themes[currentTheme];
-
-  const setTheme = (theme: ThemeType) => {
-    setCurrentTheme(theme);
-    localStorage.setItem('wedding-theme', theme);
-
-    // Actualizar URL sin recargar página
-    const url = new URL(window.location.href);
-    url.searchParams.set('theme', theme);
-    window.history.replaceState({}, '', url.toString());
+  const setTheme = (_theme: ThemeType) => {
+    // No-op: solo newspaper está disponible
+    console.log('Solo el tema newspaper está disponible');
   };
 
   // Aplicar variables CSS del tema al documento
@@ -63,10 +41,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty('--color-border', themeConfig.colors.border);
 
     // Agregar clase de tema al body
-    document.body.className = `theme-${currentTheme}`;
-  }, [currentTheme, themeConfig]);
+    document.body.className = 'theme-newspaper';
+  }, [themeConfig]);
 
-  const availableThemes = Object.values(themes);
+  const availableThemes = [themes.newspaper];
 
   return (
     <ThemeContext.Provider value={{ currentTheme, themeConfig, setTheme, availableThemes }}>

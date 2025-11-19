@@ -75,47 +75,116 @@ export const eventConfig = {
     }
   ],
 
-  // Historia de la pareja (para la sección tipo artículo)
+  // Historia de la pareja - Timeline detallado por meses
   loveStory: [
     {
+      date: "Marzo 2016",
+      month: "MAR",
       year: "2016",
-      title: "El Primer Encuentro",
-      text: "Alexei vio por primera vez a Estephanie y quedó completamente flechado. Sin embargo, pasarían seis años antes de que se atreviera a dar el primer paso."
+      title: "Amor a Primera Vista",
+      text: "En un día cualquiera de marzo, Alexei vio a Estephanie por primera vez. Su corazón supo de inmediato que había algo especial en ella, pero la timidez lo detuvo. Ese momento quedaría grabado para siempre.",
+      icon: "👀",
+      color: "rose"
     },
     {
+      date: "Junio 2022",
+      month: "JUN",
       year: "2022",
-      title: "Un Simple 'Hola'",
-      text: "Un mensaje por Facebook se convirtió en el inicio de largas conversaciones llenas de risas, fe y complicidad. La conexión fue instantánea y profunda."
+      title: "El Mensaje Que Lo Cambió Todo",
+      text: "Después de 6 años, Alexei finalmente reunió el coraje. Un simple 'Hola' en Facebook abrió la puerta a conversaciones interminables. Hablaban de todo: sueños, fe, familia. La química era innegable.",
+      icon: "💬",
+      color: "blue"
     },
     {
-      year: "2023",
-      title: "De Amigos a Algo Más",
-      text: "Empezaron a salir y compartir momentos especiales. Cada charla, cada risa y cada sueño compartido los acercaba más."
-    },
-    {
-      year: "2023",
+      date: "Septiembre 2022",
+      month: "SEP",
+      year: "2022",
       title: "La Primera Cita",
-      text: "Una cena sencilla y bonita donde todo fluyó de forma natural, como si se conocieran de toda la vida. Fue el inicio de algo hermoso."
+      text: "Una cena en un lugar acogedor. Risas nerviosas que se convirtieron en conversaciones profundas. El tiempo voló. Ambos supieron que esto era diferente, especial, real. El inicio de algo hermoso.",
+      icon: "🍽️",
+      color: "amber"
     },
     {
+      date: "Diciembre 2022",
+      month: "DIC",
+      year: "2022",
+      title: "Navidad Juntos",
+      text: "Su primera Navidad como pareja. Compartieron tradiciones, conocieron a las familias, y sintieron que pertenecían uno con el otro. El amor crecía con cada momento compartido.",
+      icon: "🎄",
+      color: "green"
+    },
+    {
+      date: "Marzo 2023",
+      month: "MAR",
+      year: "2023",
+      title: "Un Año de Conocerse",
+      text: "Celebraron su primer aniversario desde ese mensaje inicial. Ya no eran dos personas conociéndose, sino dos almas que se habían encontrado. Cada día juntos era un regalo.",
+      icon: "💝",
+      color: "pink"
+    },
+    {
+      date: "Julio 2023",
+      month: "JUL",
+      year: "2023",
+      title: "Primera Aventura: Cusco",
+      text: "Exploraron Machu Picchu de la mano. Entre ruinas antiguas y montañas majestuosas, descubrieron que los mejores viajes no son a lugares, sino junto a la persona correcta.",
+      icon: "🏔️",
+      color: "indigo"
+    },
+    {
+      date: "Febrero 2024",
+      month: "FEB",
+      year: "2024",
+      title: "Un Amor Más Profundo",
+      text: "Superaron su primera prueba como pareja. Las dificultades no los separaron, los unieron más. Aprendieron que el amor verdadero no es perfecto, es comprometido.",
+      icon: "💪",
+      color: "purple"
+    },
+    {
+      date: "Mayo 2024",
+      month: "MAY",
+      year: "2024",
+      title: "¡Oficialmente Novios!",
+      text: "Después de compartir tantos momentos especiales, formalizaron su relación. Con Dios en el centro y la familia como testigo, se comprometieron a caminar juntos hacia el futuro.",
+      icon: "💑",
+      color: "red"
+    },
+    {
+      date: "Agosto 2024",
+      month: "AGO",
+      year: "2024",
+      title: "La Gran Pregunta",
+      text: "Bajo un cielo estrellado, con el corazón latiendo fuerte, Alexei se arrodilló. 'Estephanie, ¿quieres casarte conmigo?' Las lágrimas de alegría fueron la respuesta más hermosa.",
+      icon: "💍",
+      color: "yellow"
+    },
+    {
+      date: "Noviembre 2024",
+      month: "NOV",
+      year: "2024",
+      title: "Preparando el Futuro",
+      text: "Eligieron juntos cada detalle de su boda. No solo planeaban un evento, construían el inicio de su vida en común. Cada decisión reflejaba quiénes son: unidos, dedicados, llenos de fe.",
+      icon: "📋",
+      color: "teal"
+    },
+    {
+      date: "Enero 2025",
+      month: "ENE",
       year: "2025",
-      title: "¡Novios!",
-      text: "Oficializaron su relación como novios, dando un paso importante hacia su futuro juntos con Dios en el centro."
+      title: "Casi Ahí...",
+      text: "Los últimos preparativos. La emoción es palpable. Pronto serán esposos. Miran atrás y ven un camino de 9 años que los preparó para este momento. Todo valió la pena.",
+      icon: "⏰",
+      color: "orange"
     },
     {
-      year: "2025-2026",
-      title: "Viajeros del Amor",
-      text: "Descubriendo juntos nuevos lugares, culturas y sabores. Cada viaje fortalece su vínculo y crea memorias inolvidables."
-    },
-    {
+      date: "11 de Enero 2026",
+      month: "ENE",
       year: "2026",
-      title: "'Propósito'",
-      text: "La palabra que define su amor. Creen firmemente que su encuentro no fue casualidad, sino parte de un hermoso plan divino."
-    },
-    {
-      year: "2026",
-      title: "El Día Más Esperado",
-      text: "El 11 de enero celebran su amor eterno ante Dios. Lo que más valoran: orar juntos y mantener su fe como el centro de su relación."
+      title: "El Día Más Feliz",
+      text: "Hoy se casan. Hoy dicen 'Sí, acepto' ante Dios, familia y amigos. Hoy comienza para siempre. De una mirada en 2016 a este altar en 2026. Una historia de amor, fe y propósito.",
+      icon: "💒",
+      color: "rose",
+      featured: true
     }
   ],
 
