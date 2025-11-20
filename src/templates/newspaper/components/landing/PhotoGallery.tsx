@@ -78,9 +78,8 @@ export function PhotoGallery() {
   return (
     <section
       ref={elementRef}
-      className={`newspaper-page py-12 px-4 md:px-8 bg-white transition-all duration-700 ease-out ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}
+      className={`newspaper-page py-12 px-4 md:px-8 bg-white transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}
       aria-labelledby="gallery-title"
     >
       <div className="max-w-7xl mx-auto">
@@ -252,9 +251,6 @@ export function PhotoGallery() {
               Nota del Editor: Las fotografías mostradas capturan momentos significativos
               de la historia de Alexei y Estephanie. Cada imagen representa un capítulo
               de su hermoso viaje hacia el altar.
-            </p>
-            <p className="text-xs text-newspaper-gray-500 mt-2">
-              Fotos ilustrativas - Reemplaza con tus fotos reales editando este archivo
             </p>
           </div>
         </div>

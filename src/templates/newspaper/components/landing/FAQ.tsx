@@ -24,15 +24,11 @@ export function FAQ() {
     },
     {
       question: '¿Hay estacionamiento disponible?',
-      answer: 'Sí, tanto la iglesia como el salón de recepción cuentan con estacionamiento gratuito para los invitados. Habrá personal de apoyo para guiar a los asistentes.'
+      answer: 'En la recepción contamos con estacionamiento privado para nuestros invitados. Pero en la iglesia no hay estacionamiento asignado, por lo que te recomendamos llegar con tiempo para encontrar lugar en las calles cercanas o usar transporte alternativo.'
     },
     {
       question: '¿A qué hora debo llegar?',
       answer: 'La ceremonia religiosa comienza a las 10:00 AM en punto. Te recomendamos llegar entre 15-20 minutos antes para tomar asiento cómodamente. La recepción iniciará inmediatamente después de la ceremonia.'
-    },
-    {
-      question: '¿Puedo llevar a mis hijos?',
-      answer: 'Amamos a los niños, pero hemos decidido que nuestra boda sea un evento solo para adultos para que todos puedan relajarse y disfrutar. Agradecemos tu comprensión.'
     },
     {
       question: '¿Cómo confirmo mi asistencia?',
@@ -41,10 +37,6 @@ export function FAQ() {
     {
       question: '¿Hay lista de regalos?',
       answer: 'Tu presencia es nuestro mejor regalo. Sin embargo, si deseas obsequiarnos algo, agradecemos contribuciones en efectivo que nos ayudarán a comenzar nuestra nueva vida juntos. Habrá un buzón en la recepción.'
-    },
-    {
-      question: '¿Habrá servicio de transporte?',
-      answer: 'La iglesia y el salón de recepción están muy cerca (5 minutos en auto). No contamos con servicio de transporte, pero puedes usar servicios como Uber o taxi si lo necesitas.'
     },
     {
       question: '¿Qué pasa si no puedo asistir?',
@@ -60,9 +52,8 @@ export function FAQ() {
     <section
       ref={elementRef}
       id="faq"
-      className={`newspaper-page py-12 px-4 md:px-8 bg-newspaper-gray-50 transition-all duration-700 ease-out ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}
+      className={`newspaper-page py-12 px-4 md:px-8 bg-newspaper-gray-50 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}
       aria-labelledby="faq-title"
     >
       <div className="max-w-4xl mx-auto">
@@ -120,9 +111,8 @@ export function FAQ() {
 
                 {/* Icono chevron */}
                 <ChevronDown
-                  className={`w-6 h-6 text-newspaper-black flex-shrink-0 transition-transform duration-300 ${
-                    openIndex === index ? 'rotate-180' : ''
-                  }`}
+                  className={`w-6 h-6 text-newspaper-black flex-shrink-0 transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''
+                    }`}
                   aria-hidden="true"
                 />
               </button>
@@ -130,9 +120,8 @@ export function FAQ() {
               {/* Respuesta - Collapsible */}
               <div
                 id={`faq-answer-${index}`}
-                className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? 'max-h-96' : 'max-h-0'
-                }`}
+                className={`overflow-hidden transition-all duration-300 ${openIndex === index ? 'max-h-96' : 'max-h-0'
+                  }`}
                 role="region"
                 aria-labelledby={`faq-question-${index}`}
               >

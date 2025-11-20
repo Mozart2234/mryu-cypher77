@@ -15,9 +15,8 @@ export function DressCode() {
   return (
     <section
       ref={elementRef}
-      className={`newspaper-page py-12 px-4 md:px-8 bg-white transition-all duration-700 ease-out ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}
+      className={`newspaper-page py-12 px-4 md:px-8 bg-white transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}
     >
       <div className="max-w-7xl mx-auto">
         {/* Título de sección estilo titular de periódico */}
@@ -44,7 +43,7 @@ export function DressCode() {
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
                 <Sparkles className="w-8 h-8 text-newspaper-black" />
               </div>
-              <h3 className="newspaper-subheadline mb-2">
+              <h3 className="newspaper-subheadline mb-2 text-white">
                 {dressCode.women.title}
               </h3>
               <div className="w-24 h-1 bg-white mx-auto"></div>
@@ -61,9 +60,8 @@ export function DressCode() {
                         <span className="font-headline text-2xl font-bold text-newspaper-gray-400 shrink-0 leading-none">
                           {isAvoid ? '✗' : '✓'}
                         </span>
-                        <span className={`newspaper-body ${
-                          isAvoid ? 'text-newspaper-gray-700 italic' : 'text-newspaper-black'
-                        }`}>
+                        <span className={`newspaper-body ${isAvoid ? 'text-newspaper-gray-700 italic' : 'text-newspaper-black'
+                          }`}>
                           {item}
                         </span>
                       </div>
@@ -88,7 +86,7 @@ export function DressCode() {
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shirt className="w-8 h-8 text-newspaper-black" />
               </div>
-              <h3 className="newspaper-subheadline mb-2">
+              <h3 className="newspaper-subheadline mb-2 text-white">
                 {dressCode.men.title}
               </h3>
               <div className="w-24 h-1 bg-white mx-auto"></div>
@@ -105,9 +103,8 @@ export function DressCode() {
                         <span className="font-headline text-2xl font-bold text-newspaper-gray-400 shrink-0 leading-none">
                           {isAvoid ? '✗' : '✓'}
                         </span>
-                        <span className={`newspaper-body ${
-                          isAvoid ? 'text-newspaper-gray-700 italic' : 'text-newspaper-black'
-                        }`}>
+                        <span className={`newspaper-body ${isAvoid ? 'text-newspaper-gray-700 italic' : 'text-newspaper-black'
+                          }`}>
                           {item}
                         </span>
                       </div>
@@ -126,108 +123,72 @@ export function DressCode() {
           </div>
         </div>
 
-        {/* Paleta de colores sugerida */}
-        <div className="max-w-5xl mx-auto mb-8">
-          <div className="bg-newspaper-gray-50 border-2 border-newspaper-black p-6">
-            <h3 className="newspaper-title text-center mb-6">Paleta de Colores Sugerida</h3>
+        {/* Temática de colores */}
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="bg-newspaper-gray-50 border-2 border-newspaper-black p-8">
+            <h3 className="newspaper-title text-center mb-6">Nuestra Temática de Color</h3>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Colores recomendados */}
-              <div>
-                <h4 className="font-serif font-bold text-sm uppercase mb-4 text-center text-newspaper-black">
-                  ✓ Colores Recomendados
-                </h4>
-                <div className="grid grid-cols-4 gap-3">
-                  {/* Azul marino */}
-                  <div className="flex flex-col items-center group">
-                    <div className="w-full aspect-square bg-[#1a2332] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Azul marino</span>
-                  </div>
-                  {/* Gris oscuro */}
-                  <div className="flex flex-col items-center group">
-                    <div className="w-full aspect-square bg-[#4a5568] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Gris oscuro</span>
-                  </div>
-                  {/* Negro */}
-                  <div className="flex flex-col items-center group">
-                    <div className="w-full aspect-square bg-[#1a1a1a] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Negro</span>
-                  </div>
-                  {/* Borgoña */}
-                  <div className="flex flex-col items-center group">
-                    <div className="w-full aspect-square bg-[#722f37] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Borgoña</span>
-                  </div>
-                  {/* Verde bosque */}
-                  <div className="flex flex-col items-center group">
-                    <div className="w-full aspect-square bg-[#2d4a2b] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Verde bosque</span>
-                  </div>
-                  {/* Morado profundo */}
-                  <div className="flex flex-col items-center group">
-                    <div className="w-full aspect-square bg-[#4a148c] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Morado</span>
-                  </div>
-                  {/* Terracota */}
-                  <div className="flex flex-col items-center group">
-                    <div className="w-full aspect-square bg-[#8b4513] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Terracota</span>
-                  </div>
-                  {/* Dorado oscuro */}
-                  <div className="flex flex-col items-center group">
-                    <div className="w-full aspect-square bg-[#b8860b] border-2 border-newspaper-gray-300 rounded-sm hover:scale-110 transition-transform shadow-md"></div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Dorado</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Colores a evitar */}
-              <div>
-                <h4 className="font-serif font-bold text-sm uppercase mb-4 text-center text-newspaper-gray-700">
-                  ✗ Colores a Evitar
-                </h4>
-                <div className="grid grid-cols-4 gap-3">
-                  {/* Blanco */}
-                  <div className="flex flex-col items-center group opacity-60">
-                    <div className="w-full aspect-square bg-white border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl text-red-600 font-bold">✗</span>
-                      </div>
-                    </div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Blanco</span>
-                  </div>
-                  {/* Marfil */}
-                  <div className="flex flex-col items-center group opacity-60">
-                    <div className="w-full aspect-square bg-[#fffff0] border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl text-red-600 font-bold">✗</span>
-                      </div>
-                    </div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Marfil</span>
-                  </div>
-                  {/* Beige */}
-                  <div className="flex flex-col items-center group opacity-60">
-                    <div className="w-full aspect-square bg-[#f5f5dc] border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl text-red-600 font-bold">✗</span>
-                      </div>
-                    </div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Beige</span>
-                  </div>
-                  {/* Crema */}
-                  <div className="flex flex-col items-center group opacity-60">
-                    <div className="w-full aspect-square bg-[#fffdd0] border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl text-red-600 font-bold">✗</span>
-                      </div>
-                    </div>
-                    <span className="text-[10px] mt-2 font-sans text-center text-newspaper-gray-600">Crema</span>
-                  </div>
-                </div>
-                <p className="text-xs text-center mt-4 text-newspaper-gray-600 italic">
-                  Reservados para la novia
+            {/* Descripción de la temática */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center gap-3 mb-4">
+                <div className="w-16 h-16 bg-[#b3d9ff] border-2 border-newspaper-black rounded-full"></div>
+                <p className="newspaper-body text-newspaper-black font-bold text-lg">
+                  Celeste Bebé
                 </p>
               </div>
+              <p className="newspaper-body text-newspaper-gray-700 max-w-2xl mx-auto">
+                Hemos elegido el <strong>celeste bebé</strong> como color principal de nuestra celebración.
+                Siéntete libre de elegir cualquier color elegante para tu vestimenta,
+                excepto los que se mencionan a continuación.
+              </p>
+            </div>
+
+            {/* Colores a evitar */}
+            <div>
+              <h4 className="font-serif font-bold text-sm uppercase mb-6 text-center text-newspaper-gray-700">
+                ✗ Por favor evitar estos colores
+              </h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-xl mx-auto">
+                {/* Blanco */}
+                <div className="flex flex-col items-center group">
+                  <div className="w-full aspect-square bg-white border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-3xl text-red-600 font-bold">✗</span>
+                    </div>
+                  </div>
+                  <span className="text-xs mt-2 font-sans text-center text-newspaper-gray-600 font-semibold">Blanco</span>
+                </div>
+                {/* Marfil */}
+                <div className="flex flex-col items-center group">
+                  <div className="w-full aspect-square bg-[#fffff0] border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-3xl text-red-600 font-bold">✗</span>
+                    </div>
+                  </div>
+                  <span className="text-xs mt-2 font-sans text-center text-newspaper-gray-600 font-semibold">Marfil</span>
+                </div>
+                {/* Beige */}
+                <div className="flex flex-col items-center group">
+                  <div className="w-full aspect-square bg-[#f5f5dc] border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-3xl text-red-600 font-bold">✗</span>
+                    </div>
+                  </div>
+                  <span className="text-xs mt-2 font-sans text-center text-newspaper-gray-600 font-semibold">Beige</span>
+                </div>
+                {/* Crema */}
+                <div className="flex flex-col items-center group">
+                  <div className="w-full aspect-square bg-[#fffdd0] border-2 border-newspaper-gray-400 rounded-sm relative overflow-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-3xl text-red-600 font-bold">✗</span>
+                    </div>
+                  </div>
+                  <span className="text-xs mt-2 font-sans text-center text-newspaper-gray-600 font-semibold">Crema</span>
+                </div>
+              </div>
+              <p className="text-sm text-center mt-6 text-newspaper-gray-700 italic">
+                Estos colores están reservados para la novia
+              </p>
             </div>
           </div>
         </div>
