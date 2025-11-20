@@ -11,7 +11,7 @@ import { Countdown } from './components/landing/Countdown';
 import { EventDetails } from './components/landing/EventDetails';
 import { Advertisement } from './components/landing/Advertisement';
 import { LoveStory } from './components/landing/LoveStory';
-import { PhotoGallery } from './components/landing/PhotoGallery';
+// import { PhotoGallery } from './components/landing/PhotoGallery';
 import { DressCode } from './components/landing/DressCode';
 import { FAQ } from './components/landing/FAQ';
 import { ClassifiedAds } from './components/landing/ClassifiedAds';
