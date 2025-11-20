@@ -17,16 +17,12 @@ export function ClassifiedAds() {
       text: "A nuestras familias por su amor incondicional y apoyo en cada paso de este camino. Sin ustedes, nada de esto sería posible."
     },
     {
-      category: "DEDICATORIA",
-      text: "A Reyna Claudia Coaquira Pari †, que desde el cielo nos acompaña y bendice en este día especial. Siempre en nuestros corazones."
-    },
-    {
       category: "ESPECIAL",
       text: "Gracias a todos nuestros invitados por acompañarnos en el día más importante de nuestras vidas. Su presencia hace esta celebración aún más memorable."
     },
     {
       category: "MENSAJE",
-      text: "Después de 10 años de historia compartida, hoy escribimos el primer capítulo de nuestra vida como esposos. ¡Que viva el amor!"
+      text: "Una mirada en 2016, un reencuentro en 2022, y hoy escribimos el primer capítulo de nuestra vida como esposos. ¡Que viva el amor!"
     },
     {
       category: "PRÓXIMAMENTE",
@@ -79,8 +75,8 @@ export function ClassifiedAds() {
         <div className="mt-8 border-t-2 border-newspaper-black pt-4">
           <div className="grid md:grid-cols-2 gap-6">
             {/* Sobre los clasificados */}
-            <div className="newspaper-box-simple">
-              <h4 className="newspaper-condensed-title text-sm mb-2 text-center">
+            <div className="border-2 border-newspaper-black p-4 bg-white">
+              <h4 className="font-headline text-sm mb-2 text-center uppercase tracking-wider">
                 Sobre Esta Sección
               </h4>
               <p className="font-sans text-xs text-newspaper-gray-700 leading-relaxed">
@@ -91,8 +87,8 @@ export function ClassifiedAds() {
             </div>
 
             {/* Datos curiosos */}
-            <div className="newspaper-box-simple">
-              <h4 className="newspaper-condensed-title text-sm mb-2 text-center">
+            <div className="border-2 border-newspaper-black p-4 bg-white">
+              <h4 className="font-headline text-sm mb-2 text-center uppercase tracking-wider">
                 Dato Curioso
               </h4>
               <p className="font-sans text-xs text-newspaper-gray-700 leading-relaxed">

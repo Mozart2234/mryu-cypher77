@@ -19,6 +19,7 @@ const AdminDashboard = lazy(() => import('@/pages/AdminDashboard').then(m => ({ 
 const Login = lazy(() => import('@/components/admin/Login').then(m => ({ default: m.Login })));
 const CheckIn = lazy(() => import('@/pages/CheckIn').then(m => ({ default: m.CheckIn })));
 const GuestList = lazy(() => import('@/pages/GuestList').then(m => ({ default: m.GuestList })));
+const ContentEditor = lazy(() => import('@/pages/ContentEditor').then(m => ({ default: m.ContentEditor })));
 
 function App() {
   return (
@@ -45,6 +46,9 @@ function App() {
 
             {/* Ruta de check-in (accesible sin autenticación) */}
             <Route path="/check-in" element={<CheckIn />} />
+
+            {/* Editor de contenido (accesible sin autenticación) */}
+            <Route path="/editor" element={<ContentEditor />} />
 
             {/* Login del admin */}
             <Route path="/admin/login" element={<Login />} />

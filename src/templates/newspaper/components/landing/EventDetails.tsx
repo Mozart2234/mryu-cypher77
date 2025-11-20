@@ -32,7 +32,7 @@ export function EventDetails() {
         {/* Bloque de padres y padrinos */}
         <div className="newspaper-box mb-6 md:mb-8">
           <h3 className="font-serif text-lg md:text-xl font-bold text-center mb-4 md:mb-6 text-newspaper-black leading-snug">
-            Con la bendición de Dios y en compañía de nuestros Padres:
+            {messages.eventDetails.parentsTitle}
           </h3>
 
           <div className="grid md:grid-cols-2 gap-4 md:gap-6">
@@ -52,7 +52,7 @@ export function EventDetails() {
           <div className="newspaper-divider my-4 md:my-6"></div>
 
           <h4 className="font-serif text-base md:text-lg font-bold text-center mb-3 md:mb-4 text-newspaper-black">
-            y de nuestros queridos padrinos:
+            {messages.eventDetails.godparentsTitle}
           </h4>
 
           <div className="grid md:grid-cols-2 gap-3 md:gap-4">
@@ -99,19 +99,19 @@ export function EventDetails() {
           {/* Ceremonia */}
           <div className="newspaper-box-simple">
             <h3 className="newspaper-title text-base md:text-xl mb-3 md:mb-4 text-center border-b-2 border-newspaper-black pb-2">
-              Ceremonia Religiosa
+              {messages.eventDetails.ceremonyTitle}
             </h3>
             <div className="space-y-2">
               <p className="font-serif font-bold text-sm md:text-base text-newspaper-black">{ceremony.name}</p>
               <p className="newspaper-body text-sm md:text-base">{ceremony.address}</p>
-              <p className="newspaper-meta text-xs md:text-sm mt-3 md:mt-4">HORA: {ceremony.time}</p>
+              <p className="newspaper-meta text-xs md:text-sm mt-3 md:mt-4">{messages.eventDetails.timeLabel}: {ceremony.time}</p>
               <a
                 href={ceremony.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block mt-3 md:mt-4 border-2 border-newspaper-black px-3 md:px-4 py-1.5 md:py-2 font-sans text-xs md:text-sm uppercase tracking-wide hover:bg-newspaper-black hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-newspaper-black focus:ring-offset-2"
               >
-                Ver ubicación
+                {messages.eventDetails.locationButton}
               </a>
             </div>
           </div>
@@ -119,11 +119,11 @@ export function EventDetails() {
           {/* Recepción */}
           <div className="newspaper-box-simple">
             <h3 className="newspaper-title text-base md:text-xl mb-3 md:mb-4 text-center border-b-2 border-newspaper-black pb-2">
-              Recepción
+              {messages.eventDetails.receptionTitle}
             </h3>
             <div className="space-y-2">
               <p className="font-serif text-xs md:text-sm mb-2 md:mb-3 text-newspaper-gray-600">
-                Al concluir la ceremonia religiosa pasaremos al
+                {messages.eventDetails.receptionIntro}
               </p>
               <p className="font-serif font-bold text-sm md:text-base text-newspaper-black">{reception.name}</p>
               <p className="newspaper-body text-sm md:text-base">{reception.address}</p>
@@ -133,7 +133,7 @@ export function EventDetails() {
                 rel="noopener noreferrer"
                 className="inline-block mt-3 md:mt-4 border-2 border-newspaper-black px-3 md:px-4 py-1.5 md:py-2 font-sans text-xs md:text-sm uppercase tracking-wide hover:bg-newspaper-black hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-newspaper-black focus:ring-offset-2"
               >
-                Ver ubicación
+                {messages.eventDetails.locationButton}
               </a>
             </div>
           </div>

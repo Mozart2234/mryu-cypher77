@@ -200,7 +200,7 @@ export const eventConfig = {
     },
     {
       title: "Confirmación oficial",
-      content: "Alexei y Estephanie unirán sus vidas en matrimonio el domingo 11 de enero de 2026. La ceremonia religiosa se celebrará en la Iglesia Adventista de Parra a las 10:00 AM, seguida de una recepción en el Club del Odontólogo. La pareja, que se conoció en 2016 y formalizó su noviazgo en 2025, ha compartido que mantener a Dios en el centro de su relación ha sido fundamental. Familiares y amigos cercanos han sido invitados a este momento especial que promete ser una celebración inolvidable.",
+      content: "Alexei y Estephanie unirán sus vidas en matrimonio el domingo 11 de enero de 2026. La ceremonia religiosa se celebrará en la Iglesia Adventista de Parra a las 10:00 AM, seguida de una recepción en el Club del Odontólogo. La pareja, que se vio por primera vez en 2016 y comenzó su relación en 2022, ha compartido que mantener a Dios en el centro de su relación ha sido fundamental. Familiares y amigos cercanos han sido invitados a este momento especial que promete ser una celebración inolvidable.",
       page: "Pág. 01"
     },
     {
@@ -225,13 +225,15 @@ export const eventConfig = {
   dressCode: {
     title: "CÓDIGO DE VESTIMENTA",
     subtitle: "Te sugerimos seguir estas recomendaciones",
+    introText: "Para mantener la elegancia y armonía del evento, te pedimos considerar estas recomendaciones",
     women: {
       title: "MUJERES",
       items: [
         "Vestido largo elegante (preferentemente hasta el tobillo)",
         "Tacones y bolso pequeño o clutch",
         "Evitar colores blanco, marfil, beige y tonos nude"
-      ]
+      ],
+      footer: "Elegancia Femenina"
     },
     men: {
       title: "HOMBRES",
@@ -239,17 +241,150 @@ export const eventConfig = {
         "Traje oscuro (negro, azul marino o gris)",
         "Corbata",
         "Zapato formal cerrado"
-      ]
+      ],
+      footer: "Estilo Formal Caballeros"
+    },
+    colorPalette: {
+      title: "Paleta de Colores Sugerida",
+      recommended: {
+        title: "✓ Colores Recomendados",
+        colors: [
+          { name: "Azul marino", hex: "#1a2332" },
+          { name: "Gris oscuro", hex: "#4a5568" },
+          { name: "Negro", hex: "#1a1a1a" },
+          { name: "Borgoña", hex: "#722f37" },
+          { name: "Verde bosque", hex: "#2d4a2b" },
+          { name: "Morado", hex: "#4a148c" },
+          { name: "Terracota", hex: "#8b4513" },
+          { name: "Dorado", hex: "#b8860b" }
+        ]
+      },
+      avoid: {
+        title: "✗ Colores a Evitar",
+        note: "Reservados para la novia",
+        colors: [
+          { name: "Blanco", hex: "#ffffff" },
+          { name: "Marfil", hex: "#fffff0" },
+          { name: "Beige", hex: "#f5f5dc" },
+          { name: "Crema", hex: "#fffdd0" }
+        ]
+      }
+    },
+    specialNote: {
+      title: "Nota Editorial",
+      text: "Estas sugerencias nos ayudarán a mantener la elegancia y solemnidad que deseamos para nuestra celebración. Tu cooperación significa mucho para nosotros y hará que este día sea aún más especial.",
+      closing: "Con cariño,"
     }
   },
 
-  // Mensajes
+  // Mensajes y textos generales
   messages: {
     hero: {
       title: "La Edición Especial Del Amor",
       subtitle: "TODO SOBRE EL GRAN DÍA DE ALEXEI Y ESTEPHANIE"
     },
-    invitation: "Te invitamos a nuestro matrimonio que se llevará a cabo el día"
+    invitation: "Te invitamos a nuestro matrimonio que se llevará a cabo el día",
+    eventDetails: {
+      parentsTitle: "Con la bendición de Dios y en compañía de nuestros Padres:",
+      godparentsTitle: "y de nuestros queridos padrinos:",
+      ceremonyTitle: "Ceremonia Religiosa",
+      receptionTitle: "Recepción",
+      receptionIntro: "Al concluir la ceremonia religiosa pasaremos al",
+      locationButton: "Ver ubicación",
+      timeLabel: "HORA"
+    },
+    thankYou: {
+      closing: "Con amor,"
+    }
+  },
+
+  // FAQ - Preguntas Frecuentes
+  faq: {
+    title: "Preguntas Frecuentes",
+    subtitle: "TODO LO QUE NECESITAS SABER SOBRE NUESTRO GRAN DÍA",
+    intro: "Hemos recopilado las consultas más comunes de nuestros invitados. Si tu pregunta no aparece aquí, no dudes en contactarnos directamente.",
+    questions: [
+      {
+        question: "¿Cuál es el código de vestimenta?",
+        answer: "La ceremonia es formal. Sugerimos traje oscuro para caballeros y vestido largo o de coctel para damas. Por favor evita usar blanco, beige o colores muy claros que puedan confundirse con el vestido de la novia."
+      },
+      {
+        question: "¿Hay estacionamiento disponible?",
+        answer: "Sí, tanto la iglesia como el salón de recepción cuentan con estacionamiento gratuito para los invitados. Habrá personal de apoyo para guiar a los asistentes."
+      },
+      {
+        question: "¿A qué hora debo llegar?",
+        answer: "La ceremonia religiosa comienza a las 10:00 AM en punto. Te recomendamos llegar entre 15-20 minutos antes para tomar asiento cómodamente. La recepción iniciará inmediatamente después de la ceremonia."
+      },
+      {
+        question: "¿Puedo llevar a mis hijos?",
+        answer: "Amamos a los niños, pero hemos decidido que nuestra boda sea un evento solo para adultos para que todos puedan relajarse y disfrutar. Agradecemos tu comprensión."
+      },
+      {
+        question: "¿Cómo confirmo mi asistencia?",
+        answer: "Puedes confirmar tu asistencia usando el código de invitación que recibiste por WhatsApp o correo electrónico. Ingresa tu código en la sección \"Ver Mi Invitación\" y completa el formulario de confirmación."
+      },
+      {
+        question: "¿Hay lista de regalos?",
+        answer: "Tu presencia es nuestro mejor regalo. Sin embargo, si deseas obsequiarnos algo, agradecemos contribuciones en efectivo que nos ayudarán a comenzar nuestra nueva vida juntos. Habrá un buzón en la recepción."
+      },
+      {
+        question: "¿Habrá servicio de transporte?",
+        answer: "La iglesia y el salón de recepción están muy cerca (5 minutos en auto). No contamos con servicio de transporte, pero puedes usar servicios como Uber o taxi si lo necesitas."
+      },
+      {
+        question: "¿Qué pasa si no puedo asistir?",
+        answer: "Entendemos que pueden surgir imprevistos. Por favor, avísanos lo antes posible para poder ajustar nuestra lista de invitados. Puedes contactarnos directamente por WhatsApp."
+      }
+    ],
+    contactNote: {
+      title: "¿Tienes otra pregunta?",
+      message: "Si no encontraste la respuesta que buscabas, estaremos encantados de ayudarte. Contáctanos directamente por WhatsApp o correo electrónico."
+    }
+  },
+
+  // Weather Box - Pronóstico Emocional (decorativo)
+  weatherBox: {
+    title: "Pronóstico Emocional",
+    subtitle: "Esta Semana",
+    mainForecast: {
+      condition: "Probabilidad de amor eterno",
+      probability: "100%"
+    },
+    weeklyTitle: "Pronóstico Semanal",
+    forecast: [
+      {
+        day: "Lun 6",
+        icon: "☀️",
+        condition: "Emoción",
+        probability: "95%"
+      },
+      {
+        day: "Mar 7",
+        icon: "💖",
+        condition: "Amor",
+        probability: "98%"
+      },
+      {
+        day: "Mié 8",
+        icon: "✨",
+        condition: "Alegría",
+        probability: "99%"
+      },
+      {
+        day: "Jue 9",
+        icon: "🎉",
+        condition: "Fiesta",
+        probability: "100%"
+      },
+      {
+        day: "Dom 11",
+        icon: "💒",
+        condition: "¡BODA!",
+        probability: "100%"
+      }
+    ],
+    footer: "Pronóstico garantizado por el amor verdadero"
   },
 
   // Capacidad máxima del evento

@@ -46,7 +46,7 @@ export function Hero() {
 
           {/* DECK - subtítulo descriptivo */}
           <p className="newspaper-deck max-w-2xl mx-auto mb-4">
-            Tras una década de relación, la pareja sella su amor ante Dios y sus seres queridos
+            Una historia que comenzó con una mirada en 2016 y un reencuentro en 2022, hoy culmina en el altar
           </p>
 
           <h2 className="newspaper-subheadline">
@@ -79,7 +79,7 @@ export function Hero() {
               </div>
               <div className="p-4 bg-white border-t-2 border-newspaper-black">
                 <p className="font-serif text-sm italic text-newspaper-black leading-relaxed">
-                  Alexei y Estephanie: Una historia que comenzó en 2016 y culmina en 2026
+                  Alexei y Estephanie: De una mirada en 2016 a un reencuentro en 2022, hoy se casan en 2026
                 </p>
                 <p className="newspaper-page-number mt-2">Foto exclusiva para esta edición especial</p>
               </div>

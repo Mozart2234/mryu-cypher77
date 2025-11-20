@@ -20,9 +20,25 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<AuthUser | null>(null);
+  // Inicializar desde localStorage para evitar flash durante HMR
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    const stored = localStorage.getItem('auth_state');
+    return stored ? JSON.parse(stored) : false;
+  });
+  const [user, setUser] = useState<AuthUser | null>(() => {
+    const stored = localStorage.getItem('auth_user');
+    return stored ? JSON.parse(stored) : null;
+  });
   const [loading, setLoading] = useState<boolean>(true);
+
+  // Sincronizar estado con localStorage
+  useEffect(() => {
+    localStorage.setItem('auth_state', JSON.stringify(isAuthenticated));
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    localStorage.setItem('auth_user', JSON.stringify(user));
+  }, [user]);
 
   // Verificar sesión al cargar y escuchar cambios de auth
   useEffect(() => {
@@ -32,10 +48,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Escuchar cambios en el estado de autenticación
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
-        setUser({
+        const authUser = {
           id: session.user.id,
           email: session.user.email || '',
-        });
+        };
+        setUser(authUser);
         setIsAuthenticated(true);
       } else {
         setUser(null);
@@ -83,6 +100,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await authService.logout();
     setUser(null);
     setIsAuthenticated(false);
+    // Limpiar localStorage
+    localStorage.removeItem('auth_state');
+    localStorage.removeItem('auth_user');
   };
 
   return (

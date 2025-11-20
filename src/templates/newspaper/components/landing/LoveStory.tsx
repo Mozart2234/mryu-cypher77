@@ -139,7 +139,7 @@ function TimelineItem({ event, index, isEven, isFeatured, badgeClass }: Timeline
       {isFeatured && (
         <div className="hidden md:flex absolute left-1/2 top-8 transform -translate-x-1/2 justify-center">
           <div className="w-8 h-8 rounded-full bg-newspaper-accent border-2 border-white shadow-lg flex items-center justify-center pulse-ring">
-            <span className="text-white text-xl">💒</span>
+            <span className="text-white text-xl">&#9962;</span>
           </div>
         </div>
       )}
@@ -171,7 +171,7 @@ export function LoveStory() {
           <div className="newspaper-divider-thick mt-4"></div>
           <p className="newspaper-body text-center mt-6 max-w-2xl mx-auto italic text-newspaper-gray-700">
             Cada gran historia de amor tiene su propio camino. Esta es la nuestra:
-            un recorrido de 10 años desde un primer encuentro hasta el día más esperado.
+            de una mirada en 2016, un reencuentro mágico en 2022, hasta el altar en 2026.
           </p>
         </div>
 
@@ -239,14 +239,16 @@ export function LoveStory() {
             <p className="font-headline text-xs uppercase tracking-wider text-newspaper-gray-600 mb-4">
               Editorial
             </p>
-            <p className="newspaper-body newspaper-columns-2 text-justify italic text-newspaper-gray-700 leading-relaxed">
-              Esta historia, que comenzó con una mirada tímida y se fortaleció con cada mensaje,
-              cada cita y cada momento compartido, nos recuerda que el amor verdadero vale la espera.
-              Hoy celebramos no solo una boda, sino el cumplimiento de una promesa de 10 años. El camino
-              no siempre fue fácil, pero cada obstáculo superado fortaleció su vínculo. Cada risa compartida,
-              cada lágrima secada, cada sueño construido juntos, todo forma parte de este hermoso tapiz
-              que hoy presentan ante el altar.
-            </p>
+            <div className="newspaper-body text-justify italic text-newspaper-gray-700 leading-relaxed md:columns-2 md:gap-6">
+              <p>
+                Esta historia, que comenzó con una mirada tímida en 2016 y se fortaleció con un reencuentro
+                mágico en 2022, nos recuerda que el amor verdadero vale la espera. Hoy celebramos no solo
+                una boda, sino el cumplimiento de un destino escrito hace 10 años. El camino no siempre fue
+                fácil, pero cada mensaje, cada cita y cada momento compartido fortaleció su vínculo. Cada
+                risa compartida, cada lágrima secada, cada sueño construido juntos, todo forma parte de este
+                hermoso tapiz que hoy presentan ante el altar.
+              </p>
+            </div>
           </div>
           <div className="newspaper-divider-thin mt-4"></div>
         </div>
