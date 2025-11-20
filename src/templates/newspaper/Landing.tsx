@@ -93,9 +93,9 @@ export function Landing() {
       <Ornament type="flourish" size="md" />
 
       {/* Galería de fotos */}
-      <section id="photo-gallery">
+      {/* <section id="photo-gallery">
         <PhotoGallery />
-      </section>
+      </section> */}
 
       <Ornament type="banner" size="md" />
 
