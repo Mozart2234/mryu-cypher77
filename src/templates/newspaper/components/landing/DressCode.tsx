@@ -16,9 +16,8 @@ export function DressCode() {
     <section
       ref={elementRef}
       id="dress-code"
-      className={`newspaper-page py-8 px-4 md:py-12 md:px-8 bg-newspaper-gray-100 transition-all duration-700 ease-out ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}
+      className={`newspaper-page py-8 px-4 md:py-12 md:px-8 bg-newspaper-gray-100 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}
     >
       <div className="max-w-6xl mx-auto">
         {/* Header estilo sección de moda */}
@@ -71,18 +70,16 @@ export function DressCode() {
                   return (
                     <div
                       key={index}
-                      className={`flex items-start gap-3 p-3 ${
-                        isAvoid
+                      className={`flex items-start gap-3 p-3 ${isAvoid
                           ? 'bg-newspaper-gray-200 border-l-4 border-newspaper-gray-500'
                           : 'bg-newspaper-gray-50 border-l-4 border-newspaper-black'
-                      }`}
+                        }`}
                     >
                       <span className={`font-headline text-xl ${isAvoid ? 'text-newspaper-gray-500' : 'text-newspaper-black'}`}>
                         {isAvoid ? '✗' : '✓'}
                       </span>
-                      <span className={`font-serif text-base leading-relaxed ${
-                        isAvoid ? 'text-newspaper-gray-600 italic' : 'text-newspaper-gray-800'
-                      }`}>
+                      <span className={`font-serif text-base leading-relaxed ${isAvoid ? 'text-newspaper-gray-600 italic' : 'text-newspaper-gray-800'
+                        }`}>
                         {item}
                       </span>
                     </div>
@@ -133,18 +130,16 @@ export function DressCode() {
                   return (
                     <div
                       key={index}
-                      className={`flex items-start gap-3 p-3 ${
-                        isAvoid
+                      className={`flex items-start gap-3 p-3 ${isAvoid
                           ? 'bg-newspaper-gray-200 border-l-4 border-newspaper-gray-500'
                           : 'bg-newspaper-gray-50 border-l-4 border-newspaper-gray-800'
-                      }`}
+                        }`}
                     >
                       <span className={`font-headline text-xl ${isAvoid ? 'text-newspaper-gray-500' : 'text-newspaper-gray-800'}`}>
                         {isAvoid ? '✗' : '✓'}
                       </span>
-                      <span className={`font-serif text-base leading-relaxed ${
-                        isAvoid ? 'text-newspaper-gray-600 italic' : 'text-newspaper-gray-800'
-                      }`}>
+                      <span className={`font-serif text-base leading-relaxed ${isAvoid ? 'text-newspaper-gray-600 italic' : 'text-newspaper-gray-800'
+                        }`}>
                         {item}
                       </span>
                     </div>
@@ -184,7 +179,7 @@ export function DressCode() {
               <div className="text-center md:text-left">
                 <h4 className="font-headline text-3xl md:text-4xl font-black uppercase mb-2">Celeste Bebé</h4>
                 <p className="font-serif text-newspaper-gray-700 max-w-sm">
-                  El color que simboliza la <strong>pureza</strong> y <strong>tranquilidad</strong> de nuestro amor.
+                  El color que simboliza la <strong>tranquilidad</strong> de nuestro amor.
                   Siéntete libre de usar cualquier color elegante.
                 </p>
               </div>
