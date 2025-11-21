@@ -7,7 +7,7 @@
 import { useState, useEffect } from 'react';
 import { messageService } from '@/services/messageService';
 import type { GuestMessage, MessageType } from '@/types/message';
-import { MessageSquare, Heart, Lightbulb, Camera, Sparkles, Mail, Diamond } from 'lucide-react';
+import { MessageSquare, Heart, Lightbulb, Camera, Sparkles, Mail, Diamond, X, Maximize2 } from 'lucide-react';
 
 const MESSAGE_TYPE_CONFIG: Record<MessageType, { icon: typeof Heart; label: string; color: string }> = {
   wishes: { icon: Heart, label: 'Buenos Deseos', color: 'text-red-600' },
@@ -16,15 +16,22 @@ const MESSAGE_TYPE_CONFIG: Record<MessageType, { icon: typeof Heart; label: stri
   other: { icon: Sparkles, label: 'Mensajes', color: 'text-purple-600' }
 };
 
+const TRUNCATE_LENGTH = 150; // Caracteres antes de truncar
+
 // Componente para cada card en el grid - Estilo Carta al Editor
 interface MessageCardProps {
   message: GuestMessage;
   index: number;
+  onReadMore?: (message: GuestMessage) => void;
 }
 
-function MessageCard({ message, index }: MessageCardProps) {
+function MessageCard({ message, index, onReadMore }: MessageCardProps) {
   const config = MESSAGE_TYPE_CONFIG[message.messageType];
   const Icon = config.icon;
+  const isLongMessage = message.message.length > TRUNCATE_LENGTH;
+  const displayMessage = isLongMessage
+    ? message.message.substring(0, TRUNCATE_LENGTH) + '...'
+    : message.message;
 
   return (
     <article
@@ -58,8 +65,17 @@ function MessageCard({ message, index }: MessageCardProps) {
         {/* Contenido del mensaje */}
         <blockquote className="relative z-10 mb-4">
           <p className="font-serif text-newspaper-black leading-relaxed text-base md:text-lg min-h-[100px]">
-            "{message.message.length > 120 ? message.message.substring(0, 120) + '...' : message.message}"
+            "{displayMessage}"
           </p>
+          {isLongMessage && onReadMore && (
+            <button
+              onClick={() => onReadMore(message)}
+              className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-newspaper-black hover:underline underline-offset-2"
+            >
+              <Maximize2 className="w-4 h-4" />
+              Ver mensaje completo
+            </button>
+          )}
         </blockquote>
 
         {/* Firma del autor - estilo editorial */}
@@ -89,12 +105,101 @@ function MessageCard({ message, index }: MessageCardProps) {
   );
 }
 
+// Modal fullscreen para ver mensaje completo
+interface MessageModalProps {
+  message: GuestMessage | null;
+  onClose: () => void;
+}
+
+function MessageModal({ message, onClose }: MessageModalProps) {
+  if (!message) return null;
+
+  const config = MESSAGE_TYPE_CONFIG[message.messageType];
+  const Icon = config.icon;
+
+  // Cerrar con Escape
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="relative bg-white max-w-2xl w-full max-h-[90vh] overflow-y-auto border-4 border-newspaper-black shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="sticky top-0 bg-newspaper-black px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Icon className="w-6 h-6 text-white" strokeWidth={2.5} />
+            <span className="text-base font-bold uppercase tracking-wider text-white" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+              {config.label}
+            </span>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-10 h-10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+            aria-label="Cerrar"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+
+        {/* Contenido */}
+        <div className="p-8">
+          {/* Comilla decorativa */}
+          <div className="text-8xl text-newspaper-gray-200 font-serif leading-none select-none mb-4">
+            "
+          </div>
+
+          <blockquote className="mb-8">
+            <p className="font-serif text-xl md:text-2xl text-newspaper-black leading-relaxed">
+              {message.message}
+            </p>
+          </blockquote>
+
+          {/* Firma */}
+          <div className="border-t-2 border-newspaper-black pt-6">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-newspaper-black text-white flex items-center justify-center shrink-0">
+                <span className="font-headline text-xl font-bold">
+                  {message.guestName.charAt(0).toUpperCase()}
+                </span>
+              </div>
+              <div>
+                <p className="font-headline text-xl font-bold text-newspaper-black uppercase tracking-wide">
+                  {message.guestName}
+                </p>
+                <p className="font-sans text-sm text-newspaper-gray-600">
+                  {new Date(message.createdAt).toLocaleDateString('es-ES', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long'
+                  })}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function GuestMessages() {
   const [allMessages, setAllMessages] = useState<GuestMessage[]>([]);
   const [visibleStartIndex, setVisibleStartIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<GuestMessage | null>(null);
 
   const VISIBLE_COUNT = 6; // Mostrar 6 mensajes a la vez
 
@@ -282,7 +387,7 @@ export function GuestMessages() {
                   key={`${message.id}-${visibleStartIndex}-${index}`}
                   className="message-card-wrapper"
                 >
-                  <MessageCard message={message} index={index} />
+                  <MessageCard message={message} index={index} onReadMore={setSelectedMessage} />
                 </div>
               ))}
             </div>
@@ -367,6 +472,9 @@ export function GuestMessages() {
           </div>
         </div>
       </div>
+
+      {/* Modal para ver mensaje completo */}
+      <MessageModal message={selectedMessage} onClose={() => setSelectedMessage(null)} />
 
       {/* Animaciones CSS para scroll vertical suave */}
       <style>{`

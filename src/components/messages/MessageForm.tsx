@@ -40,7 +40,9 @@ const MESSAGE_TYPES: { value: MessageType; label: string; emoji: string }[] = [
   { value: 'other', label: 'Otro mensaje', emoji: '✨' }
 ];
 
-const MAX_CHARS = 500;
+// Límites de caracteres según tipo de mensaje
+const MAX_CHARS_PUBLIC = 300;  // Mensajes públicos (se muestran en cards)
+const MAX_CHARS_PRIVATE = 500; // Mensajes privados (solo los novios los ven)
 
 export const MessageForm = forwardRef<MessageFormRef, MessageFormProps>(({
   reservationId,
@@ -66,7 +68,9 @@ export const MessageForm = forwardRef<MessageFormRef, MessageFormProps>(({
   });
 
   const messageValue = watch('message');
-  const charsRemaining = MAX_CHARS - (messageValue?.length || 0);
+  const isPublicValue = watch('isPublic');
+  const maxChars = isPublicValue ? MAX_CHARS_PUBLIC : MAX_CHARS_PRIVATE;
+  const charsRemaining = maxChars - (messageValue?.length || 0);
   const canSubmit = (messageValue?.trim().length || 0) > 0 && !isSubmitting;
 
   // Notificar cambios en canSubmit
@@ -157,8 +161,8 @@ export const MessageForm = forwardRef<MessageFormRef, MessageFormProps>(({
             {...register('message', {
               required: 'Por favor escribe un mensaje',
               maxLength: {
-                value: MAX_CHARS,
-                message: `El mensaje no puede exceder ${MAX_CHARS} caracteres`
+                value: maxChars,
+                message: `El mensaje no puede exceder ${maxChars} caracteres`
               },
               validate: (value) => value.trim().length > 0 || 'El mensaje no puede estar vacío'
             })}
@@ -195,7 +199,10 @@ export const MessageForm = forwardRef<MessageFormRef, MessageFormProps>(({
               Permitir mostrar públicamente
             </span>
             <span className="block text-xs text-newspaper-gray-700 mt-1">
-              Si lo activas, tu mensaje podrá aparecer en la página de la boda para que otros invitados lo vean
+              {isPublicValue
+                ? `Tu mensaje podrá aparecer en la página de la boda (máx. ${MAX_CHARS_PUBLIC} caracteres)`
+                : `Mensaje privado solo para los novios (máx. ${MAX_CHARS_PRIVATE} caracteres)`
+              }
             </span>
           </label>
         </div>

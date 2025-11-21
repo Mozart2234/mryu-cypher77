@@ -12,7 +12,7 @@ import { eventConfig } from '@/config/eventConfig';
 import { reservationService } from '@/services/reservationService';
 import { useAuth } from '@/contexts/AuthContext';
 import type { Reservation, Accompanist } from '@/types/reservation';
-import { CheckCircle, Calendar, MapPin, Users, X, Check, AlertCircle, RefreshCw, Send, Loader2, Flower2, Star, Sparkle, Clock, Hand } from 'lucide-react';
+import { CheckCircle, Calendar, MapPin, Users, X, Check, AlertCircle, RefreshCw, Send, Loader2 } from 'lucide-react';
 import { InvitationTicketSkeleton } from '@/components/SkeletonLoader';
 import { MessageForm, type MessageFormRef } from '@/components/messages/MessageForm';
 import { messageService } from '@/services/messageService';
