@@ -35,10 +35,6 @@ export function FAQ() {
       answer: 'Puedes confirmar tu asistencia usando el código de invitación que recibiste por WhatsApp o correo electrónico. Ingresa tu código en la sección "Ver Mi Invitación" y completa el formulario de confirmación.'
     },
     {
-      question: '¿Hay lista de regalos?',
-      answer: 'Tu presencia es nuestro mejor regalo. Sin embargo, si deseas obsequiarnos algo, agradecemos contribuciones en efectivo que nos ayudarán a comenzar nuestra nueva vida juntos. Habrá un buzón en la recepción.'
-    },
-    {
       question: '¿Qué pasa si no puedo asistir?',
       answer: 'Entendemos que pueden surgir imprevistos. Por favor, avísanos lo antes posible para poder ajustar nuestra lista de invitados. Puedes contactarnos directamente por WhatsApp.'
     }
