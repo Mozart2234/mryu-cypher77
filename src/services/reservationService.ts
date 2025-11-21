@@ -205,10 +205,65 @@ export const reservationService = {
   },
 
   /**
-   * Busca reservación por código (alias de getByCode)
+   * Busca reservaciones por nombre del invitado principal o acompañantes (coincidencia parcial)
    */
-  async findByCode(code: string): Promise<Reservation | null> {
-    return this.getByCode(code);
+  async searchByName(searchTerm: string): Promise<Reservation[]> {
+    if (!searchTerm || searchTerm.trim().length < 2) {
+      return [];
+    }
+
+    const term = searchTerm.trim().toLowerCase();
+
+    // Buscar por nombre del invitado principal
+    const { data: byGuestName, error: error1 } = await supabase
+      .from('reservations')
+      .select('*')
+      .ilike('guest_name', `%${term}%`)
+      .order('guest_name')
+      .limit(10);
+
+    if (error1) {
+      console.error('Error searching reservations by guest name:', error1);
+      throw new Error(`Error al buscar reservaciones: ${error1.message}`);
+    }
+
+    // Buscar en acompañantes (el campo accompanists es JSON con array de {name, willAttend})
+    const { data: allReservations, error: error2 } = await supabase
+      .from('reservations')
+      .select('*')
+      .not('accompanists', 'is', null);
+
+    if (error2) {
+      console.error('Error searching accompanists:', error2);
+      // No fallar, solo devolver resultados del primer query
+      return (byGuestName || []).map(mapFromDatabase);
+    }
+
+    // Filtrar reservaciones donde algún acompañante coincida
+    const byAccompanist = (allReservations || []).filter(r => {
+      if (!r.accompanists) return false;
+      try {
+        const accompanists = JSON.parse(r.accompanists);
+        return accompanists.some((acc: { name: string }) =>
+          acc.name && acc.name.toLowerCase().includes(term)
+        );
+      } catch {
+        return false;
+      }
+    });
+
+    // Combinar resultados sin duplicados
+    const allResults = [...(byGuestName || [])];
+    const existingIds = new Set(allResults.map(r => r.id));
+
+    for (const r of byAccompanist) {
+      if (!existingIds.has(r.id)) {
+        allResults.push(r);
+        existingIds.add(r.id);
+      }
+    }
+
+    return allResults.slice(0, 10).map(mapFromDatabase);
   },
 
   /**
