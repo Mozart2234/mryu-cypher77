@@ -95,10 +95,17 @@ export function InvitationPass() {
   const handleMessageSuccess = () => {
     if (reservation) {
       loadMessages(reservation.id);
-      // No mostrar toast aquí - el MessageForm ya tiene su propio mensaje de éxito con auto-scroll
-      // Cerrar el modal después de enviar el mensaje
-      setShowConfirmModal(false);
-      setConfirmationStep('form');
+
+      // Mostrar toast de confirmación
+      toast.success('¡Mensaje enviado!', {
+        description: 'Tus palabras han sido enviadas a la pareja'
+      });
+
+      // Cerrar el modal después de 2 segundos para que el usuario vea la confirmación
+      setTimeout(() => {
+        setShowConfirmModal(false);
+        setConfirmationStep('form');
+      }, 2000);
     }
   };
 
@@ -630,7 +637,9 @@ export function InvitationPass() {
             </div>
 
             {/* Contenido */}
-            <div className="p-6 md:p-8 max-h-[60vh] overflow-y-auto">
+            <div className={`p-6 md:p-8 overflow-y-auto ${
+              confirmationStep === 'message' ? 'max-h-[75vh]' : 'max-h-[60vh]'
+            }`}>
               {confirmationStep === 'form' ? (
                 /* PASO 1: Formulario de Confirmación */
                 <>
