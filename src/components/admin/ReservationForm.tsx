@@ -2,9 +2,12 @@
  * COMPONENTE FORMULARIO DE RESERVACIÓN
  *
  * Formulario para crear nuevas reservaciones manualmente
+ * Refactorizado con React Hook Form
  */
 
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { toast } from 'sonner';
 import { reservationService } from '@/services/reservationService';
 import { eventConfig } from '@/config/eventConfig';
 import type { CreateReservationDTO, Reservation } from '@/types/reservation';
@@ -17,74 +20,95 @@ interface ReservationFormProps {
   onSuccess: () => void;
 }
 
-export function ReservationForm({ onSuccess }: ReservationFormProps) {
-  const [formData, setFormData] = useState<CreateReservationDTO>({
-    guestName: '',
-    numberOfGuests: 1,
-    accompanistNames: [],
-    table: '',
-    group: '',
-    notes: ''
-  });
+interface ReservationFormData {
+  guestName: string;
+  numberOfGuests: number;
+  accompanistNames: { name: string }[];
+  table: string;
+  group: string;
+  notes: string;
+}
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+export function ReservationForm({ onSuccess }: ReservationFormProps) {
   const [createdReservation, setCreatedReservation] = useState<Reservation | null>(null);
   const [copied, setCopied] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedText, setCopiedText] = useState(false);
-  const [accompanistNames, setAccompanistNames] = useState<string[]>([]);
 
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors, isSubmitting }
+  } = useForm<ReservationFormData>({
+    defaultValues: {
+      guestName: '',
+      numberOfGuests: 1,
+      accompanistNames: [],
+      table: '',
+      group: '',
+      notes: ''
+    }
+  });
+
+  const { fields, replace } = useFieldArray({
+    control,
+    name: 'accompanistNames'
+  });
+
+  // Ajustar array de acompañantes cuando cambia numberOfGuests
   const handleNumberOfGuestsChange = (value: number) => {
-    setFormData({ ...formData, numberOfGuests: value });
-    // Ajustar el array de acompañantes (numberOfGuests - 1 porque el principal ya tiene nombre)
-    const newLength = Math.max(0, value - 1);
-    const newNames = Array(newLength).fill('').map((_, i) => accompanistNames[i] || '');
-    setAccompanistNames(newNames);
+    const numAccompanists = Math.max(0, value - 1);
+    const newFields = Array(numAccompanists).fill(null).map((_, i) => ({
+      name: fields[i]?.name || ''
+    }));
+    replace(newFields);
   };
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
+  const onSubmit = async (data: ReservationFormData) => {
     try {
       // Filtrar nombres vacíos
-      const filteredNames = accompanistNames.filter(name => name.trim() !== '');
-      const dataToSubmit = {
-        ...formData,
-        accompanistNames: filteredNames.length > 0 ? filteredNames : undefined
+      const filteredNames = data.accompanistNames
+        .map(a => a.name.trim())
+        .filter(name => name !== '');
+
+      const dataToSubmit: CreateReservationDTO = {
+        guestName: data.guestName.trim(),
+        numberOfGuests: data.numberOfGuests,
+        accompanistNames: filteredNames.length > 0 ? filteredNames : undefined,
+        table: data.table.trim() || undefined,
+        group: data.group.trim() || undefined,
+        notes: data.notes.trim() || undefined
       };
 
       const newReservation = await reservationService.create(dataToSubmit);
       setCreatedReservation(newReservation);
 
       // Limpiar formulario
-      setFormData({
-        guestName: '',
-        numberOfGuests: 1,
-        accompanistNames: [],
-        table: '',
-        group: '',
-        notes: ''
+      reset();
+
+      toast.success('Reservación creada exitosamente', {
+        description: `Invitación para ${newReservation.guestName} está lista`
       });
-      setAccompanistNames([]);
 
       onSuccess();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al crear reservación');
-    } finally {
-      setLoading(false);
+      console.error('Error creating reservation:', err);
+      toast.error('Error al crear reservación', {
+        description: err instanceof Error ? err.message : 'Intenta de nuevo'
+      });
     }
   };
 
-  const handleCopyLink = () => {
-    if (createdReservation) {
-      const invitationUrl = `${eventConfig.appUrl}/invitacion/${createdReservation.code}`;
-      navigator.clipboard.writeText(invitationUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
+  const handleCopyLink = async () => {
+    if (!createdReservation) return;
+
+    const invitationUrl = `${eventConfig.appUrl}/invitacion/${createdReservation.code}`;
+    await copyToClipboard(invitationUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+    toast.success('Link copiado al portapapeles');
   };
 
   const handleCloseModal = () => {
@@ -107,6 +131,7 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
     openEmail(subject, body);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
+    toast.success('Email abierto');
   };
 
   const handleCopyText = async () => {
@@ -122,10 +147,11 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
     await copyToClipboard(message);
     setCopiedText(true);
     setTimeout(() => setCopiedText(false), 2000);
+    toast.success('Texto copiado al portapapeles');
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card">
+    <form onSubmit={handleSubmit(onSubmit)} className="card">
       <div className="flex items-center mb-6">
         <UserPlus className="w-6 h-6 text-primary mr-3" />
         <h3 className="text-xl font-semibold">Nueva Reservación</h3>
@@ -139,13 +165,17 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
             Nombre del invitado principal *
           </label>
           <input
+            {...register('guestName', {
+              required: 'El nombre es requerido',
+              minLength: { value: 2, message: 'Mínimo 2 caracteres' }
+            })}
             type="text"
             className="input"
-            value={formData.guestName}
-            onChange={(e) => setFormData({ ...formData, guestName: e.target.value })}
             placeholder="Ej: Juan Pérez"
-            required
           />
+          {errors.guestName && (
+            <p className="text-xs text-red-600 mt-1">{errors.guestName.message}</p>
+          )}
         </div>
 
         {/* Número de personas */}
@@ -155,44 +185,45 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
             Número de personas *
           </label>
           <input
+            {...register('numberOfGuests', {
+              required: 'Requerido',
+              min: { value: 1, message: 'Mínimo 1 persona' },
+              max: { value: 10, message: 'Máximo 10 personas' },
+              onChange: (e) => handleNumberOfGuestsChange(parseInt(e.target.value) || 1)
+            })}
             type="number"
             className="input"
             min="1"
             max="10"
-            value={formData.numberOfGuests}
-            onChange={(e) => handleNumberOfGuestsChange(parseInt(e.target.value))}
-            required
           />
           <p className="text-xs text-gray-500 mt-1">Máximo 10 personas por reservación</p>
+          {errors.numberOfGuests && (
+            <p className="text-xs text-red-600 mt-1">{errors.numberOfGuests.message}</p>
+          )}
         </div>
 
-        {/* Nombres de acompañantes (si hay más de 1 persona) */}
-        {formData.numberOfGuests > 1 && (
+        {/* Nombres de acompañantes */}
+        {fields.length > 0 && (
           <div className="md:col-span-2 border-2 border-gray-200 rounded-lg p-4 bg-gray-50">
             <div className="flex items-center mb-4">
               <Users className="w-5 h-5 text-gray-600 mr-2" />
               <h4 className="font-semibold text-gray-800">
-                Nombres de Acompañantes ({formData.numberOfGuests - 1} persona{formData.numberOfGuests - 1 !== 1 ? 's' : ''})
+                Nombres de Acompañantes ({fields.length} persona{fields.length !== 1 ? 's' : ''})
               </h4>
             </div>
             <p className="text-sm text-gray-600 mb-4">
               Opcional: Puedes agregar los nombres ahora o el invitado los completará después
             </p>
             <div className="grid md:grid-cols-2 gap-3">
-              {accompanistNames.map((name, index) => (
-                <div key={index}>
+              {fields.map((field, index) => (
+                <div key={field.id}>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Acompañante #{index + 1}
                   </label>
                   <input
+                    {...register(`accompanistNames.${index}.name`)}
                     type="text"
                     className="input text-sm"
-                    value={name}
-                    onChange={(e) => {
-                      const newNames = [...accompanistNames];
-                      newNames[index] = e.target.value;
-                      setAccompanistNames(newNames);
-                    }}
                     placeholder="Nombre completo"
                   />
                 </div>
@@ -208,10 +239,9 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
             Mesa (opcional)
           </label>
           <input
+            {...register('table')}
             type="text"
             className="input"
-            value={formData.table}
-            onChange={(e) => setFormData({ ...formData, table: e.target.value })}
             placeholder="Ej: Mesa 5"
           />
         </div>
@@ -220,10 +250,9 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
         <div>
           <label className="label">Grupo/Familia (opcional)</label>
           <input
+            {...register('group')}
             type="text"
             className="input"
-            value={formData.group}
-            onChange={(e) => setFormData({ ...formData, group: e.target.value })}
             placeholder="Ej: Familia Pérez"
           />
         </div>
@@ -235,28 +264,21 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
             Notas (opcional)
           </label>
           <textarea
+            {...register('notes')}
             className="input"
             rows={2}
-            value={formData.notes}
-            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             placeholder="Ej: Requiere silla alta para bebé"
           />
         </div>
       </div>
 
-      {error && (
-        <div className="mt-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-          {error}
-        </div>
-      )}
-
       <div className="mt-6">
         <button
           type="submit"
-          disabled={loading}
+          disabled={isSubmitting}
           className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Creando...' : 'Crear Reservación'}
+          {isSubmitting ? 'Creando...' : 'Crear Reservación'}
         </button>
       </div>
 
@@ -345,6 +367,7 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
                     className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg bg-gray-50 font-mono text-sm"
                   />
                   <button
+                    type="button"
                     onClick={handleCopyLink}
                     className={`px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 ${
                       copied
@@ -432,6 +455,7 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
               {/* Acciones */}
               <div className="flex gap-3">
                 <button
+                  type="button"
                   onClick={handleCloseModal}
                   className="flex-1 bg-white text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 border border-gray-300 transition-colors"
                 >

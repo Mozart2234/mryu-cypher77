@@ -3,9 +3,11 @@
  *
  * Modal para que los invitados busquen su pase digital
  * ingresando su código de invitación
+ * Refactorizado con React Hook Form
  */
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 import { X, Search, Ticket, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,12 +16,23 @@ interface InvitationSearchModalProps {
   onClose: () => void;
 }
 
+interface SearchFormData {
+  code: string;
+}
+
 export function InvitationSearchModal({ isOpen, onClose }: InvitationSearchModalProps) {
-  const [code, setCode] = useState('');
-  const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<SearchFormData>({
+    defaultValues: {
+      code: ''
+    }
+  });
 
   // Trap focus dentro del modal
   useEffect(() => {
@@ -52,33 +65,14 @@ export function InvitationSearchModal({ isOpen, onClose }: InvitationSearchModal
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validación básica
-    if (!code.trim()) {
-      setError('Por favor ingresa tu código de invitación');
-      return;
-    }
-
-    // Validación de formato (WED-XXXX)
-    const codePattern = /^[A-Z]{3}-\d{4}$/;
-    const normalizedCode = code.trim().toUpperCase();
-
-    if (!codePattern.test(normalizedCode)) {
-      setError('El código debe tener el formato WED-1234');
-      return;
-    }
+  const onSubmit = async (data: SearchFormData) => {
+    const normalizedCode = data.code.trim().toUpperCase();
 
     // Simular pequeño delay para mejor UX
-    setIsSubmitting(true);
-    setError('');
+    await new Promise(resolve => setTimeout(resolve, 300));
 
-    setTimeout(() => {
-      // Navegar al pase digital con el código
-      navigate(`/invitacion/${normalizedCode}`);
-      setIsSubmitting(false);
-    }, 300);
+    // Navegar al pase digital con el código
+    navigate(`/invitacion/${normalizedCode}`);
   };
 
   if (!isOpen) return null;
@@ -128,7 +122,7 @@ export function InvitationSearchModal({ isOpen, onClose }: InvitationSearchModal
           </div>
 
           {/* Body */}
-          <form onSubmit={handleSubmit} className="p-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="p-6">
             <div className="mb-6">
               <label
                 htmlFor="invitation-code"
@@ -139,21 +133,24 @@ export function InvitationSearchModal({ isOpen, onClose }: InvitationSearchModal
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-newspaper-gray-400" aria-hidden="true" />
                 <input
+                  {...register('code', {
+                    required: 'Por favor ingresa tu código de invitación',
+                    pattern: {
+                      value: /^[A-Z]{3}-\d{4}$/i,
+                      message: 'El código debe tener el formato WED-1234'
+                    },
+                    setValueAs: (value) => value.toUpperCase()
+                  })}
                   id="invitation-code"
                   type="text"
-                  value={code}
-                  onChange={(e) => {
-                    setCode(e.target.value.toUpperCase());
-                    setError('');
-                  }}
                   placeholder="Ej: WED-1234"
                   className="w-full pl-11 pr-4 py-3 border-2 border-newspaper-gray-300 rounded-lg font-mono text-lg uppercase focus:ring-4 focus:ring-newspaper-black focus:border-newspaper-black outline-none transition-all"
                   autoFocus
-                  aria-invalid={!!error}
-                  aria-describedby={error ? 'code-error' : 'code-help'}
+                  aria-invalid={!!errors.code}
+                  aria-describedby={errors.code ? 'code-error' : 'code-help'}
                 />
               </div>
-              {error && (
+              {errors.code && (
                 <div id="code-error" className="mt-3 bg-red-50 border-2 border-red-600 rounded-lg p-3 flex items-start gap-2" role="alert">
                   <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" aria-hidden="true" />
                   <div>
@@ -161,7 +158,7 @@ export function InvitationSearchModal({ isOpen, onClose }: InvitationSearchModal
                       Código inválido
                     </p>
                     <p className="text-xs text-red-700 font-sans mt-0.5">
-                      {error}
+                      {errors.code.message}
                     </p>
                   </div>
                 </div>

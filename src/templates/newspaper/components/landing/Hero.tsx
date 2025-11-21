@@ -60,7 +60,7 @@ export function Hero() {
         <div className="grid md:grid-cols-12 gap-4 md:gap-5 my-6 md:my-8">
           {/* Foto destacada de portada - 5 columnas */}
           <div className="md:col-span-5">
-            <div className="border-2 border-newspaper-black h-full group overflow-hidden">
+            <div className="border-2 border-newspaper-black group overflow-hidden">
               <div className="relative bg-newspaper-gray-200 aspect-3/4 md:aspect-4/5 overflow-hidden">
                 {/* Foto de portada */}
                 <img
@@ -163,7 +163,7 @@ export function Hero() {
 
         {/* FOLIO - pie de página con número */}
         <div className="newspaper-folio">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-600">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-700">
             <span>Página 1</span>
             <span>•</span>
             <span>Sección: Bodas</span>

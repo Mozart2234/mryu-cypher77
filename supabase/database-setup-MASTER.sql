@@ -121,10 +121,13 @@ CREATE TRIGGER update_guest_messages_updated_at_trigger
 ALTER TABLE guest_messages ENABLE ROW LEVEL SECURITY;
 
 -- Políticas RLS para guest_messages
+-- NOTA: Permitimos acceso completo ya que la autenticación se maneja en la app
+-- El filtrado de mensajes públicos/privados se hace en el código
 DROP POLICY IF EXISTS "guest_messages_select_public" ON guest_messages;
-CREATE POLICY "guest_messages_select_public" ON guest_messages
+DROP POLICY IF EXISTS "guest_messages_select_all" ON guest_messages;
+CREATE POLICY "guest_messages_select_all" ON guest_messages
   FOR SELECT
-  USING (is_public = true AND is_blocked = false);
+  USING (true);
 
 DROP POLICY IF EXISTS "guest_messages_insert_all" ON guest_messages;
 CREATE POLICY "guest_messages_insert_all" ON guest_messages
@@ -134,7 +137,8 @@ CREATE POLICY "guest_messages_insert_all" ON guest_messages
 DROP POLICY IF EXISTS "guest_messages_update_admin" ON guest_messages;
 CREATE POLICY "guest_messages_update_admin" ON guest_messages
   FOR UPDATE
-  USING (true);
+  USING (true)
+  WITH CHECK (true);
 
 DROP POLICY IF EXISTS "guest_messages_delete_admin" ON guest_messages;
 CREATE POLICY "guest_messages_delete_admin" ON guest_messages

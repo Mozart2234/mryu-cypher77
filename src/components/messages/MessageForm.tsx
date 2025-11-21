@@ -2,9 +2,11 @@
  * COMPONENTE: Message Form
  *
  * Formulario para que los invitados envíen mensajes a la pareja
+ * Refactorizado con React Hook Form para mejor manejo de estado
  */
 
-import { useState } from 'react';
+import { useImperativeHandle, forwardRef, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { MessageSquare, Send, Loader2 } from 'lucide-react';
 import { messageService } from '@/services/messageService';
 import type { MessageType, CreateMessageDTO } from '@/types/message';
@@ -13,6 +15,20 @@ interface MessageFormProps {
   reservationId: string;
   guestName: string;
   onSuccess?: () => void;
+  showSubmitButton?: boolean;
+  onCanSubmitChange?: (canSubmit: boolean) => void;
+}
+
+export interface MessageFormRef {
+  submit: () => Promise<void>;
+  isSubmitting: boolean;
+  canSubmit: boolean;
+}
+
+interface MessageFormData {
+  message: string;
+  messageType: MessageType;
+  isPublic: boolean;
 }
 
 const MESSAGE_TYPES: { value: MessageType; label: string; emoji: string }[] = [
@@ -22,68 +38,71 @@ const MESSAGE_TYPES: { value: MessageType; label: string; emoji: string }[] = [
   { value: 'other', label: 'Otro mensaje', emoji: '✨' }
 ];
 
-export function MessageForm({ reservationId, guestName, onSuccess }: MessageFormProps) {
-  const [message, setMessage] = useState('');
-  const [messageType, setMessageType] = useState<MessageType>('wishes');
-  const [isPublic, setIsPublic] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+const MAX_CHARS = 500;
 
-  const maxChars = 500;
-  const charsRemaining = maxChars - message.length;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setSuccess(false);
-
-    // Validaciones
-    if (!message.trim()) {
-      setError('Por favor escribe un mensaje');
-      return;
+export const MessageForm = forwardRef<MessageFormRef, MessageFormProps>(({
+  reservationId,
+  guestName,
+  onSuccess,
+  showSubmitButton = true,
+  onCanSubmitChange
+}, ref) => {
+  const {
+    register,
+    handleSubmit: handleRHFSubmit,
+    watch,
+    reset,
+    formState: { isSubmitting, errors }
+  } = useForm<MessageFormData>({
+    defaultValues: {
+      message: '',
+      messageType: 'wishes',
+      isPublic: true
     }
+  });
 
-    if (message.length > maxChars) {
-      setError(`El mensaje no puede exceder ${maxChars} caracteres`);
-      return;
+  const messageValue = watch('message');
+  const charsRemaining = MAX_CHARS - (messageValue?.length || 0);
+  const canSubmit = (messageValue?.trim().length || 0) > 0 && !isSubmitting;
+
+  // Notificar cambios en canSubmit
+  useEffect(() => {
+    if (onCanSubmitChange) {
+      onCanSubmitChange(canSubmit);
     }
+  }, [canSubmit, onCanSubmitChange]);
 
+  const onSubmit = async (data: MessageFormData) => {
     try {
-      setIsSubmitting(true);
-
       const messageData: CreateMessageDTO = {
         reservationId,
         guestName,
-        message: message.trim(),
-        messageType,
-        isPublic
+        message: data.message.trim(),
+        messageType: data.messageType,
+        isPublic: data.isPublic
       };
 
       await messageService.create(messageData);
-
-      setSuccess(true);
-      setMessage('');
-
-      // Scroll al top del formulario para ver el mensaje de éxito
-      const formElement = document.getElementById('message-form');
-      if (formElement) {
-        formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      reset();
 
       if (onSuccess) {
         onSuccess();
       }
-
-      // Ocultar mensaje de éxito después de 5 segundos
-      setTimeout(() => setSuccess(false), 5000);
     } catch (err) {
       console.error('Error sending message:', err);
-      setError(err instanceof Error ? err.message : 'Error al enviar el mensaje');
-    } finally {
-      setIsSubmitting(false);
+      // Los errores se manejan automáticamente por React Hook Form
+      throw err;
     }
   };
+
+  // Exponer métodos para que el modal pueda llamarlos
+  useImperativeHandle(ref, () => ({
+    submit: async () => {
+      await handleRHFSubmit(onSubmit)();
+    },
+    isSubmitting,
+    canSubmit
+  }));
 
   return (
     <div id="message-form" className="bg-white border-2 border-newspaper-black p-6 md:p-8 scroll-mt-8">
@@ -100,39 +119,15 @@ export function MessageForm({ reservationId, guestName, onSuccess }: MessageForm
         </p>
       </div>
 
-      {success && (
-        <div className="mb-6 p-6 bg-green-50 border-4 border-green-600 rounded-sm shadow-lg animate-pulse-once">
-          <div className="flex items-center justify-center gap-3">
-            <span className="text-3xl">✅</span>
-            <div>
-              <p className="font-headline text-lg text-green-900 font-bold">
-                ¡Mensaje Enviado!
-              </p>
-              <p className="font-sans text-sm text-green-800 mt-1">
-                Gracias por tus palabras. La pareja las recibirá con mucho cariño.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
 
-      {error && (
-        <div className="mb-4 p-4 bg-red-50 border-2 border-red-600 rounded-sm">
-          <p className="font-sans text-sm text-red-800 text-center font-semibold">
-            {error}
-          </p>
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleRHFSubmit(onSubmit)} className="space-y-4">
         {/* Tipo de mensaje */}
         <div>
           <label className="block font-serif font-semibold text-sm mb-2 text-newspaper-black">
             Tipo de mensaje
           </label>
           <select
-            value={messageType}
-            onChange={(e) => setMessageType(e.target.value as MessageType)}
+            {...register('messageType')}
             className="w-full px-4 py-3 border-2 border-newspaper-gray-400 rounded-sm font-sans text-sm focus:outline-none focus:border-newspaper-black transition-colors"
             disabled={isSubmitting}
           >
@@ -150,29 +145,40 @@ export function MessageForm({ reservationId, guestName, onSuccess }: MessageForm
             Tu mensaje
           </label>
           <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            {...register('message', {
+              required: 'Por favor escribe un mensaje',
+              maxLength: {
+                value: MAX_CHARS,
+                message: `El mensaje no puede exceder ${MAX_CHARS} caracteres`
+              },
+              validate: (value) => value.trim().length > 0 || 'El mensaje no puede estar vacío'
+            })}
             placeholder="Escribe aquí tus buenos deseos, consejos o recuerdos..."
             rows={5}
-            maxLength={maxChars}
             className="w-full px-4 py-3 border-2 border-newspaper-gray-400 rounded-sm font-sans text-sm leading-relaxed focus:outline-none focus:border-newspaper-black transition-colors resize-none"
             disabled={isSubmitting}
           />
-          <p className={`text-xs font-sans mt-1 text-right ${
-            charsRemaining < 50 ? 'text-red-600 font-semibold' : 'text-newspaper-gray-600'
-          }`}>
-            {charsRemaining} caracteres restantes
-          </p>
+          <div className="flex justify-between items-center mt-1">
+            {errors.message ? (
+              <p className="text-xs text-red-600 font-semibold">{errors.message.message}</p>
+            ) : (
+              <span />
+            )}
+            <p className={`text-xs font-sans ${
+              charsRemaining < 50 ? 'text-red-600 font-semibold' : 'text-newspaper-gray-600'
+            }`}>
+              {charsRemaining} caracteres restantes
+            </p>
+          </div>
         </div>
 
         {/* Checkbox público */}
         <div className="flex items-start gap-3 p-4 bg-newspaper-gray-50 border border-newspaper-gray-300 rounded-sm">
           <input
+            {...register('isPublic')}
             type="checkbox"
             id="isPublic"
-            checked={isPublic}
-            onChange={(e) => setIsPublic(e.target.checked)}
-            className="mt-1 w-4 h-4 border-2 border-newspaper-gray-400 rounded-sm focus:ring-2 focus:ring-newspaper-black cursor-pointer"
+            className="mt-1 w-5 h-5 accent-newspaper-black cursor-pointer"
             disabled={isSubmitting}
           />
           <label htmlFor="isPublic" className="flex-1 cursor-pointer">
@@ -185,24 +191,26 @@ export function MessageForm({ reservationId, guestName, onSuccess }: MessageForm
           </label>
         </div>
 
-        {/* Botón submit */}
-        <button
-          type="submit"
-          disabled={isSubmitting || !message.trim()}
-          className="w-full bg-newspaper-black text-white py-4 px-6 font-headline text-lg font-bold uppercase tracking-wider hover:bg-newspaper-gray-900 disabled:bg-newspaper-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 border-2 border-newspaper-black"
-        >
-          {isSubmitting ? (
-            <>
-              <Loader2 className="w-5 h-5 animate-spin" />
-              Enviando...
-            </>
-          ) : (
-            <>
-              <Send className="w-5 h-5" />
-              Enviar Mensaje
-            </>
-          )}
-        </button>
+        {/* Botón submit - solo mostrar si no está en modal */}
+        {showSubmitButton && (
+          <button
+            type="submit"
+            disabled={isSubmitting || !canSubmit}
+            className="w-full bg-newspaper-black text-white py-4 px-6 font-headline text-lg font-bold uppercase tracking-wider hover:bg-newspaper-gray-900 disabled:bg-newspaper-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 border-2 border-newspaper-black"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Enviando...
+              </>
+            ) : (
+              <>
+                <Send className="w-5 h-5" />
+                Enviar Mensaje
+              </>
+            )}
+          </button>
+        )}
       </form>
 
       {/* Nota informativa */}
@@ -211,4 +219,6 @@ export function MessageForm({ reservationId, guestName, onSuccess }: MessageForm
       </p>
     </div>
   );
-}
+});
+
+MessageForm.displayName = 'MessageForm';

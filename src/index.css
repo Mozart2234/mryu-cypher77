@@ -130,7 +130,7 @@
 /* TIPOGRAFÍA */
 @utility newspaper-kicker {
   /* Kicker - texto pequeño sobre el titular */
-  @apply text-xs font-sans font-bold uppercase tracking-widest text-newspaper-gray-600 border-t border-b border-newspaper-gray-400 py-1 inline-block px-3;
+  @apply text-xs font-sans font-bold uppercase tracking-widest text-newspaper-gray-800 border-t border-b border-newspaper-gray-600 py-1 inline-block px-3;
 }
 
 @utility newspaper-headline {
@@ -140,7 +140,7 @@
 
 @utility newspaper-deck {
   /* Deck - subtítulo descriptivo debajo del titular */
-  @apply text-lg md:text-xl font-serif italic text-newspaper-gray-700 leading-relaxed;
+  @apply text-lg md:text-xl font-serif italic text-newspaper-gray-800 leading-relaxed;
 }
 
 @utility newspaper-subheadline {
@@ -155,12 +155,12 @@
 
 @utility newspaper-byline {
   /* Byline - autor del artículo */
-  @apply text-xs font-sans uppercase tracking-wider text-newspaper-gray-600 border-l-2 border-newspaper-black pl-2 mb-3;
+  @apply text-xs font-sans uppercase tracking-wider text-newspaper-gray-700 border-l-2 border-newspaper-black pl-2 mb-3;
 }
 
 @utility newspaper-body {
   /* Texto de cuerpo - párrafos justificados */
-  @apply font-sans text-sm md:text-base leading-relaxed text-newspaper-gray-700 text-justify;
+  @apply font-sans text-sm md:text-base leading-relaxed text-newspaper-gray-800 text-justify;
 }
 
 /* CONTENEDORES Y LAYOUT */
@@ -202,7 +202,7 @@
 /* ELEMENTOS DE TEXTO ESPECIALES */
 @utility newspaper-meta {
   /* Metadatos y bylines (fecha, autor, etc.) */
-  @apply font-sans text-xs uppercase tracking-wider text-newspaper-gray-500;
+  @apply font-sans text-xs uppercase tracking-wider text-newspaper-gray-600;
 }
 
 @utility newspaper-drop-cap {
@@ -235,7 +235,7 @@
 
 @utility newspaper-quote {
   /* Citas destacadas tipo pull quote */
-  @apply border-l-4 border-newspaper-black pl-4 italic font-serif text-lg text-newspaper-gray-700;
+  @apply border-l-4 border-newspaper-black pl-4 italic font-serif text-lg text-newspaper-gray-800;
 }
 
 @utility newspaper-section-header {
@@ -258,7 +258,7 @@
 @utility newspaper-condensed-label {
   /* Label condensado pequeño */
   font-family: var(--font-condensed);
-  @apply text-xs font-semibold uppercase tracking-widest text-newspaper-gray-600;
+  @apply text-xs font-semibold uppercase tracking-widest text-newspaper-gray-800;
 }
 
 @utility newspaper-condensed-title {
@@ -856,4 +856,25 @@
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+}
+
+/* ========================================
+   FLIP ANIMATION - COUNTDOWN
+   ======================================== */
+
+@keyframes flipTop {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(-10deg) scale(0.98);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+.animate-flip-top {
+  animation: flipTop 0.3s ease-in-out;
+  transform-origin: center bottom;
 }

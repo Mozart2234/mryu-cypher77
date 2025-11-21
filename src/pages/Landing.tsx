@@ -1,11 +1,11 @@
 /**
- * PÁGINA LANDING - CON SOPORTE MULTI-TEMA
+ * PÁGINA LANDING - TEMA NEWSPAPER
  *
- * Usa el TemplateRouter para renderizar la plantilla según el tema activo
+ * Página principal del sitio web de la boda
  */
 
-import { LandingRouter } from '@/templates/TemplateRouter';
+import { Landing as NewspaperLanding } from '@/templates/newspaper/Landing';
 
 export function Landing() {
-  return <LandingRouter />;
+  return <NewspaperLanding />;
 }

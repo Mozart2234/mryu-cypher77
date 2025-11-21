@@ -4,7 +4,7 @@
  * Ticket tipo periódico vintage con confirmación individual de acompañantes
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { toast } from 'sonner';
@@ -12,9 +12,9 @@ import { eventConfig } from '@/config/eventConfig';
 import { reservationService } from '@/services/reservationService';
 import { useAuth } from '@/contexts/AuthContext';
 import type { Reservation, Accompanist } from '@/types/reservation';
-import { CheckCircle, Calendar, MapPin, Users, Printer, X, Check, AlertCircle, RefreshCw } from 'lucide-react';
+import { CheckCircle, Calendar, MapPin, Users, Printer, X, Check, AlertCircle, RefreshCw, Send, Loader2 } from 'lucide-react';
 import { InvitationTicketSkeleton } from '@/components/SkeletonLoader';
-import { MessageForm } from '@/components/messages/MessageForm';
+import { MessageForm, type MessageFormRef } from '@/components/messages/MessageForm';
 import { messageService } from '@/services/messageService';
 import type { GuestMessage } from '@/types/message';
 
@@ -22,6 +22,7 @@ export function InvitationPass() {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  const messageFormRef = useRef<MessageFormRef>(null);
   const [reservation, setReservation] = useState<Reservation | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +31,9 @@ export function InvitationPass() {
   const [mainGuestAttending, setMainGuestAttending] = useState(true);
   const [accompanists, setAccompanists] = useState<Accompanist[]>([]);
   const [guestMessages, setGuestMessages] = useState<GuestMessage[]>([]);
+  const [canSendMessage, setCanSendMessage] = useState(false);
+  const [messageSent, setMessageSent] = useState(false);
+  const [sendingMessage, setSendingMessage] = useState(false);
 
   useEffect(() => {
     if (code) {
@@ -95,28 +99,36 @@ export function InvitationPass() {
   const handleMessageSuccess = () => {
     if (reservation) {
       loadMessages(reservation.id);
+      setSendingMessage(false);
+      setMessageSent(true);
 
-      // Mostrar toast de confirmación
       toast.success('¡Mensaje enviado!', {
         description: 'Tus palabras han sido enviadas a la pareja'
       });
-
-      // Cerrar el modal después de 2 segundos para que el usuario vea la confirmación
-      setTimeout(() => {
-        setShowConfirmModal(false);
-        setConfirmationStep('form');
-      }, 2000);
     }
   };
 
   const handleCloseModal = () => {
     setShowConfirmModal(false);
     setConfirmationStep('form');
+    setMessageSent(false);
   };
 
   const handleSkipMessage = () => {
     setShowConfirmModal(false);
     setConfirmationStep('form');
+    setMessageSent(false);
+  };
+
+  const handleSendMessage = async () => {
+    if (messageFormRef.current) {
+      setSendingMessage(true);
+      try {
+        await messageFormRef.current.submit();
+      } catch {
+        setSendingMessage(false);
+      }
+    }
   };
 
   const handleOpenConfirmModal = () => {
@@ -304,59 +316,84 @@ export function InvitationPass() {
           </div>
         )}
 
+        {/* Nota discreta para enviar mensaje (solo si ya está confirmado) */}
+        {(isConfirmed || isCheckedIn) && guestMessages.length === 0 && (
+          <div className="bg-newspaper-gray-50 border border-newspaper-gray-300 p-4 text-center">
+            <p className="text-xs text-newspaper-gray-600 mb-2">
+              <CheckCircle className="w-4 h-4 inline mr-1 text-green-600" />
+              <strong className="text-newspaper-black">Asistencia confirmada</strong>
+            </p>
+            <p className="font-sans text-sm text-newspaper-gray-700 mb-3">
+              ¿Te gustaría dejar un mensaje para los novios?
+            </p>
+            <button
+              onClick={() => {
+                setConfirmationStep('message');
+                setShowConfirmModal(true);
+              }}
+              className="inline-flex items-center gap-2 text-sm text-newspaper-black underline hover:text-newspaper-gray-700 transition-colors cursor-pointer"
+            >
+              <Send className="w-4 h-4" />
+              <span>Enviar mensaje</span>
+            </button>
+          </div>
+        )}
+
       </div>
 
-      {/* TICKET ESTILO PERIÓDICO */}
-      <div className="max-w-5xl mx-auto bg-white border-8 border-newspaper-black print:border-4">
-        {/* HEADER ESTILO PERIÓDICO */}
-        <div className="border-b-4 border-newspaper-black p-8 md:p-12 bg-white">
+      {/* TICKET ESTILO PERIÓDICO - MÁS COMPACTO */}
+      <div className="max-w-4xl mx-auto bg-white border-4 border-newspaper-black shadow-2xl print:border-2">
+        {/* HEADER ESTILO PERIÓDICO - MÁS COMPACTO */}
+        <div className="border-b-2 border-newspaper-black p-6 md:p-8 bg-newspaper-gray-50">
           <div className="text-center">
-            {/* Masthead */}
-            <div className="mb-6">
-              <div className="flex items-center justify-center gap-4 mb-3">
-                <div className="flex-1 h-0.5 bg-newspaper-black"></div>
+            {/* Masthead compacto */}
+            <div className="mb-4">
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <div className="flex-1 h-px bg-newspaper-black"></div>
                 <div className="newspaper-page-number text-xs">PASE OFICIAL</div>
-                <div className="flex-1 h-0.5 bg-newspaper-black"></div>
+                <div className="flex-1 h-px bg-newspaper-black"></div>
               </div>
-              <h1 className="font-headline text-5xl md:text-6xl font-bold text-newspaper-black mb-2 leading-none">
+              <h1 className="font-headline text-3xl md:text-4xl font-bold text-newspaper-black mb-1 leading-none">
                 THE WEDDING TIMES
               </h1>
-              <div className="newspaper-divider-double my-3"></div>
-              <p className="newspaper-meta text-sm">
+              <div className="h-0.5 w-32 bg-newspaper-black mx-auto my-2"></div>
+              <p className="newspaper-meta text-xs">
                 {eventConfig.date.full.toUpperCase()}
               </p>
             </div>
 
-            {/* Titular Principal */}
-            <div className="bg-newspaper-gray-900 text-white p-6 my-6">
-              <h2 className="font-headline text-3xl md:text-4xl font-bold leading-tight">
+            {/* Titular Principal - más compacto */}
+            <div className="bg-newspaper-black text-white p-4 my-4">
+              <h2 className="font-headline text-xl md:text-2xl font-bold leading-tight">
                 {eventConfig.bride.name} & {eventConfig.groom.name}
               </h2>
-              <p className="font-headline text-lg mt-2 opacity-90">
+              <p className="font-headline text-sm mt-1 opacity-90">
                 SE CASAN EN {eventConfig.date.month}
               </p>
             </div>
 
-            {/* Badge de Estado */}
+            {/* Badge de Estado - más pequeño */}
             {isPending && (
-              <div className="inline-block bg-newspaper-gray-200 border-2 border-newspaper-black px-6 py-2">
-                <p className="font-headline text-sm uppercase tracking-widest text-newspaper-black">
-                  ⚠ Confirmación Pendiente
+              <div className="inline-block bg-yellow-100 border-2 border-yellow-600 px-4 py-1.5">
+                <p className="font-headline text-xs uppercase tracking-widest text-yellow-800 flex items-center gap-2">
+                  <AlertCircle className="w-3 h-3" />
+                  Confirmación Pendiente
                 </p>
               </div>
             )}
             {isConfirmed && (
-              <div className="inline-block bg-newspaper-black text-white px-6 py-2">
-                <p className="font-headline text-sm uppercase tracking-widest flex items-center gap-2 justify-center">
-                  <Check className="w-4 h-4" />
+              <div className="inline-block bg-green-100 border-2 border-green-600 px-4 py-1.5">
+                <p className="font-headline text-xs uppercase tracking-widest flex items-center gap-2 justify-center text-green-800">
+                  <Check className="w-3 h-3" />
                   Asistencia Confirmada
                 </p>
               </div>
             )}
             {isCheckedIn && (
-              <div className="inline-block bg-newspaper-gray-700 text-white px-6 py-2">
-                <p className="font-headline text-sm uppercase tracking-widest">
-                  ✓ Ingreso Registrado
+              <div className="inline-block bg-newspaper-black text-white px-4 py-1.5">
+                <p className="font-headline text-xs uppercase tracking-widest flex items-center gap-2">
+                  <CheckCircle className="w-3 h-3" />
+                  Ingreso Registrado
                 </p>
               </div>
             )}
@@ -719,8 +756,29 @@ export function InvitationPass() {
                     </p>
                   </div>
                 </>
+              ) : messageSent ? (
+                /* PASO 2B: Mensaje Enviado - Éxito */
+                <div className="text-center py-8">
+                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle className="w-12 h-12 text-green-600" />
+                  </div>
+                  <h4 className="font-headline text-2xl font-bold text-newspaper-black mb-2">
+                    ¡Mensaje Enviado!
+                  </h4>
+                  <p className="text-newspaper-gray-700 mb-6">
+                    Gracias por tus palabras. La pareja las recibirá con mucho cariño.
+                  </p>
+                  <div className="bg-newspaper-gray-100 border-2 border-newspaper-black p-4">
+                    <p className="font-headline text-lg font-bold text-newspaper-black">
+                      {getConfirmedCount()} {getConfirmedCount() === 1 ? 'persona confirmada' : 'personas confirmadas'}
+                    </p>
+                    <p className="text-sm text-newspaper-gray-600 mt-1">
+                      ¡Nos vemos en la celebración!
+                    </p>
+                  </div>
+                </div>
               ) : (
-                /* PASO 2: Formulario de Mensaje */
+                /* PASO 2A: Formulario de Mensaje */
                 <>
                   <div className="mb-6 text-center">
                     <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -739,9 +797,12 @@ export function InvitationPass() {
                   </div>
 
                   <MessageForm
+                    ref={messageFormRef}
                     reservationId={reservation.id}
                     guestName={reservation.guestName}
                     onSuccess={handleMessageSuccess}
+                    showSubmitButton={false}
+                    onCanSubmitChange={setCanSendMessage}
                   />
                 </>
               )}
@@ -764,13 +825,40 @@ export function InvitationPass() {
                     Cancelar
                   </button>
                 </>
-              ) : (
+              ) : messageSent ? (
                 <button
-                  onClick={handleSkipMessage}
-                  className="flex-1 px-6 py-4 border-2 border-newspaper-black font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer"
+                  onClick={handleCloseModal}
+                  className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition cursor-pointer"
                 >
-                  Cerrar (sin mensaje)
+                  Cerrar
                 </button>
+              ) : (
+                <>
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={!canSendMessage || sendingMessage}
+                    className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition cursor-pointer disabled:bg-newspaper-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {sendingMessage ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Enviando...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5" />
+                        Enviar Mensaje
+                      </>
+                    )}
+                  </button>
+                  <button
+                    onClick={handleSkipMessage}
+                    disabled={sendingMessage}
+                    className="px-6 py-4 border-2 border-newspaper-black font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Saltar
+                  </button>
+                </>
               )}
             </div>
           </div>

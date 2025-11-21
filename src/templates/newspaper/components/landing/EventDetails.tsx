@@ -123,7 +123,7 @@ export function EventDetails() {
               {messages.eventDetails.receptionTitle}
             </h3>
             <div className="space-y-2">
-              <p className="font-serif text-xs md:text-sm mb-2 md:mb-3 text-newspaper-gray-600">
+              <p className="font-serif text-xs md:text-sm mb-2 md:mb-3 text-newspaper-gray-800">
                 {messages.eventDetails.receptionIntro}
               </p>
               <p className="font-serif font-bold text-sm md:text-base text-newspaper-black">{reception.name}</p>
@@ -142,7 +142,7 @@ export function EventDetails() {
 
         {/* FOLIO - pie de página */}
         <div className="newspaper-folio">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-600">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-700">
             <span>Página 2</span>
             <span>•</span>
             <span>Sección: Información del Evento</span>

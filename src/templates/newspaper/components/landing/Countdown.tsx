@@ -1,11 +1,90 @@
 /**
  * COMPONENTE COUNTDOWN
  *
- * Contador regresivo creativo tipo periódico
+ * Contador regresivo con animación flip tipo periódico
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { eventConfig } from '@/config/eventConfig';
+
+interface FlipCardProps {
+  value: string;
+  label: string;
+}
+
+function FlipCard({ value, label }: FlipCardProps) {
+  const [displayValue, setDisplayValue] = useState(value);
+  const [isFlipping, setIsFlipping] = useState(false);
+  const prevValueRef = useRef(value);
+
+  useEffect(() => {
+    if (value !== prevValueRef.current) {
+      // Iniciar animación de flip
+      setIsFlipping(true);
+
+      // A mitad de la animación, cambiar el valor
+      const changeTimer = setTimeout(() => {
+        setDisplayValue(value);
+      }, 150);
+
+      // Finalizar animación
+      const endTimer = setTimeout(() => {
+        setIsFlipping(false);
+        prevValueRef.current = value;
+      }, 300);
+
+      return () => {
+        clearTimeout(changeTimer);
+        clearTimeout(endTimer);
+      };
+    }
+  }, [value]);
+
+  return (
+    <div className="text-center">
+      <div className="relative bg-white text-newspaper-black overflow-hidden shadow-lg border-2 border-newspaper-black">
+        {/* Contenedor del número con perspectiva 3D */}
+        <div
+          className="relative p-4 md:p-6"
+          style={{ perspective: '300px' }}
+        >
+          {/* Número con animación flip */}
+          <div
+            className={`
+              font-headline text-4xl md:text-6xl lg:text-7xl font-black leading-none
+              transition-all duration-300 ease-in-out
+              ${isFlipping ? 'flip-animation' : ''}
+            `}
+            style={{
+              transformStyle: 'preserve-3d',
+            }}
+          >
+            {displayValue}
+          </div>
+
+          {/* Línea divisoria horizontal tipo periódico */}
+          <div className="absolute left-2 right-2 top-1/2 h-px bg-newspaper-gray-300 pointer-events-none"></div>
+
+          {/* Sombra durante el flip */}
+          <div
+            className={`
+              absolute inset-0 bg-gradient-to-b from-black/0 via-black/10 to-black/0
+              pointer-events-none transition-opacity duration-150
+              ${isFlipping ? 'opacity-100' : 'opacity-0'}
+            `}
+          />
+        </div>
+
+        {/* Label inferior */}
+        <div className="border-t-2 border-newspaper-black py-2 bg-newspaper-gray-100">
+          <span className="font-sans text-xs md:text-sm uppercase tracking-wider font-bold text-newspaper-black">
+            {label}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function Countdown() {
   const [timeLeft, setTimeLeft] = useState({
@@ -43,11 +122,11 @@ export function Countdown() {
   }, []);
 
   return (
-    <section className="newspaper-page py-8 md:py-12 px-4 md:px-8 bg-newspaper-black text-white animate-slide-down">
+    <section className="newspaper-page py-8 md:py-12 px-4 md:px-8 bg-newspaper-black text-white">
       <div className="max-w-7xl mx-auto">
         {/* Título tipo headline urgente */}
         <div className="text-center mb-6 md:mb-8">
-          <div className="inline-block border-2 border-white px-4 md:px-6 py-1.5 md:py-2 mb-3 md:mb-4 rotate-in">
+          <div className="inline-block border-2 border-white px-4 md:px-6 py-1.5 md:py-2 mb-3 md:mb-4">
             <span className="text-xs uppercase tracking-widest">
               {isEventPassed ? "EDICIÓN ESPECIAL" : "ÚLTIMA HORA"}
             </span>
@@ -60,63 +139,24 @@ export function Countdown() {
           </p>
         </div>
 
-        {/* Contador estilo periódico */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 max-w-5xl mx-auto">
-          {/* Días */}
-          <div className="text-center">
-            <div className="bg-white text-newspaper-black p-4 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-              <div className="font-headline text-4xl md:text-7xl font-black leading-none mb-1 md:mb-2 countdown-pulse">
-                {String(timeLeft.days).padStart(2, '0')}
-              </div>
-              <div className="border-t-2 border-newspaper-black pt-1.5 md:pt-2 mt-1.5 md:mt-2">
-                <span className="font-sans text-xs md:text-base uppercase tracking-wider font-bold">
-                  Días
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Horas */}
-          <div className="text-center">
-            <div className="bg-white text-newspaper-black p-4 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-              <div className="font-headline text-4xl md:text-7xl font-black leading-none mb-1 md:mb-2 countdown-pulse">
-                {String(timeLeft.hours).padStart(2, '0')}
-              </div>
-              <div className="border-t-2 border-newspaper-black pt-1.5 md:pt-2 mt-1.5 md:mt-2">
-                <span className="font-sans text-xs md:text-base uppercase tracking-wider font-bold">
-                  Horas
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Minutos */}
-          <div className="text-center">
-            <div className="bg-white text-newspaper-black p-4 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-              <div className="font-headline text-4xl md:text-7xl font-black leading-none mb-1 md:mb-2 countdown-pulse">
-                {String(timeLeft.minutes).padStart(2, '0')}
-              </div>
-              <div className="border-t-2 border-newspaper-black pt-1.5 md:pt-2 mt-1.5 md:mt-2">
-                <span className="font-sans text-xs md:text-base uppercase tracking-wider font-bold">
-                  Min
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Segundos */}
-          <div className="text-center">
-            <div className="bg-white text-newspaper-black p-4 md:p-8 border-4 border-white transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-              <div className="font-headline text-4xl md:text-7xl font-black leading-none mb-1 md:mb-2 countdown-pulse">
-                {String(timeLeft.seconds).padStart(2, '0')}
-              </div>
-              <div className="border-t-2 border-newspaper-black pt-1.5 md:pt-2 mt-1.5 md:mt-2">
-                <span className="font-sans text-xs md:text-base uppercase tracking-wider font-bold">
-                  Seg
-                </span>
-              </div>
-            </div>
-          </div>
+        {/* Contador con flip animation */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 max-w-4xl mx-auto">
+          <FlipCard
+            value={String(timeLeft.days).padStart(2, '0')}
+            label="Días"
+          />
+          <FlipCard
+            value={String(timeLeft.hours).padStart(2, '0')}
+            label="Horas"
+          />
+          <FlipCard
+            value={String(timeLeft.minutes).padStart(2, '0')}
+            label="Minutos"
+          />
+          <FlipCard
+            value={String(timeLeft.seconds).padStart(2, '0')}
+            label="Segundos"
+          />
         </div>
 
         {/* Subtexto */}
@@ -131,6 +171,26 @@ export function Countdown() {
           </div>
         </div>
       </div>
+
+      {/* CSS para la animación flip */}
+      <style>{`
+        .flip-animation {
+          animation: flipNumber 0.3s ease-in-out;
+        }
+
+        @keyframes flipNumber {
+          0% {
+            transform: rotateX(0deg);
+          }
+          50% {
+            transform: rotateX(-90deg);
+            opacity: 0.5;
+          }
+          100% {
+            transform: rotateX(0deg);
+          }
+        }
+      `}</style>
     </section>
   );
 }

@@ -8,7 +8,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { Toaster } from 'sonner';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 
 // Páginas críticas (carga inmediata)
@@ -24,19 +23,18 @@ const ContentEditor = lazy(() => import('@/pages/ContentEditor').then(m => ({ de
 
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <Toaster position="top-center" richColors closeButton expand={true} />
-          <Suspense fallback={
-            <div className="min-h-screen flex items-center justify-center bg-white">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-                <p className="text-gray-600">Cargando...</p>
-              </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Toaster position="top-center" richColors closeButton expand={true} />
+        <Suspense fallback={
+          <div className="min-h-screen flex items-center justify-center bg-white">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+              <p className="text-gray-600">Cargando...</p>
             </div>
-          }>
-            <Routes>
+          </div>
+        }>
+          <Routes>
             {/* Ruta pública - Landing */}
             <Route path="/" element={<Landing />} />
 
@@ -68,10 +66,9 @@ function App() {
             {/* Redirigir cualquier otra ruta al inicio */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </AuthProvider>
-    </ThemeProvider>
+        </Suspense>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

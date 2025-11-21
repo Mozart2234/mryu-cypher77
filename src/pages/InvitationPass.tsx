@@ -1,11 +1,11 @@
 /**
- * PÁGINA INVITATION PASS - CON SOPORTE MULTI-TEMA
+ * PÁGINA INVITATION PASS - TEMA NEWSPAPER
  *
- * Usa el TemplateRouter para renderizar el pase según el tema activo
+ * Pase de invitación digital para cada invitado
  */
 
-import { InvitationPassRouter } from '@/templates/TemplateRouter';
+import { InvitationPass as NewspaperPass } from '@/templates/newspaper/InvitationPass';
 
 export function InvitationPass() {
-  return <InvitationPassRouter />;
+  return <NewspaperPass />;
 }

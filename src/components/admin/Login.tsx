@@ -2,40 +2,52 @@
  * COMPONENTE LOGIN CON SUPABASE AUTH
  *
  * Formulario de autenticación para acceder al panel de administración
- * Usa Supabase Auth para autenticación real
+ * Usa Supabase Auth - Refactorizado con React Hook Form
  */
 
-import { useState, FormEvent } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Mail } from 'lucide-react';
 
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
 export function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<LoginFormData>({
+    defaultValues: {
+      email: '',
+      password: ''
+    }
+  });
 
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      const { success, error: loginError } = await login(email, password);
+      const { success, error: loginError } = await login(data.email, data.password);
 
       if (success) {
+        toast.success('Sesión iniciada correctamente');
         navigate('/admin');
       } else {
-        setError(loginError || 'Error al iniciar sesión');
+        toast.error('Error al iniciar sesión', {
+          description: loginError || 'Credenciales incorrectas'
+        });
       }
     } catch (err) {
-      setError('Error inesperado al iniciar sesión');
-      console.error(err);
-    } finally {
-      setLoading(false);
+      console.error('Login error:', err);
+      toast.error('Error inesperado al iniciar sesión', {
+        description: 'Por favor intenta de nuevo'
+      });
     }
   };
 
@@ -51,22 +63,29 @@ export function Login() {
             <p className="text-gray-600 mt-2">Ingresa con tu cuenta Supabase</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <label className="label">
                 <Mail className="w-4 h-4 inline mr-2" />
                 Email
               </label>
               <input
+                {...register('email', {
+                  required: 'El email es requerido',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: 'Email inválido'
+                  }
+                })}
                 type="email"
                 className="input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@example.com"
                 autoComplete="email"
-                required
-                disabled={loading}
+                disabled={isSubmitting}
               />
+              {errors.email && (
+                <p className="text-xs text-red-600 mt-1">{errors.email.message}</p>
+              )}
             </div>
 
             <div>
@@ -75,29 +94,30 @@ export function Login() {
                 Contraseña
               </label>
               <input
+                {...register('password', {
+                  required: 'La contraseña es requerida',
+                  minLength: {
+                    value: 6,
+                    message: 'Mínimo 6 caracteres'
+                  }
+                })}
                 type="password"
                 className="input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 autoComplete="current-password"
-                required
-                disabled={loading}
+                disabled={isSubmitting}
               />
+              {errors.password && (
+                <p className="text-xs text-red-600 mt-1">{errors.password.message}</p>
+              )}
             </div>
-
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                {error}
-              </div>
-            )}
 
             <button
               type="submit"
               className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={loading}
+              disabled={isSubmitting}
             >
-              {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+              {isSubmitting ? 'Iniciando sesión...' : 'Iniciar Sesión'}
             </button>
           </form>
 

@@ -1,8 +1,8 @@
 /**
  * NEWS TICKER MESSAGES
  *
- * Ticker de noticias estilo noticiero que muestra mensajes de invitados
- * con scroll automático horizontal
+ * Ticker de noticias estilo periódico con scroll automático
+ * y efecto de pausa en hover
  */
 
 import { useState, useEffect } from 'react';
@@ -13,6 +13,7 @@ import { MessageSquare } from 'lucide-react';
 export function NewsTickerMessages() {
   const [messages, setMessages] = useState<GuestMessage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     loadMessages();
@@ -36,48 +37,63 @@ export function NewsTickerMessages() {
   }
 
   return (
-    <div className="bg-newspaper-gray-800 text-white py-3 overflow-hidden border-y-4 border-newspaper-black relative">
-      {/* Label fijo */}
-      <div className="absolute left-0 top-0 bottom-0 bg-newspaper-accent z-10 flex items-center px-4 border-r-4 border-newspaper-black">
-        <div className="flex items-center gap-2">
-          <MessageSquare className="w-4 h-4" />
-          <span className="font-headline text-xs uppercase tracking-wider whitespace-nowrap">
-            Mensajes de Invitados
-          </span>
+    <div
+      className="bg-newspaper-gray-900 text-white py-0 overflow-hidden relative border-y-2 border-newspaper-black"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* Barra con estilo periódico */}
+      <div className="flex items-stretch">
+        {/* Label fijo estilo periódico */}
+        <div className="relative bg-newspaper-black z-10 flex items-center px-4 md:px-5 py-2.5 shrink-0 border-r-2 border-newspaper-gray-700">
+          <div className="flex items-center gap-2">
+            <MessageSquare className="w-4 h-4 text-newspaper-accent" />
+            <span className="font-headline text-xs md:text-sm uppercase tracking-wider whitespace-nowrap font-bold">
+              Mensajes
+            </span>
+          </div>
         </div>
-      </div>
 
-      {/* Ticker con scroll automático */}
-      <div className="ticker-wrapper pl-52">
-        <div className="ticker-content flex items-center gap-8 animate-ticker">
-          {messages.map((message, index) => (
-            <div
-              key={`${message.id}-${index}`}
-              className="flex items-center gap-3 whitespace-nowrap"
-            >
-              <span className="text-newspaper-gray-400">•</span>
-              <span className="font-serif text-sm italic text-newspaper-gray-100">
-                "{message.message}"
-              </span>
-              <span className="font-headline text-xs text-newspaper-gray-400">
-                — {message.guestName}
-              </span>
-            </div>
-          ))}
+        {/* Ticker con scroll automático */}
+        <div className="flex-1 overflow-hidden py-2.5 pl-4 bg-newspaper-gray-800">
+          <div
+            className={`ticker-content flex items-center gap-8 md:gap-12 ${isPaused ? 'ticker-paused' : ''}`}
+          >
+            {messages.map((message, index) => (
+              <div
+                key={`${message.id}-${index}`}
+                className="flex items-center gap-2 md:gap-3 whitespace-nowrap group"
+              >
+                <span className="text-newspaper-accent text-lg">❖</span>
+                <span className="font-serif text-sm md:text-base italic text-newspaper-gray-200 group-hover:text-white transition-colors">
+                  "{message.message}"
+                </span>
+                <span className="font-headline text-xs text-newspaper-gray-400 uppercase tracking-wide">
+                  — {message.guestName}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* Indicador de pausa */}
+        {isPaused && (
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 bg-newspaper-black/80 px-2 py-1 text-xs uppercase tracking-wide border border-newspaper-gray-600">
+            ⏸ Pausado
+          </div>
+        )}
       </div>
 
       {/* CSS personalizado para la animación */}
       <style>{`
-        .ticker-wrapper {
-          overflow: hidden;
-          width: 100%;
-        }
-
         .ticker-content {
           display: flex;
-          animation: scroll-ticker 40s linear infinite;
+          animation: scroll-ticker 50s linear infinite;
           will-change: transform;
+        }
+
+        .ticker-content.ticker-paused {
+          animation-play-state: paused;
         }
 
         @keyframes scroll-ticker {
@@ -89,17 +105,9 @@ export function NewsTickerMessages() {
           }
         }
 
-        .ticker-content:hover {
-          animation-play-state: paused;
-        }
-
         @media (max-width: 768px) {
-          .ticker-wrapper {
-            padding-left: 9rem;
-          }
-
           .ticker-content {
-            animation-duration: 25s;
+            animation-duration: 35s;
           }
         }
       `}</style>
