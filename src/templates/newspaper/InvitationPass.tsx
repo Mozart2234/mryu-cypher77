@@ -267,50 +267,91 @@ export function InvitationPass() {
           )}
         </div>
 
-        {/* CTA Mejorado con Indicador de Pasos */}
+        {/* CTA Mejorado - Estilo Anuncio de Periódico Vintage */}
         {isPending && (
-          <div className="bg-white border-4 border-newspaper-black p-6">
-            {/* Indicador de Pasos */}
-            <div className="bg-newspaper-gray-100 border-2 border-newspaper-black p-4 mb-6">
-              <p className="font-headline text-xs uppercase tracking-widest text-center mb-3 text-newspaper-gray-600">
-                Pasos para Confirmar tu Asistencia
-              </p>
-              <div className="flex items-center justify-center gap-2 text-sm font-headline">
-                <span className="flex items-center gap-1">
-                  <span className="w-6 h-6 bg-newspaper-black text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
-                  <span className="hidden sm:inline">Lee tu invitación</span>
-                </span>
-                <span className="text-newspaper-gray-400">→</span>
-                <span className="flex items-center gap-1">
-                  <span className="w-6 h-6 bg-newspaper-black text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
-                  <span className="hidden sm:inline">Confirma asistencia</span>
-                </span>
-                <span className="text-newspaper-gray-400">→</span>
-                <span className="flex items-center gap-1">
-                  <span className="w-6 h-6 bg-newspaper-black text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
-                  <span className="hidden sm:inline">Envía mensaje</span>
-                </span>
+          <div className="bg-white border-4 border-double border-newspaper-black relative">
+            {/* Decoración esquinas */}
+            <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-newspaper-black"></div>
+            <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-newspaper-black"></div>
+            <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-newspaper-black"></div>
+            <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-newspaper-black"></div>
+
+            {/* Header del anuncio - Más llamativo */}
+            <div className="bg-newspaper-black text-white px-6 py-4">
+              <div className="text-center">
+                <p className="font-serif text-[10px] uppercase tracking-[0.3em] opacity-70 mb-1">
+                  ¡Atención Estimado Invitado!
+                </p>
+                <p className="font-headline text-lg md:text-xl font-black tracking-tight">
+                  TU RESPUESTA ES IMPORTANTE
+                </p>
               </div>
             </div>
 
-            {/* CTA Principal Grande */}
-            <button
-              onClick={handleOpenConfirmModal}
-              className="w-full bg-newspaper-black text-white px-8 py-6 font-headline text-lg uppercase tracking-wider hover:bg-newspaper-gray-900 transition-all border-4 border-newspaper-black hover:scale-[1.02] transform shadow-lg cursor-pointer active:scale-[0.98]"
-            >
-              <div className="flex items-center justify-center gap-3 mb-2">
-                <CheckCircle className="w-7 h-7" />
-                <span className="text-2xl font-bold">Confirmar Asistencia</span>
+            {/* Contenido principal */}
+            <div className="p-6 md:p-8">
+              {/* Mensaje de bienvenida */}
+              <div className="text-center mb-6">
+                <p className="font-serif text-base md:text-lg text-newspaper-gray-700 leading-relaxed">
+                  Nos encantaría contar con tu presencia en nuestra boda.
+                </p>
+                <p className="font-serif text-sm text-newspaper-gray-600 mt-2">
+                  Por favor, tómate un momento para confirmar tu asistencia.
+                </p>
               </div>
-              <p className="text-xs opacity-90 font-sans normal-case tracking-normal">
-                Por favor confirma antes del 5 de Enero, 2026
-              </p>
-            </button>
 
-            {/* Nota urgente */}
-            <div className="mt-4 text-center">
-              <p className="text-xs text-newspaper-gray-600 italic">
-                Tu confirmación nos ayuda a organizar mejor este día especial
+              {/* Indicador de Pasos - Estilo Editorial */}
+              <div className="bg-newspaper-gray-50 border border-newspaper-gray-200 p-4 mb-6">
+                <p className="font-serif text-[10px] uppercase tracking-[0.15em] text-center mb-3 text-newspaper-gray-500">
+                  Solo 3 sencillos pasos
+                </p>
+                <div className="flex items-center justify-center gap-3 md:gap-4">
+                  <div className="flex flex-col items-center">
+                    <span className="w-8 h-8 bg-newspaper-black text-white flex items-center justify-center font-headline text-sm font-bold">1</span>
+                    <span className="text-[10px] font-serif mt-1 text-newspaper-gray-600 hidden sm:block">Lee tu pase</span>
+                  </div>
+                  <div className="h-px w-6 bg-newspaper-gray-400"></div>
+                  <div className="flex flex-col items-center">
+                    <span className="w-8 h-8 bg-newspaper-black text-white flex items-center justify-center font-headline text-sm font-bold">2</span>
+                    <span className="text-[10px] font-serif mt-1 text-newspaper-gray-600 hidden sm:block">Confirma</span>
+                  </div>
+                  <div className="h-px w-6 bg-newspaper-gray-400"></div>
+                  <div className="flex flex-col items-center">
+                    <span className="w-8 h-8 bg-newspaper-black text-white flex items-center justify-center font-headline text-sm font-bold">3</span>
+                    <span className="text-[10px] font-serif mt-1 text-newspaper-gray-600 hidden sm:block">Mensaje</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA Principal - Más Grande y Atractivo */}
+              <button
+                onClick={handleOpenConfirmModal}
+                className="w-full bg-newspaper-black text-white px-6 py-6 font-headline uppercase tracking-wider hover:bg-newspaper-gray-800 transition-all border-2 border-newspaper-black shadow-xl cursor-pointer active:scale-[0.99] group relative overflow-hidden hover:shadow-2xl"
+              >
+                {/* Efecto decorativo superior */}
+                <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-transparent via-white/30 to-transparent"></div>
+
+                {/* Contenido del botón */}
+                <div className="flex items-center justify-center gap-3 mb-2">
+                  <span className="text-2xl">👆</span>
+                  <span className="text-xl md:text-2xl font-black tracking-tight">¡CONFIRMA AQUÍ!</span>
+                </div>
+                <div className="flex items-center justify-center gap-2 text-white/90">
+                  <CheckCircle className="w-4 h-4" />
+                  <span className="text-sm font-serif normal-case">Haz clic para confirmar tu asistencia</span>
+                </div>
+              </button>
+
+              {/* Fecha límite destacada */}
+              <div className="mt-4 text-center bg-yellow-50 border border-yellow-300 p-3">
+                <p className="font-headline text-xs uppercase tracking-wider text-yellow-800">
+                  ⏰ Fecha límite: <strong>5 de Enero, 2026</strong>
+                </p>
+              </div>
+
+              {/* Nota inferior */}
+              <p className="text-center mt-4 font-serif text-xs text-newspaper-gray-500 italic">
+                Tu confirmación nos ayuda a preparar este día especial con todo el cariño que mereces
               </p>
             </div>
           </div>
@@ -904,94 +945,137 @@ export function InvitationPass() {
                   </div>
                 </div>
               ) : (
-                /* PASO 2A: Formulario de Mensaje */
+                /* PASO 2A: Formulario de Mensaje - Estilo Vintage */
                 <>
                   <div className="mb-6 text-center">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <CheckCircle className="w-10 h-10 text-green-600" />
+                    {/* Badge de confirmación */}
+                    <div className="inline-flex items-center gap-2 bg-green-100 border-2 border-green-600 px-4 py-2 mb-4">
+                      <CheckCircle className="w-5 h-5 text-green-700" />
+                      <span className="font-headline text-sm font-bold text-green-800">
+                        {getConfirmedCount()} {getConfirmedCount() === 1 ? 'persona confirmada' : 'personas confirmadas'}
+                      </span>
                     </div>
-                    <p className="font-headline text-lg font-bold text-newspaper-black mb-2">
-                      {getConfirmedCount()} {getConfirmedCount() === 1 ? 'persona confirmada' : 'personas confirmadas'}
-                    </p>
-                    <div className="newspaper-divider-thick my-4"></div>
-                    <h4 className="font-headline text-xl font-bold text-newspaper-black mb-2">
+
+                    {/* Separador vintage */}
+                    <div className="flex items-center justify-center gap-3 my-4">
+                      <div className="h-px flex-1 bg-newspaper-gray-300 max-w-16"></div>
+                      <span className="font-serif text-newspaper-gray-400">✦</span>
+                      <div className="h-px flex-1 bg-newspaper-gray-300 max-w-16"></div>
+                    </div>
+
+                    <h4 className="font-headline text-xl font-black text-newspaper-black mb-2 tracking-tight">
                       ENVÍA UN MENSAJE A LOS NOVIOS
                     </h4>
-                    <p className="text-sm text-newspaper-gray-700">
+                    <p className="text-sm text-newspaper-gray-600 italic font-serif">
                       (Opcional) Comparte tus mejores deseos
                     </p>
                   </div>
 
-                  <MessageForm
-                    ref={messageFormRef}
-                    reservationId={reservation.id}
-                    guestName={reservation.guestName}
-                    onSuccess={handleMessageSuccess}
-                    showSubmitButton={false}
-                    onCanSubmitChange={setCanSendMessage}
-                  />
+                  {/* Formulario con estilo vintage */}
+                  <div className="border-2 border-newspaper-black bg-white">
+                    <div className="bg-newspaper-gray-100 border-b-2 border-newspaper-black p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-newspaper-black text-white flex items-center justify-center">
+                          <Send className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <h3 className="font-headline text-sm font-bold text-newspaper-black uppercase tracking-wide">
+                            Mensaje para los Novios
+                          </h3>
+                          <p className="font-serif text-xs text-newspaper-gray-600 italic">
+                            Deja unas palabras para {eventConfig.groom.name} y {eventConfig.bride.name} en este día especial
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-5">
+                      <MessageForm
+                        ref={messageFormRef}
+                        reservationId={reservation.id}
+                        guestName={reservation.guestName}
+                        onSuccess={handleMessageSuccess}
+                        showSubmitButton={false}
+                        onCanSubmitChange={setCanSendMessage}
+                        hideHeader={true}
+                        hideWrapper={true}
+                      />
+                    </div>
+                    <div className="border-t border-newspaper-gray-200 px-5 py-3 bg-newspaper-gray-50">
+                      <p className="font-serif text-xs text-newspaper-gray-500 italic text-center">
+                        Tu mensaje será enviado directamente a la pareja
+                      </p>
+                    </div>
+                  </div>
                 </>
               )}
             </div>
 
-            {/* Footer */}
-            <div className="border-t-2 border-newspaper-gray-300 p-6 flex gap-3">
-              {confirmationStep === 'form' ? (
-                <>
-                  <button
-                    onClick={handleSaveConfirmation}
-                    className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition cursor-pointer"
-                  >
-                    Guardar Confirmación
-                  </button>
+            {/* Footer - Estilo Vintage */}
+            <div className="border-t-4 border-double border-newspaper-black p-6 bg-newspaper-gray-50">
+              <div className="flex gap-4">
+                {confirmationStep === 'form' ? (
+                  <>
+                    <button
+                      onClick={handleSaveConfirmation}
+                      className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-800 transition cursor-pointer border-2 border-newspaper-black shadow-md"
+                    >
+                      <span className="flex items-center justify-center gap-2">
+                        <Check className="w-5 h-5" />
+                        Guardar Confirmación
+                      </span>
+                    </button>
+                    <button
+                      onClick={handleCloseModal}
+                      className="px-6 py-4 bg-white border-2 border-newspaper-black font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer text-newspaper-black"
+                    >
+                      Cancelar
+                    </button>
+                  </>
+                ) : messageSent ? (
                   <button
                     onClick={handleCloseModal}
-                    className="px-6 py-4 border-2 border-newspaper-black font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer"
+                    className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-800 transition cursor-pointer border-2 border-newspaper-black shadow-md"
                   >
-                    Cancelar
+                    <span className="flex items-center justify-center gap-2">
+                      <CheckCircle className="w-5 h-5" />
+                      Cerrar
+                    </span>
                   </button>
-                </>
-              ) : messageSent ? (
-                <button
-                  onClick={handleCloseModal}
-                  className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition cursor-pointer"
-                >
-                  Cerrar
-                </button>
-              ) : (
-                <>
-                  <button
-                    onClick={handleSendMessage}
-                    disabled={!canSendMessage || sendingMessage}
-                    className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition cursor-pointer disabled:bg-newspaper-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                  >
-                    {sendingMessage ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        Enviando...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        Enviar Mensaje
-                      </>
-                    )}
-                  </button>
-                  <button
-                    onClick={handleSkipMessage}
-                    disabled={sendingMessage}
-                    className="px-6 py-4 border-2 border-newspaper-black font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Saltar
-                  </button>
-                </>
-              )}
+                ) : (
+                  <>
+                    <button
+                      onClick={handleSendMessage}
+                      disabled={!canSendMessage || sendingMessage}
+                      className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-800 transition cursor-pointer disabled:bg-newspaper-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 border-2 border-newspaper-black shadow-md"
+                    >
+                      {sendingMessage ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Enviando...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5" />
+                          Enviar Mensaje
+                        </>
+                      )}
+                    </button>
+                    <button
+                      onClick={handleSkipMessage}
+                      disabled={sendingMessage}
+                      className="px-6 py-4 bg-white border-2 border-newspaper-black font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-newspaper-black font-bold"
+                    >
+                      Saltar
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Estilos de impresión mejorados */}
+      {/* Estilos de impresión mejorados - Solo imprime el ticket */}
       <style>{`
         @media print {
           /* Preservar colores y estilos */
@@ -1004,58 +1088,81 @@ export function InvitationPass() {
           /* Configuración de página */
           @page {
             size: A4 portrait;
-            margin: 0;
+            margin: 10mm;
           }
 
-          body {
-            margin: 0;
-            padding: 0;
+          /* Reset del body para impresión */
+          html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+            height: auto !important;
+            overflow: visible !important;
           }
 
-          /* Ocultar elementos no imprimibles */
+          /* Ocultar TODO excepto el ticket */
+          body > * {
+            display: none !important;
+          }
+
+          /* Mostrar solo el contenedor principal de React */
+          #root {
+            display: block !important;
+          }
+
+          /* Ocultar elementos no imprimibles marcados con print:hidden */
           .print\\:hidden {
             display: none !important;
           }
 
-          /* Ajustar contenedor principal */
-          .print\\:bg-white {
-            background-color: white !important;
-          }
-
-          .print\\:p-0 {
+          /* Contenedor principal de la página */
+          .min-h-screen {
+            min-height: auto !important;
+            background: white !important;
             padding: 0 !important;
           }
 
-          /* Reducir border del ticket para impresión */
-          .print\\:border-4 {
-            border-width: 4px !important;
-          }
-
-          /* Asegurar que el ticket ocupe toda la página */
-          .max-w-5xl {
+          /* El ticket principal - hacerlo visible y centrado */
+          .max-w-4xl {
             max-width: 100% !important;
-            margin: 0 !important;
+            margin: 0 auto !important;
+            page-break-inside: avoid !important;
           }
 
-          /* Ajustar padding interno para impresión */
-          section {
-            padding: 1cm !important;
+          /* Ocultar los bordes perforados en impresión para mejor apariencia */
+          .relative.h-5.overflow-visible {
+            display: none !important;
           }
 
-          /* Evitar saltos de página dentro de secciones importantes */
-          .border-4.border-newspaper-black {
-            page-break-inside: avoid;
+          /* Contenido del ticket */
+          .bg-white.border-4.border-newspaper-black {
+            border-width: 2px !important;
+            box-shadow: none !important;
+            page-break-inside: avoid !important;
+          }
+
+          /* Ocultar semicírculos decorativos */
+          .absolute.-left-3,
+          .absolute.-right-3 {
+            display: none !important;
+          }
+
+          /* Ocultar líneas de corte verticales */
+          .absolute.left-8.top-0.bottom-0,
+          .absolute.right-8.top-0.bottom-0 {
+            display: none !important;
           }
 
           /* Asegurar que el QR sea del tamaño correcto */
           svg {
-            width: 180px !important;
-            height: 180px !important;
+            width: 150px !important;
+            height: 150px !important;
           }
 
           /* Mejorar contraste para impresión */
           .bg-newspaper-black {
             background-color: #000 !important;
+            color: #fff !important;
           }
 
           .border-newspaper-black {
@@ -1066,44 +1173,72 @@ export function InvitationPass() {
             color: #000 !important;
           }
 
-          /* Asegurar que backgrounds se impriman */
-          .bg-newspaper-gray-900,
-          .bg-newspaper-gray-50 {
-            print-color-adjust: exact !important;
-            -webkit-print-color-adjust: exact !important;
-          }
-
           /* Reducir espacios para que todo quepa en una página */
-          .py-8, .py-12, .py-16 {
-            padding-top: 0.5cm !important;
-            padding-bottom: 0.5cm !important;
+          .p-6, .p-8, .p-10 {
+            padding: 12px !important;
           }
 
-          .p-8, .p-12 {
-            padding: 0.5cm !important;
+          .md\\:p-8, .md\\:p-10 {
+            padding: 12px !important;
           }
 
-          .mb-8, .mb-12, .mb-16 {
-            margin-bottom: 0.5cm !important;
+          .gap-6, .gap-8 {
+            gap: 12px !important;
           }
 
-          .mt-10, .mt-12, .mt-20 {
-            margin-top: 0.5cm !important;
+          .mb-4, .mb-6, .mb-8 {
+            margin-bottom: 8px !important;
+          }
+
+          .mt-4, .mt-6, .mt-8 {
+            margin-top: 8px !important;
           }
 
           /* Ajustar tamaños de fuente para impresión */
-          .text-5xl, .text-6xl {
-            font-size: 2.5rem !important;
+          .text-4xl, .text-5xl {
+            font-size: 1.75rem !important;
           }
 
-          .text-3xl, .text-4xl {
-            font-size: 1.75rem !important;
+          .text-2xl, .text-3xl {
+            font-size: 1.25rem !important;
+          }
+
+          .text-xl {
+            font-size: 1rem !important;
+          }
+
+          .text-lg {
+            font-size: 0.9rem !important;
+          }
+
+          /* Ajustar grid para impresión */
+          .grid.md\\:grid-cols-12 {
+            display: grid !important;
+            grid-template-columns: 1fr 2fr !important;
+          }
+
+          .md\\:col-span-4 {
+            grid-column: span 1 !important;
+          }
+
+          .md\\:col-span-8 {
+            grid-column: span 1 !important;
+          }
+
+          /* Ocultar botones de Google Maps */
+          a[href*="maps"] {
+            display: none !important;
           }
 
           /* Asegurar legibilidad */
           body {
-            font-size: 12pt !important;
-            line-height: 1.4 !important;
+            font-size: 11pt !important;
+            line-height: 1.3 !important;
+          }
+
+          /* Forzar que todo quepa en una página */
+          .max-w-4xl > div {
+            page-break-inside: avoid !important;
           }
         }
       `}</style>

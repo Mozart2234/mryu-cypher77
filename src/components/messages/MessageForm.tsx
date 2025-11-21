@@ -17,6 +17,8 @@ interface MessageFormProps {
   onSuccess?: () => void;
   showSubmitButton?: boolean;
   onCanSubmitChange?: (canSubmit: boolean) => void;
+  hideHeader?: boolean;
+  hideWrapper?: boolean;
 }
 
 export interface MessageFormRef {
@@ -45,7 +47,9 @@ export const MessageForm = forwardRef<MessageFormRef, MessageFormProps>(({
   guestName,
   onSuccess,
   showSubmitButton = true,
-  onCanSubmitChange
+  onCanSubmitChange,
+  hideHeader = false,
+  hideWrapper = false
 }, ref) => {
   const {
     register,
@@ -104,21 +108,26 @@ export const MessageForm = forwardRef<MessageFormRef, MessageFormProps>(({
     canSubmit
   }));
 
-  return (
-    <div id="message-form" className="bg-white border-2 border-newspaper-black p-6 md:p-8 scroll-mt-8">
-      {/* Header */}
-      <div className="mb-6 text-center">
-        <div className="inline-flex items-center justify-center gap-2 mb-2">
-          <MessageSquare className="w-6 h-6 text-newspaper-black" />
-          <h3 className="font-headline text-2xl font-bold text-newspaper-black">
-            Mensaje para los Novios
-          </h3>
-        </div>
-        <p className="font-serif text-sm text-newspaper-gray-700 leading-relaxed">
-          Deja unas palabras para Alexei y Estephanie en este día especial
-        </p>
-      </div>
+  const wrapperClasses = hideWrapper
+    ? ""
+    : "bg-white border-2 border-newspaper-black p-6 md:p-8 scroll-mt-8";
 
+  return (
+    <div id="message-form" className={wrapperClasses}>
+      {/* Header */}
+      {!hideHeader && (
+        <div className="mb-6 text-center">
+          <div className="inline-flex items-center justify-center gap-2 mb-2">
+            <MessageSquare className="w-6 h-6 text-newspaper-black" />
+            <h3 className="font-headline text-2xl font-bold text-newspaper-black">
+              Mensaje para los Novios
+            </h3>
+          </div>
+          <p className="font-serif text-sm text-newspaper-gray-700 leading-relaxed">
+            Deja unas palabras para Alexei y Estephanie en este día especial
+          </p>
+        </div>
+      )}
 
       <form onSubmit={handleRHFSubmit(onSubmit)} className="space-y-4">
         {/* Tipo de mensaje */}
@@ -214,9 +223,11 @@ export const MessageForm = forwardRef<MessageFormRef, MessageFormProps>(({
       </form>
 
       {/* Nota informativa */}
-      <p className="text-xs text-center text-newspaper-gray-600 mt-4 font-sans italic">
-        Tu mensaje será enviado directamente a la pareja
-      </p>
+      {!hideWrapper && (
+        <p className="text-xs text-center text-newspaper-gray-600 mt-4 font-sans italic">
+          Tu mensaje será enviado directamente a la pareja
+        </p>
+      )}
     </div>
   );
 });
