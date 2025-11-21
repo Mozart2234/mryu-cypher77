@@ -4,13 +4,17 @@
  * Header tipo New York Times con fecha, clima y detalles
  */
 
+import { eventConfig } from '@/config/eventConfig';
+
 export function NewspaperHeader() {
+  const { newspaper, date } = eventConfig;
+
   const today = new Date();
-  const options: Intl.DateTimeFormatOptions = { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
   };
   const todayFormatted = today.toLocaleDateString('es-ES', options);
 
@@ -22,12 +26,12 @@ export function NewspaperHeader() {
           <div className="flex items-center space-x-4">
             <span className="newspaper-meta">{todayFormatted}</span>
             <span className="hidden md:inline newspaper-meta">|</span>
-            <span className="hidden md:inline newspaper-meta">Arequipa, Perú</span>
+            <span className="hidden md:inline newspaper-meta">{newspaper.location}</span>
           </div>
           <div className="flex items-center space-x-4">
             <span className="newspaper-meta">Edición Digital</span>
             <span className="hidden md:inline newspaper-meta">|</span>
-            <span className="hidden md:inline newspaper-meta">Año 2026</span>
+            <span className="hidden md:inline newspaper-meta">{newspaper.editionYear}</span>
           </div>
         </div>
       </div>
@@ -42,11 +46,11 @@ export function NewspaperHeader() {
               </svg>
             </div>
           </div>
-          
+
           <h1 className="font-headline text-4xl md:text-6xl font-black text-newspaper-black tracking-tight" style={{ fontFamily: "'Old English Text MT', 'Playfair Display', serif" }}>
-            El Diario del Amor
+            {newspaper.name}
           </h1>
-          
+
           <div className="mt-2">
             <div className="inline-block">
               <svg width="200" height="8" className="mt-2 mx-auto">
@@ -56,7 +60,7 @@ export function NewspaperHeader() {
           </div>
 
           <p className="newspaper-meta mt-3">
-            "Todas las noticias que el amor permite imprimir"
+            "{newspaper.tagline}"
           </p>
         </div>
       </div>
@@ -64,8 +68,8 @@ export function NewspaperHeader() {
       {/* Sección y detalles */}
       <div className="border-t border-newspaper-black bg-newspaper-gray-100 py-2 px-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="newspaper-meta">SECCIÓN ESPECIAL: BODAS</div>
-          <div className="newspaper-meta">DOMINGO, 11 DE ENERO 2026</div>
+          <div className="newspaper-meta">{newspaper.section}</div>
+          <div className="newspaper-meta">{date.dayOfWeek}, {date.day} DE {date.month} {date.year}</div>
         </div>
       </div>
     </header>

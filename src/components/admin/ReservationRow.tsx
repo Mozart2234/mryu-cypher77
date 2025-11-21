@@ -8,13 +8,18 @@ import { useState } from 'react';
 import type { Reservation } from '@/types/reservation';
 import { QRCodeSVG } from 'qrcode.react';
 import { eventConfig } from '@/config/eventConfig';
+import { generateWhatsAppMessage, generateEmailMessage } from '@/config/messageTemplates';
+import { openEmail, copyToClipboard } from '@/utils/shareHelpers';
 import {
   CheckCircle,
   Trash2,
   QrCode,
   Users,
   X,
-  Ticket
+  Ticket,
+  Share2,
+  Mail,
+  Copy
 } from 'lucide-react';
 
 interface ReservationRowProps {
@@ -25,6 +30,8 @@ interface ReservationRowProps {
 
 export function ReservationRow({ reservation, onCheckIn, onDelete }: ReservationRowProps) {
   const [showQR, setShowQR] = useState(false);
+  const [showShareMenu, setShowShareMenu] = useState(false);
+  const [shareStatus, setShareStatus] = useState<'email' | 'copy' | null>(null);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -41,6 +48,30 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
 
   const qrUrl = `${eventConfig.appUrl}/check-in?code=${reservation.code}`;
   const canCheckIn = reservation.status !== 'ingreso-registrado';
+
+  const handleShareEmail = () => {
+    const invitationUrl = `${eventConfig.appUrl}/invitacion/${reservation.code}`;
+    const { subject, body } = generateEmailMessage({
+      guestName: reservation.guestName,
+      code: reservation.code,
+      invitationUrl
+    });
+    openEmail(subject, body);
+    setShareStatus('email');
+    setTimeout(() => setShareStatus(null), 2000);
+  };
+
+  const handleCopyText = async () => {
+    const invitationUrl = `${eventConfig.appUrl}/invitacion/${reservation.code}`;
+    const message = generateWhatsAppMessage({
+      guestName: reservation.guestName,
+      code: reservation.code,
+      invitationUrl
+    });
+    await copyToClipboard(message);
+    setShareStatus('copy');
+    setTimeout(() => setShareStatus(null), 2000);
+  };
 
   return (
     <>
@@ -82,6 +113,50 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
                 <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></span>
               </span>
             </a>
+
+            {/* Compartir Invitación */}
+            <div className="relative">
+              <button
+                onClick={() => setShowShareMenu(!showShareMenu)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors group relative"
+              >
+                <Share2 className="w-4 h-4 text-gray-600" />
+                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-50">
+                  Compartir invitación
+                  <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></span>
+                </span>
+              </button>
+
+              {/* Menú desplegable de compartir */}
+              {showShareMenu && (
+                <>
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => setShowShareMenu(false)}
+                  />
+                  <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[200px]">
+                    <button
+                      onClick={handleShareEmail}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition-colors text-left"
+                    >
+                      <Mail className="w-4 h-4 text-blue-600" />
+                      <span className="text-sm font-medium text-gray-700">
+                        {shareStatus === 'email' ? '¡Abierto!' : 'Email'}
+                      </span>
+                    </button>
+                    <button
+                      onClick={handleCopyText}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left border-t border-gray-100"
+                    >
+                      <Copy className="w-4 h-4 text-gray-600" />
+                      <span className="text-sm font-medium text-gray-700">
+                        {shareStatus === 'copy' ? '¡Copiado!' : 'Copiar texto'}
+                      </span>
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Ver QR */}
             <button

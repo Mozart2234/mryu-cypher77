@@ -43,8 +43,24 @@ export function QRScanner({ onScan, onClose }: QRScannerProps) {
         },
         (decodedText) => {
           // Extraer el código del URL si es necesario
-          const url = new URL(decodedText);
-          const code = url.searchParams.get('code') || decodedText;
+          let code = decodedText;
+
+          try {
+            // Si es una URL, extraer el código del path
+            if (decodedText.includes('http') || decodedText.includes('/invitacion/')) {
+              const url = new URL(decodedText.startsWith('http') ? decodedText : `https://dummy.com${decodedText}`);
+              const pathParts = url.pathname.split('/');
+              // El código está después de /invitacion/
+              const codeIndex = pathParts.indexOf('invitacion') + 1;
+              if (codeIndex > 0 && pathParts[codeIndex]) {
+                code = pathParts[codeIndex];
+              }
+            }
+          } catch (err) {
+            // Si falla el parsing, usar el texto decodificado directamente
+            console.error('Error parsing QR URL:', err);
+          }
+
           onScan(code);
           stopScanner();
         },

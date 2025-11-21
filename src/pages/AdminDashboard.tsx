@@ -9,15 +9,19 @@ import { useAuth } from '@/contexts/AuthContext';
 import { StatsCards } from '@/components/admin/StatsCards';
 import { ReservationForm } from '@/components/admin/ReservationForm';
 import { ReservationList } from '@/components/admin/ReservationList';
-import { LogOut, Home, ListChecks, Download } from 'lucide-react';
+import { MessagesPanel } from '@/components/admin/MessagesPanel';
+import { LogOut, Home, ListChecks, Download, MessageSquare, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { eventConfig } from '@/config/eventConfig';
 import { reservationService } from '@/services/reservationService';
 import { exportReservationsToCSV } from '@/utils/csvExport';
 
+type TabType = 'reservations' | 'messages';
+
 export function AdminDashboard() {
   const { logout } = useAuth();
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [activeTab, setActiveTab] = useState<TabType>('reservations');
 
   const handleUpdate = () => {
     setRefreshTrigger(prev => prev + 1);
@@ -80,16 +84,50 @@ export function AdminDashboard() {
 
       {/* Main content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
-        {/* Estadísticas */}
-        <StatsCards refreshTrigger={refreshTrigger} />
-
-        {/* Formulario de nueva reservación */}
-        <div className="mb-8">
-          <ReservationForm onSuccess={handleUpdate} />
+        {/* Pestañas */}
+        <div className="flex items-center gap-2 mb-8 bg-white border border-gray-200 rounded-lg p-2">
+          <button
+            onClick={() => setActiveTab('reservations')}
+            className={`flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-colors ${
+              activeTab === 'reservations'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            <Users className="w-5 h-5" />
+            Reservaciones
+          </button>
+          <button
+            onClick={() => setActiveTab('messages')}
+            className={`flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-colors ${
+              activeTab === 'messages'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            <MessageSquare className="w-5 h-5" />
+            Mensajes de Invitados
+          </button>
         </div>
 
-        {/* Lista de reservaciones */}
-        <ReservationList refreshTrigger={refreshTrigger} onUpdate={handleUpdate} />
+        {/* Contenido según pestaña activa */}
+        {activeTab === 'reservations' ? (
+          <>
+            {/* Estadísticas */}
+            <StatsCards refreshTrigger={refreshTrigger} />
+
+            {/* Formulario de nueva reservación */}
+            <div className="mb-8">
+              <ReservationForm onSuccess={handleUpdate} />
+            </div>
+
+            {/* Lista de reservaciones */}
+            <ReservationList refreshTrigger={refreshTrigger} onUpdate={handleUpdate} />
+          </>
+        ) : (
+          /* Panel de mensajes */
+          <MessagesPanel />
+        )}
       </main>
     </div>
   );

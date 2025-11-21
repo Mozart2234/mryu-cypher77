@@ -15,6 +15,9 @@ import { CheckCircle, Calendar, MapPin, Users, Printer, X, Check, AlertCircle, R
 import { InvitationTicketSkeleton } from '@/components/SkeletonLoader';
 import { useToast } from '@/hooks/useToast';
 import { ToastContainer } from '@/components/Toast';
+import { MessageForm } from '@/components/messages/MessageForm';
+import { messageService } from '@/services/messageService';
+import type { GuestMessage } from '@/types/message';
 
 export function InvitationPass() {
   const { code } = useParams<{ code: string }>();
@@ -25,8 +28,10 @@ export function InvitationPass() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmationStep, setConfirmationStep] = useState<'form' | 'message'>('form');
   const [mainGuestAttending, setMainGuestAttending] = useState(true);
   const [accompanists, setAccompanists] = useState<Accompanist[]>([]);
+  const [guestMessages, setGuestMessages] = useState<GuestMessage[]>([]);
 
   useEffect(() => {
     if (code) {
@@ -60,6 +65,11 @@ export function InvitationPass() {
           }
           setAccompanists(emptyAccompanists);
         }
+
+        // Cargar mensajes si la reservación está confirmada
+        if (res.status === 'confirmada' || res.status === 'ingreso-registrado') {
+          loadMessages(res.id);
+        }
       } else {
         setError('not_found');
       }
@@ -73,6 +83,39 @@ export function InvitationPass() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const loadMessages = async (reservationId: string) => {
+    try {
+      const messages = await messageService.getByReservationId(reservationId);
+      setGuestMessages(messages);
+    } catch (error) {
+      console.error('Error loading messages:', error);
+      // No mostrar error al usuario, solo log
+    }
+  };
+
+  const handleMessageSuccess = () => {
+    if (reservation) {
+      loadMessages(reservation.id);
+      toast.success(
+        '¡Mensaje enviado!',
+        'Tu mensaje ha sido enviado exitosamente a los novios.'
+      );
+      // Cerrar el modal después de enviar el mensaje
+      setShowConfirmModal(false);
+      setConfirmationStep('form');
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowConfirmModal(false);
+    setConfirmationStep('form');
+  };
+
+  const handleSkipMessage = () => {
+    setShowConfirmModal(false);
+    setConfirmationStep('form');
   };
 
   const handleOpenConfirmModal = () => {
@@ -89,13 +132,15 @@ export function InvitationPass() {
         accompanists: accompanists.filter(a => a.name.trim() !== '')
       });
 
-      setShowConfirmModal(false);
       await loadReservation();
 
       toast.success(
         '¡Confirmación guardada!',
         'Tu asistencia ha sido confirmada correctamente.'
       );
+
+      // Cambiar al paso de mensaje en lugar de cerrar el modal
+      setConfirmationStep('message');
     } catch (error) {
       console.error('Error saving confirmation:', error);
       toast.error(
@@ -197,32 +242,75 @@ export function InvitationPass() {
   return (
     <div className="min-h-screen bg-newspaper-gray-100 py-8 px-4 print:bg-white print:p-0">
       {/* Botones de acción (ocultos en print) */}
-      <div className="max-w-5xl mx-auto mb-6 flex gap-3 print:hidden">
-        <button
-          onClick={handlePrint}
-          className="flex items-center gap-2 bg-newspaper-black text-white px-6 py-3 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition"
-        >
-          <Printer className="w-5 h-5" />
-          Imprimir
-        </button>
+      <div className="max-w-5xl mx-auto mb-6 print:hidden">
+        <div className="flex gap-3 mb-6">
+          <button
+            onClick={handlePrint}
+            className="flex items-center gap-2 bg-newspaper-black text-white px-6 py-3 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition"
+          >
+            <Printer className="w-5 h-5" />
+            Imprimir
+          </button>
+          {/* Solo el admin puede editar confirmaciones ya realizadas */}
+          {isConfirmed && isAuthenticated && (
+            <button
+              onClick={handleOpenConfirmModal}
+              className="flex items-center gap-2 bg-newspaper-gray-700 text-white px-6 py-3 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-600 transition"
+            >
+              Editar Confirmación (Admin)
+            </button>
+          )}
+        </div>
+
+        {/* CTA Mejorado con Indicador de Pasos */}
         {isPending && (
-          <button
-            onClick={handleOpenConfirmModal}
-            className="flex-1 flex items-center justify-center gap-2 bg-newspaper-gray-900 text-white px-6 py-3 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-800 transition"
-          >
-            <CheckCircle className="w-5 h-5" />
-            Confirmar Asistencia
-          </button>
+          <div className="bg-white border-4 border-newspaper-black p-6">
+            {/* Indicador de Pasos */}
+            <div className="bg-newspaper-gray-100 border-2 border-newspaper-black p-4 mb-6">
+              <p className="font-headline text-xs uppercase tracking-widest text-center mb-3 text-newspaper-gray-600">
+                Pasos para Confirmar tu Asistencia
+              </p>
+              <div className="flex items-center justify-center gap-2 text-sm font-headline">
+                <span className="flex items-center gap-1">
+                  <span className="w-6 h-6 bg-newspaper-black text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                  <span className="hidden sm:inline">Lee tu invitación</span>
+                </span>
+                <span className="text-newspaper-gray-400">→</span>
+                <span className="flex items-center gap-1">
+                  <span className="w-6 h-6 bg-newspaper-black text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                  <span className="hidden sm:inline">Confirma asistencia</span>
+                </span>
+                <span className="text-newspaper-gray-400">→</span>
+                <span className="flex items-center gap-1">
+                  <span className="w-6 h-6 bg-newspaper-black text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                  <span className="hidden sm:inline">Envía mensaje</span>
+                </span>
+              </div>
+            </div>
+
+            {/* CTA Principal Grande */}
+            <button
+              onClick={handleOpenConfirmModal}
+              className="w-full bg-newspaper-black text-white px-8 py-6 font-headline text-lg uppercase tracking-wider hover:bg-newspaper-gray-900 transition-all border-4 border-newspaper-black hover:scale-[1.02] transform shadow-lg cursor-pointer active:scale-[0.98]"
+            >
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <CheckCircle className="w-7 h-7" />
+                <span className="text-2xl font-bold">Confirmar Asistencia</span>
+              </div>
+              <p className="text-xs opacity-90 font-sans normal-case tracking-normal">
+                Por favor confirma antes del 5 de Enero, 2026
+              </p>
+            </button>
+
+            {/* Nota urgente */}
+            <div className="mt-4 text-center">
+              <p className="text-xs text-newspaper-gray-600 italic">
+                Tu confirmación nos ayuda a organizar mejor este día especial
+              </p>
+            </div>
+          </div>
         )}
-        {/* Solo el admin puede editar confirmaciones ya realizadas */}
-        {isConfirmed && isAuthenticated && (
-          <button
-            onClick={handleOpenConfirmModal}
-            className="flex items-center gap-2 bg-newspaper-gray-700 text-white px-6 py-3 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-600 transition"
-          >
-            Editar Confirmación (Admin)
-          </button>
-        )}
+
       </div>
 
       {/* TICKET ESTILO PERIÓDICO */}
@@ -421,7 +509,7 @@ export function InvitationPass() {
                   </div>
                 </div>
                 <div className="newspaper-divider-thin mb-3"></div>
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3 mb-4">
                   <MapPin className="w-5 h-5 text-newspaper-gray-600 mt-1 shrink-0" />
                   <div>
                     <p className="newspaper-body font-semibold text-newspaper-black">
@@ -432,6 +520,15 @@ export function InvitationPass() {
                     </p>
                   </div>
                 </div>
+                <a
+                  href={eventConfig.ceremony.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 bg-newspaper-black text-white px-4 py-3 font-headline text-xs uppercase tracking-wider hover:bg-newspaper-gray-900 transition cursor-pointer print:hidden"
+                >
+                  <MapPin className="w-4 h-4" />
+                  Ver en Google Maps
+                </a>
               </div>
 
               {/* Recepción */}
@@ -448,7 +545,7 @@ export function InvitationPass() {
                   </div>
                 </div>
                 <div className="h-px bg-white/30 mb-3"></div>
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3 mb-4">
                   <MapPin className="w-5 h-5 mt-1 shrink-0 opacity-90" />
                   <div>
                     <p className="font-serif font-semibold">
@@ -459,10 +556,54 @@ export function InvitationPass() {
                     </p>
                   </div>
                 </div>
+                <a
+                  href={eventConfig.reception.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 bg-white text-newspaper-black px-4 py-3 font-headline text-xs uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer print:hidden"
+                >
+                  <MapPin className="w-4 h-4" />
+                  Ver en Google Maps
+                </a>
               </div>
             </div>
           </div>
+
         </div>
+
+        {/* MENSAJE DEL INVITADO - Al final del ticket */}
+        {guestMessages.length > 0 && (
+          <div className="border-t-4 border-newspaper-black p-6 md:p-8 bg-white print:hidden">
+            <div className="max-w-2xl mx-auto">
+              <p className="font-headline text-xs uppercase tracking-widest text-center mb-4 text-newspaper-gray-600">
+                Tu Mensaje Enviado
+              </p>
+              <div className="bg-newspaper-gray-50 border-2 border-newspaper-black p-6">
+                <p className="font-serif text-newspaper-black leading-relaxed italic text-center">
+                  "{guestMessages[0].message}"
+                </p>
+                <p className="text-sm text-newspaper-gray-700 mt-4 text-right font-sans">
+                  — {guestMessages[0].guestName}
+                </p>
+                <div className="mt-4 pt-4 border-t border-newspaper-gray-300 text-center">
+                  {guestMessages[0].isPublic && !guestMessages[0].isBlocked ? (
+                    <p className="text-xs text-green-700 font-sans">
+                      ✓ Este mensaje será visible públicamente en la sección "Cartas al Editor"
+                    </p>
+                  ) : guestMessages[0].isBlocked ? (
+                    <p className="text-xs text-red-700 font-sans">
+                      Este mensaje ha sido moderado por el administrador
+                    </p>
+                  ) : (
+                    <p className="text-xs text-newspaper-gray-600 font-sans">
+                      Mensaje privado - Solo visible para los novios
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* FOOTER ESTILO PERIÓDICO */}
         <div className="border-t-4 border-newspaper-black p-8 bg-newspaper-gray-50 text-center">
@@ -488,14 +629,14 @@ export function InvitationPass() {
             <div className="bg-newspaper-black text-white p-6 flex justify-between items-center">
               <div>
                 <h3 className="font-headline text-2xl font-bold mb-1">
-                  CONFIRMAR ASISTENCIA
+                  {confirmationStep === 'form' ? 'CONFIRMAR ASISTENCIA' : '✓ CONFIRMACIÓN EXITOSA'}
                 </h3>
                 <p className="font-headline text-sm opacity-90 uppercase tracking-wider">
                   {reservation.guestName}
                 </p>
               </div>
               <button
-                onClick={() => setShowConfirmModal(false)}
+                onClick={handleCloseModal}
                 className="p-2 hover:bg-white/20 transition"
               >
                 <X className="w-6 h-6" />
@@ -504,97 +645,138 @@ export function InvitationPass() {
 
             {/* Contenido */}
             <div className="p-6 md:p-8 max-h-[60vh] overflow-y-auto">
-              <div className="mb-6">
-                <p className="newspaper-body text-newspaper-gray-700 leading-relaxed mb-4">
-                  Por favor confirma quién asistirá al evento. Puedes marcar individualmente cada invitado.
-                </p>
-              </div>
-
-              {/* Invitado Principal */}
-              <div className="border-2 border-newspaper-black p-4 mb-4">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={mainGuestAttending}
-                    onChange={(e) => setMainGuestAttending(e.target.checked)}
-                    className="w-6 h-6 accent-newspaper-black"
-                  />
-                  <div>
-                    <p className="font-headline font-bold text-lg text-newspaper-black">
-                      {reservation.guestName}
+              {confirmationStep === 'form' ? (
+                /* PASO 1: Formulario de Confirmación */
+                <>
+                  <div className="mb-6">
+                    <p className="newspaper-body text-newspaper-gray-700 leading-relaxed mb-4">
+                      Por favor confirma quién asistirá al evento. Puedes marcar individualmente cada invitado.
                     </p>
-                    <p className="newspaper-page-number text-xs">Invitado Principal</p>
                   </div>
-                </label>
-              </div>
 
-              {/* Acompañantes */}
-              {accompanists.length > 0 && (
-                <div>
-                  <h4 className="font-headline font-bold text-lg text-newspaper-black mb-4 flex items-center gap-2">
-                    <Users className="w-5 h-5" />
-                    ACOMPAÑANTES ({accompanists.length})
-                  </h4>
-                  <div className="space-y-3">
-                    {accompanists.map((acc, index) => (
-                      <div key={index} className="border border-newspaper-gray-300 p-4 bg-newspaper-gray-50">
-                        <label className="flex items-start gap-3 cursor-pointer mb-3">
-                          <input
-                            type="checkbox"
-                            checked={acc.willAttend}
-                            onChange={(e) => {
-                              const updated = [...accompanists];
-                              updated[index].willAttend = e.target.checked;
-                              setAccompanists(updated);
-                            }}
-                            className="w-5 h-5 mt-1 accent-newspaper-black"
-                          />
-                          <span className="newspaper-body font-semibold text-newspaper-black">
-                            Acompañante {index + 1}
-                          </span>
-                        </label>
-                        <input
-                          type="text"
-                          value={acc.name}
-                          onChange={(e) => {
-                            const updated = [...accompanists];
-                            updated[index].name = e.target.value;
-                            setAccompanists(updated);
-                          }}
-                          placeholder="Nombre completo"
-                          className="w-full px-4 py-2 border-2 border-newspaper-gray-300 newspaper-body focus:border-newspaper-black focus:outline-hidden"
-                        />
+                  {/* Invitado Principal */}
+                  <div className="border-2 border-newspaper-black p-4 mb-4">
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={mainGuestAttending}
+                        onChange={(e) => setMainGuestAttending(e.target.checked)}
+                        className="w-6 h-6 accent-newspaper-black"
+                      />
+                      <div>
+                        <p className="font-headline font-bold text-lg text-newspaper-black">
+                          {reservation.guestName}
+                        </p>
+                        <p className="newspaper-page-number text-xs">Invitado Principal</p>
                       </div>
-                    ))}
+                    </label>
                   </div>
-                </div>
-              )}
 
-              {/* Resumen */}
-              <div className="mt-6 bg-newspaper-black text-white p-4 text-center">
-                <p className="font-headline text-sm uppercase tracking-wider mb-1">
-                  Total Confirmados
-                </p>
-                <p className="font-headline text-4xl font-bold">
-                  {getConfirmedCount()} / {reservation.numberOfGuests}
-                </p>
-              </div>
+                  {/* Acompañantes */}
+                  {accompanists.length > 0 && (
+                    <div>
+                      <h4 className="font-headline font-bold text-lg text-newspaper-black mb-4 flex items-center gap-2">
+                        <Users className="w-5 h-5" />
+                        ACOMPAÑANTES ({accompanists.length})
+                      </h4>
+                      <div className="space-y-3">
+                        {accompanists.map((acc, index) => (
+                          <div key={index} className="border border-newspaper-gray-300 p-4 bg-newspaper-gray-50">
+                            <label className="flex items-start gap-3 cursor-pointer mb-3">
+                              <input
+                                type="checkbox"
+                                checked={acc.willAttend}
+                                onChange={(e) => {
+                                  const updated = [...accompanists];
+                                  updated[index].willAttend = e.target.checked;
+                                  setAccompanists(updated);
+                                }}
+                                className="w-5 h-5 mt-1 accent-newspaper-black"
+                              />
+                              <span className="newspaper-body font-semibold text-newspaper-black">
+                                Acompañante {index + 1}
+                              </span>
+                            </label>
+                            <input
+                              type="text"
+                              value={acc.name}
+                              onChange={(e) => {
+                                const updated = [...accompanists];
+                                updated[index].name = e.target.value;
+                                setAccompanists(updated);
+                              }}
+                              placeholder="Nombre completo"
+                              className="w-full px-4 py-2 border-2 border-newspaper-gray-300 newspaper-body focus:border-newspaper-black focus:outline-hidden"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Resumen */}
+                  <div className="mt-6 bg-newspaper-black text-white p-4 text-center">
+                    <p className="font-headline text-sm uppercase tracking-wider mb-1">
+                      Total Confirmados
+                    </p>
+                    <p className="font-headline text-4xl font-bold">
+                      {getConfirmedCount()} / {reservation.numberOfGuests}
+                    </p>
+                  </div>
+                </>
+              ) : (
+                /* PASO 2: Formulario de Mensaje */
+                <>
+                  <div className="mb-6 text-center">
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle className="w-10 h-10 text-green-600" />
+                    </div>
+                    <p className="font-headline text-lg font-bold text-newspaper-black mb-2">
+                      {getConfirmedCount()} {getConfirmedCount() === 1 ? 'persona confirmada' : 'personas confirmadas'}
+                    </p>
+                    <div className="newspaper-divider-thick my-4"></div>
+                    <h4 className="font-headline text-xl font-bold text-newspaper-black mb-2">
+                      ENVÍA UN MENSAJE A LOS NOVIOS
+                    </h4>
+                    <p className="text-sm text-newspaper-gray-700">
+                      (Opcional) Comparte tus mejores deseos
+                    </p>
+                  </div>
+
+                  <MessageForm
+                    reservationId={reservation.id}
+                    guestName={reservation.guestName}
+                    onSuccess={handleMessageSuccess}
+                  />
+                </>
+              )}
             </div>
 
             {/* Footer */}
             <div className="border-t-2 border-newspaper-gray-300 p-6 flex gap-3">
-              <button
-                onClick={handleSaveConfirmation}
-                className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition"
-              >
-                Guardar Confirmación
-              </button>
-              <button
-                onClick={() => setShowConfirmModal(false)}
-                className="px-6 py-4 border-2 border-newspaper-black font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-100 transition"
-              >
-                Cancelar
-              </button>
+              {confirmationStep === 'form' ? (
+                <>
+                  <button
+                    onClick={handleSaveConfirmation}
+                    className="flex-1 bg-newspaper-black text-white px-6 py-4 font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-900 transition cursor-pointer"
+                  >
+                    Guardar Confirmación
+                  </button>
+                  <button
+                    onClick={handleCloseModal}
+                    className="px-6 py-4 border-2 border-newspaper-black font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer"
+                  >
+                    Cancelar
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={handleSkipMessage}
+                  className="flex-1 px-6 py-4 border-2 border-newspaper-black font-headline text-sm uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer"
+                >
+                  Cerrar (sin mensaje)
+                </button>
+              )}
             </div>
           </div>
         </div>

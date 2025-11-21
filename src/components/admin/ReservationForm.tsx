@@ -8,8 +8,10 @@ import { useState, FormEvent } from 'react';
 import { reservationService } from '@/services/reservationService';
 import { eventConfig } from '@/config/eventConfig';
 import type { CreateReservationDTO, Reservation } from '@/types/reservation';
-import { UserPlus, Users, Table, UsersRound, FileText, Link as LinkIcon, Copy, CheckCircle, X } from 'lucide-react';
+import { UserPlus, Users, Table, UsersRound, FileText, Link as LinkIcon, Copy, CheckCircle, X, Mail } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
+import { generateWhatsAppMessage, generateEmailMessage } from '@/config/messageTemplates';
+import { openEmail, copyToClipboard } from '@/utils/shareHelpers';
 
 interface ReservationFormProps {
   onSuccess: () => void;
@@ -29,6 +31,8 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
   const [error, setError] = useState('');
   const [createdReservation, setCreatedReservation] = useState<Reservation | null>(null);
   const [copied, setCopied] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedText, setCopiedText] = useState(false);
   const [accompanistNames, setAccompanistNames] = useState<string[]>([]);
 
   const handleNumberOfGuestsChange = (value: number) => {
@@ -86,6 +90,38 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
   const handleCloseModal = () => {
     setCreatedReservation(null);
     setCopied(false);
+    setCopiedEmail(false);
+    setCopiedText(false);
+  };
+
+  const handleShareEmail = () => {
+    if (!createdReservation) return;
+
+    const invitationUrl = `${eventConfig.appUrl}/invitacion/${createdReservation.code}`;
+    const { subject, body } = generateEmailMessage({
+      guestName: createdReservation.guestName,
+      code: createdReservation.code,
+      invitationUrl
+    });
+
+    openEmail(subject, body);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const handleCopyText = async () => {
+    if (!createdReservation) return;
+
+    const invitationUrl = `${eventConfig.appUrl}/invitacion/${createdReservation.code}`;
+    const message = generateWhatsAppMessage({
+      guestName: createdReservation.guestName,
+      code: createdReservation.code,
+      invitationUrl
+    });
+
+    await copyToClipboard(message);
+    setCopiedText(true);
+    setTimeout(() => setCopiedText(false), 2000);
   };
 
   return (
@@ -331,6 +367,49 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
                   Envía este link al invitado para que vea su pase digital
+                </p>
+              </div>
+
+              {/* Botones de compartir con mensajes pre-formateados */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Compartir Invitación con Mensaje
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Email Button */}
+                  <button
+                    type="button"
+                    onClick={handleShareEmail}
+                    className={`flex flex-col items-center gap-2 px-4 py-4 rounded-lg font-medium transition-all border-2 ${
+                      copiedEmail
+                        ? 'bg-blue-700 text-white border-blue-700'
+                        : 'bg-blue-600 text-white hover:bg-blue-700 border-blue-600'
+                    }`}
+                  >
+                    <Mail className="w-6 h-6" />
+                    <span className="text-sm">
+                      {copiedEmail ? '¡Abierto!' : 'Email'}
+                    </span>
+                  </button>
+
+                  {/* Copy Text Button */}
+                  <button
+                    type="button"
+                    onClick={handleCopyText}
+                    className={`flex flex-col items-center gap-2 px-4 py-4 rounded-lg font-medium transition-all border-2 ${
+                      copiedText
+                        ? 'bg-gray-700 text-white border-gray-700'
+                        : 'bg-gray-600 text-white hover:bg-gray-700 border-gray-600'
+                    }`}
+                  >
+                    <Copy className="w-6 h-6" />
+                    <span className="text-sm">
+                      {copiedText ? '¡Copiado!' : 'Copiar Texto'}
+                    </span>
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Abre Email con mensaje pre-escrito o copia el texto al portapapeles para pegarlo en WhatsApp
                 </p>
               </div>
 

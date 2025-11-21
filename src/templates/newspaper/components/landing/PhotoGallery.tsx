@@ -7,56 +7,13 @@
 import { useState } from 'react';
 import { Lightbox } from './Lightbox';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { eventConfig } from '@/config/eventConfig';
 
 export function PhotoGallery() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const { elementRef, isVisible } = useScrollAnimation();
-  // Tus fotos reales de la boda
-  const photos = [
-    {
-      id: 1,
-      caption: "Primera foto juntos - 2023",
-      alt: "Alexei y Estephanie en su primera foto juntos",
-      size: "large" as const,
-      url: "/photos/_Z638761.jpg"
-    },
-    {
-      id: 2,
-      caption: "Viaje a Cusco - Amor viajero en acción",
-      alt: "La pareja explorando Cusco",
-      size: "medium" as const,
-      url: "/photos/_Z638873.jpg"
-    },
-    {
-      id: 3,
-      caption: "El día que se hicieron novios - 2025",
-      alt: "Momento especial de compromiso",
-      size: "medium" as const,
-      url: "/photos/_Z638874.jpg"
-    },
-    {
-      id: 4,
-      caption: "Compartiendo momentos de fe",
-      alt: "En la iglesia juntos",
-      size: "small" as const,
-      url: "/photos/_Z638896.jpg"
-    },
-    {
-      id: 5,
-      caption: "Aventuras culinarias - Probando nuevos sabores",
-      alt: "Disfrutando de una cena",
-      size: "small" as const,
-      url: "/photos/_Z638955.jpg"
-    },
-    {
-      id: 6,
-      caption: "El 'propósito' hecho realidad",
-      alt: "Sonriendo juntos",
-      size: "large" as const,
-      url: "/photos/_Z639000.jpg"
-    }
-  ];
+  const { photoGallery } = eventConfig;
 
   const openLightbox = (index: number) => {
     setCurrentPhotoIndex(index);
@@ -68,11 +25,11 @@ export function PhotoGallery() {
   };
 
   const nextPhoto = () => {
-    setCurrentPhotoIndex((prev) => (prev + 1) % photos.length);
+    setCurrentPhotoIndex((prev) => (prev + 1) % photoGallery.photos.length);
   };
 
   const prevPhoto = () => {
-    setCurrentPhotoIndex((prev) => (prev - 1 + photos.length) % photos.length);
+    setCurrentPhotoIndex((prev) => (prev - 1 + photoGallery.photos.length) % photoGallery.photos.length);
   };
 
   return (
@@ -87,9 +44,9 @@ export function PhotoGallery() {
         <div className="text-center mb-8">
           <div className="newspaper-divider-thick mb-4" aria-hidden="true"></div>
           <h2 id="gallery-title" className="newspaper-subheadline mb-2">
-            Galería Fotográfica
+            {photoGallery.title}
           </h2>
-          <p className="newspaper-meta">MOMENTOS INOLVIDABLES DE UNA HISTORIA DE AMOR</p>
+          <p className="newspaper-meta">{photoGallery.subtitle}</p>
           <div className="newspaper-divider-thick mt-4" aria-hidden="true"></div>
         </div>
 
@@ -103,18 +60,18 @@ export function PhotoGallery() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && openLightbox(0)}
-              aria-label={`Ver foto: ${photos[0].caption}`}
+              aria-label={`Ver foto: ${photoGallery.photoGallery.photos[0].caption}`}
             >
               <img
-                src={photos[0].url}
-                alt={photos[0].alt}
+                src={photoGallery.photoGallery.photos[0].url}
+                alt={photoGallery.photoGallery.photos[0].alt}
                 loading="lazy"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
               />
             </div>
             <figcaption className="mt-3 pb-2 border-b-2 border-newspaper-black">
               <p className="font-serif text-base text-newspaper-black font-bold">
-                {photos[0].caption}
+                {photoGallery.photos[0].caption}
               </p>
               <p className="newspaper-page-number mt-1">Foto: Archivo personal</p>
             </figcaption>
@@ -128,18 +85,18 @@ export function PhotoGallery() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && openLightbox(1)}
-              aria-label={`Ver foto: ${photos[1].caption}`}
+              aria-label={`Ver foto: ${photoGallery.photos[1].caption}`}
             >
               <img
-                src={photos[1].url}
-                alt={photos[1].alt}
+                src={photoGallery.photos[1].url}
+                alt={photoGallery.photos[1].alt}
                 loading="lazy"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
               />
             </div>
             <figcaption className="mt-2 pb-2 border-b border-newspaper-border">
               <p className="font-serif text-sm text-newspaper-black italic">
-                {photos[1].caption}
+                {photoGallery.photos[1].caption}
               </p>
               <p className="newspaper-page-number mt-1 text-xs">Archivo personal</p>
             </figcaption>
@@ -153,18 +110,18 @@ export function PhotoGallery() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && openLightbox(3)}
-              aria-label={`Ver foto: ${photos[3].caption}`}
+              aria-label={`Ver foto: ${photoGallery.photos[3].caption}`}
             >
               <img
-                src={photos[3].url}
-                alt={photos[3].alt}
+                src={photoGallery.photos[3].url}
+                alt={photoGallery.photos[3].alt}
                 loading="lazy"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
               />
             </div>
             <figcaption className="mt-2 pb-1 border-b border-newspaper-border">
               <p className="font-serif text-xs text-newspaper-black italic">
-                {photos[3].caption}
+                {photoGallery.photos[3].caption}
               </p>
             </figcaption>
           </figure>
@@ -177,18 +134,18 @@ export function PhotoGallery() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && openLightbox(4)}
-              aria-label={`Ver foto: ${photos[4].caption}`}
+              aria-label={`Ver foto: ${photoGallery.photos[4].caption}`}
             >
               <img
-                src={photos[4].url}
-                alt={photos[4].alt}
+                src={photoGallery.photos[4].url}
+                alt={photoGallery.photos[4].alt}
                 loading="lazy"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
               />
             </div>
             <figcaption className="mt-2 pb-1 border-b border-newspaper-border">
               <p className="font-serif text-xs text-newspaper-black italic">
-                {photos[4].caption}
+                {photoGallery.photos[4].caption}
               </p>
             </figcaption>
           </figure>
@@ -201,18 +158,18 @@ export function PhotoGallery() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && openLightbox(2)}
-              aria-label={`Ver foto: ${photos[2].caption}`}
+              aria-label={`Ver foto: ${photoGallery.photos[2].caption}`}
             >
               <img
-                src={photos[2].url}
-                alt={photos[2].alt}
+                src={photoGallery.photos[2].url}
+                alt={photoGallery.photos[2].alt}
                 loading="lazy"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
               />
             </div>
             <figcaption className="mt-2 pb-2 border-b border-newspaper-border">
               <p className="font-serif text-sm text-newspaper-black italic">
-                {photos[2].caption}
+                {photoGallery.photos[2].caption}
               </p>
               <p className="newspaper-page-number mt-1 text-xs">Archivo personal</p>
             </figcaption>
@@ -226,18 +183,18 @@ export function PhotoGallery() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && openLightbox(5)}
-              aria-label={`Ver foto: ${photos[5].caption}`}
+              aria-label={`Ver foto: ${photoGallery.photos[5].caption}`}
             >
               <img
-                src={photos[5].url}
-                alt={photos[5].alt}
+                src={photoGallery.photos[5].url}
+                alt={photoGallery.photos[5].alt}
                 loading="lazy"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
               />
             </div>
             <figcaption className="mt-3 pb-2 border-b-2 border-newspaper-black">
               <p className="font-serif text-base text-newspaper-black font-bold">
-                {photos[5].caption}
+                {photoGallery.photos[5].caption}
               </p>
               <p className="newspaper-page-number mt-1">Foto: Archivo personal</p>
             </figcaption>
@@ -248,9 +205,7 @@ export function PhotoGallery() {
         <div className="mt-8 text-center">
           <div className="newspaper-box max-w-2xl mx-auto">
             <p className="text-xs text-newspaper-gray-600 italic">
-              Nota del Editor: Las fotografías mostradas capturan momentos significativos
-              de la historia de Alexei y Estephanie. Cada imagen representa un capítulo
-              de su hermoso viaje hacia el altar.
+              Nota del Editor: {photoGallery.editorNote}
             </p>
           </div>
         </div>
@@ -259,11 +214,11 @@ export function PhotoGallery() {
       {/* Lightbox para ver fotos en tamaño completo */}
       <Lightbox
         isOpen={lightboxOpen}
-        photoUrl={photos[currentPhotoIndex].url}
-        photoCaption={photos[currentPhotoIndex].caption}
-        photoAlt={photos[currentPhotoIndex].alt}
+        photoUrl={photoGallery.photos[currentPhotoIndex].url}
+        photoCaption={photoGallery.photos[currentPhotoIndex].caption}
+        photoAlt={photoGallery.photos[currentPhotoIndex].alt}
         currentIndex={currentPhotoIndex}
-        totalPhotos={photos.length}
+        totalPhotos={photoGallery.photos.length}
         onClose={closeLightbox}
         onNext={nextPhoto}
         onPrev={prevPhoto}

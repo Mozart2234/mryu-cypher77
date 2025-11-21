@@ -7,38 +7,12 @@
 import { useState } from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-
-interface FAQItem {
-  question: string;
-  answer: string;
-}
+import { eventConfig } from '@/config/eventConfig';
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const { elementRef, isVisible } = useScrollAnimation();
-
-  const faqs: FAQItem[] = [
-    {
-      question: '¿Cuál es el código de vestimenta?',
-      answer: 'La ceremonia es formal. Sugerimos traje oscuro para caballeros y vestido largo o de coctel para damas. Por favor evita usar blanco, beige o colores muy claros que puedan confundirse con el vestido de la novia.'
-    },
-    {
-      question: '¿Hay estacionamiento disponible?',
-      answer: 'En la recepción contamos con estacionamiento privado para nuestros invitados. Pero en la iglesia no hay estacionamiento asignado, por lo que te recomendamos llegar con tiempo para encontrar lugar en las calles cercanas o usar transporte alternativo.'
-    },
-    {
-      question: '¿A qué hora debo llegar?',
-      answer: 'La ceremonia religiosa comienza a las 10:00 AM en punto. Te recomendamos llegar entre 15-20 minutos antes para tomar asiento cómodamente. La recepción iniciará inmediatamente después de la ceremonia.'
-    },
-    {
-      question: '¿Cómo confirmo mi asistencia?',
-      answer: 'Puedes confirmar tu asistencia usando el código de invitación que recibiste por WhatsApp o correo electrónico. Ingresa tu código en la sección "Ver Mi Invitación" y completa el formulario de confirmación.'
-    },
-    {
-      question: '¿Qué pasa si no puedo asistir?',
-      answer: 'Entendemos que pueden surgir imprevistos. Por favor, avísanos lo antes posible para poder ajustar nuestra lista de invitados. Puedes contactarnos directamente por WhatsApp.'
-    }
-  ];
+  const { faq } = eventConfig;
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -60,12 +34,12 @@ export function FAQ() {
           <div className="flex items-center justify-center gap-3 mb-3">
             <HelpCircle className="w-8 h-8 text-newspaper-black" aria-hidden="true" />
             <h2 id="faq-title" className="newspaper-subheadline mb-0">
-              Preguntas Frecuentes
+              {faq.title}
             </h2>
           </div>
 
           <p className="newspaper-meta">
-            TODO LO QUE NECESITAS SABER SOBRE NUESTRO GRAN DÍA
+            {faq.subtitle}
           </p>
 
           <div className="newspaper-divider-thick mt-4" aria-hidden="true"></div>
@@ -74,14 +48,13 @@ export function FAQ() {
         {/* Sección introductoria tipo editorial */}
         <div className="newspaper-box mb-8">
           <p className="font-serif text-sm md:text-base text-newspaper-black leading-relaxed text-center italic">
-            "Hemos recopilado las consultas más comunes de nuestros invitados. Si tu pregunta no aparece aquí,
-            no dudes en contactarnos directamente."
+            "{faq.intro}"
           </p>
         </div>
 
         {/* Accordion de preguntas */}
         <div className="space-y-4">
-          {faqs.map((faq, index) => (
+          {faq.questions.map((question, index) => (
             <div
               key={index}
               className="newspaper-box-simple border-2 border-newspaper-black overflow-hidden hover:shadow-lg transition-all duration-300"
@@ -101,7 +74,7 @@ export function FAQ() {
 
                   {/* Pregunta */}
                   <h3 className="font-serif text-base md:text-lg font-bold text-newspaper-black leading-snug">
-                    {faq.question}
+                    {question.question}
                   </h3>
                 </div>
 
@@ -124,7 +97,7 @@ export function FAQ() {
                 <div className="px-4 md:px-6 pb-4 md:pb-6 pt-0">
                   <div className="border-t-2 border-newspaper-gray-300 pt-4 md:pt-6 pl-11">
                     <p className="font-serif text-sm md:text-base text-newspaper-gray-700 leading-relaxed">
-                      {faq.answer}
+                      {question.answer}
                     </p>
                   </div>
                 </div>
@@ -139,11 +112,10 @@ export function FAQ() {
             <div className="text-2xl" aria-hidden="true">💌</div>
             <div>
               <h4 className="font-serif font-bold text-sm md:text-base text-newspaper-black mb-2">
-                ¿Tienes otra pregunta?
+                {faq.contactNote.title}
               </h4>
               <p className="font-sans text-xs md:text-sm text-newspaper-gray-700 leading-relaxed">
-                Si no encontraste la respuesta que buscabas, estaremos encantados de ayudarte.
-                Contáctanos directamente por WhatsApp o correo electrónico.
+                {faq.contactNote.message}
               </p>
             </div>
           </div>

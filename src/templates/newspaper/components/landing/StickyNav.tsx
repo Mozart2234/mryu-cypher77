@@ -17,7 +17,6 @@ const navItems: NavItem[] = [
   { id: 'hero', label: 'Inicio' },
   { id: 'event-details', label: 'Detalles' },
   { id: 'love-story', label: 'Historia' },
-  { id: 'photo-gallery', label: 'Fotos' },
   { id: 'dress-code', label: 'Dress Code' },
   { id: 'faq', label: 'FAQ' },
 ];

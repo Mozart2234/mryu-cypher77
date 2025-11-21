@@ -18,9 +18,14 @@ export const eventConfig = {
 
   // Información del periódico
   newspaper: {
+    name: "El Diario del Amor",
+    tagline: "Todas las noticias que el amor permite imprimir",
+    location: "Arequipa, Perú",
+    editionYear: "Año 2026",
+    section: "SECCIÓN ESPECIAL: BODAS",
     edition: "Edición Especial Arequipa",
     headline: "se casan en ENERO",
-    subheadline: "Una historia de amor que comenzó en 2016 culmina en el altar",
+    subheadline: "Una historia de amor que comenzó en 2022 culmina en el altar",
     subtitle: "La pareja sellará su amor ante Dios el domingo 11 de enero"
   },
 
@@ -387,6 +392,83 @@ export const eventConfig = {
     footer: "Pronóstico garantizado por el amor verdadero"
   },
 
+  // Advertisements - Anuncios decorativos tipo periódico
+  advertisements: [
+    {
+      title: "RECOMENDACIÓN",
+      subtitle: "Los especialistas recomiendan",
+      content: "Asistir a bodas aumenta la felicidad en un 95%. Estudios demuestran que presenciar el amor verdadero tiene efectos positivos duraderos.",
+      footer: "Dr. Amor - Pág. 42"
+    },
+    {
+      title: "ESTADÍSTICA",
+      subtitle: null,
+      statistic: {
+        value: "100%",
+        label: "de los invitados están emocionados"
+      },
+      quote: '"Será la boda del año"',
+      footer: "Encuesta 2026"
+    },
+    {
+      title: "SABÍAS QUE",
+      subtitle: "¿Dato Curioso?",
+      content: "Alexei esperó 6 años antes de escribirle a Estephanie. Las mejores historias requieren paciencia y el momento perfecto.",
+      footer: "Curiosidades - Pág. 15"
+    }
+  ],
+
+  // Photo Gallery - Galería fotográfica
+  photoGallery: {
+    title: "Galería Fotográfica",
+    subtitle: "MOMENTOS INOLVIDABLES DE UNA HISTORIA DE AMOR",
+    editorNote: "Las fotografías mostradas capturan momentos significativos de la relación de Alexei y Estephanie, desde su primer encuentro hasta el día que decidieron unir sus vidas para siempre.",
+    photos: [
+      {
+        id: 1,
+        caption: "Primera foto juntos - 2023",
+        alt: "Alexei y Estephanie en su primera foto juntos",
+        size: "large" as const,
+        url: "/photos/_Z638761.jpg"
+      },
+      {
+        id: 2,
+        caption: "Viaje a Cusco - Amor viajero en acción",
+        alt: "La pareja explorando Cusco",
+        size: "medium" as const,
+        url: "/photos/_Z638873.jpg"
+      },
+      {
+        id: 3,
+        caption: "El día que se hicieron novios - 2025",
+        alt: "Momento especial de compromiso",
+        size: "medium" as const,
+        url: "/photos/_Z638874.jpg"
+      },
+      {
+        id: 4,
+        caption: "Compartiendo momentos de fe",
+        alt: "En la iglesia juntos",
+        size: "small" as const,
+        url: "/photos/_Z638896.jpg"
+      },
+      {
+        id: 5,
+        caption: "Aventuras culinarias - Probando nuevos sabores",
+        alt: "Disfrutando de una cena",
+        size: "small" as const,
+        url: "/photos/_Z638955.jpg"
+      },
+      {
+        id: 6,
+        caption: "El 'propósito' hecho realidad",
+        alt: "Sonriendo juntos",
+        size: "large" as const,
+        url: "/photos/_Z639000.jpg"
+      }
+    ]
+  },
+
   // Capacidad máxima del evento
   maxCapacity: 150,
 
@@ -398,8 +480,10 @@ export const eventConfig = {
     }
   },
 
-  // Dominio base para los QR codes
-  appUrl: "http://localhost:5173"
+  // Dominio base para los QR codes (automáticamente usa localhost en desarrollo)
+  appUrl: import.meta.env.MODE === 'development'
+    ? "http://localhost:5173"
+    : "https://aleytefi.site"
 };
 
 export type EventConfig = typeof eventConfig;

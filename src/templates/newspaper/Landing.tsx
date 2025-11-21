@@ -11,10 +11,10 @@ import { Countdown } from './components/landing/Countdown';
 import { EventDetails } from './components/landing/EventDetails';
 import { Advertisement } from './components/landing/Advertisement';
 import { LoveStory } from './components/landing/LoveStory';
-// import { PhotoGallery } from './components/landing/PhotoGallery';
 import { DressCode } from './components/landing/DressCode';
 import { FAQ } from './components/landing/FAQ';
-import { ClassifiedAds } from './components/landing/ClassifiedAds';
+import { NewsTickerMessages } from './components/landing/NewsTickerMessages';
+import { GuestMessages } from './components/landing/GuestMessages';
 import { ThankYou } from './components/landing/ThankYou';
 import { FloatingCTA } from './components/landing/FloatingCTA';
 import { InvitationSearchModal } from './components/landing/InvitationSearchModal';
@@ -68,6 +68,9 @@ export function Landing() {
         <Hero />
       </section>
 
+      {/* Ticker de mensajes de invitados */}
+      <NewsTickerMessages />
+
       {/* CTA Principal - después del Hero */}
       <CTASection variant="primary" onOpenModal={handleOpenModal} />
 
@@ -97,8 +100,6 @@ export function Landing() {
         <PhotoGallery />
       </section> */}
 
-      <Ornament type="banner" size="md" />
-
       {/* Código de vestimenta */}
       <section id="dress-code">
         <DressCode />
@@ -111,10 +112,12 @@ export function Landing() {
 
       <Ornament type="divider" size="md" />
 
-      {/* Anuncios Clasificados */}
-      <section id="classified-ads">
-        <ClassifiedAds />
+      {/* Mensajes de invitados - Cartas al Editor */}
+      <section id="guest-messages">
+        <GuestMessages />
       </section>
+
+      <PageSeparator />
 
       {/* CTA Secundario - antes del cierre */}
       <CTASection variant="secondary" onOpenModal={handleOpenModal} />
