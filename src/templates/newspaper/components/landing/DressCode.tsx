@@ -7,6 +7,7 @@
 
 import { eventConfig } from '@/config/eventConfig';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { Check, X, Sparkle, Scissors } from 'lucide-react';
 
 export function DressCode() {
   const { dressCode } = eventConfig;
@@ -45,10 +46,12 @@ export function DressCode() {
             </div>
 
             <div className="p-6 md:p-8 pt-8">
-              {/* Ilustración/Icono grande */}
+              {/* Ilustración estilo editorial */}
               <div className="text-center mb-6">
                 <div className="inline-block relative">
-                  <span className="text-8xl">👗</span>
+                  <div className="w-24 h-24 md:w-28 md:h-28 border-4 border-newspaper-black bg-newspaper-gray-100 flex items-center justify-center">
+                    <span className="font-headline text-4xl md:text-5xl font-black">D</span>
+                  </div>
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-newspaper-black text-white px-3 py-1">
                     <span className="font-headline text-xs uppercase tracking-widest">Formal</span>
                   </div>
@@ -76,7 +79,7 @@ export function DressCode() {
                         }`}
                     >
                       <span className={`font-headline text-xl ${isAvoid ? 'text-newspaper-gray-500' : 'text-newspaper-black'}`}>
-                        {isAvoid ? '✗' : '✓'}
+                        {isAvoid ? <X className="w-5 h-5" /> : <Check className="w-5 h-5" />}
                       </span>
                       <span className={`font-serif text-base leading-relaxed ${isAvoid ? 'text-newspaper-gray-600 italic' : 'text-newspaper-gray-800'
                         }`}>
@@ -105,10 +108,12 @@ export function DressCode() {
             </div>
 
             <div className="p-6 md:p-8 pt-8">
-              {/* Ilustración/Icono grande */}
+              {/* Ilustración estilo editorial */}
               <div className="text-center mb-6">
                 <div className="inline-block relative">
-                  <span className="text-8xl">🤵</span>
+                  <div className="w-24 h-24 md:w-28 md:h-28 border-4 border-newspaper-gray-800 bg-newspaper-gray-100 flex items-center justify-center">
+                    <span className="font-headline text-4xl md:text-5xl font-black">C</span>
+                  </div>
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-newspaper-gray-800 text-white px-3 py-1">
                     <span className="font-headline text-xs uppercase tracking-widest">Formal</span>
                   </div>
@@ -136,7 +141,7 @@ export function DressCode() {
                         }`}
                     >
                       <span className={`font-headline text-xl ${isAvoid ? 'text-newspaper-gray-500' : 'text-newspaper-gray-800'}`}>
-                        {isAvoid ? '✗' : '✓'}
+                        {isAvoid ? <X className="w-5 h-5" /> : <Check className="w-5 h-5" />}
                       </span>
                       <span className={`font-serif text-base leading-relaxed ${isAvoid ? 'text-newspaper-gray-600 italic' : 'text-newspaper-gray-800'
                         }`}>
@@ -223,8 +228,8 @@ export function DressCode() {
             </div>
 
             {/* Nota al pie */}
-            <p className="text-center mt-6 text-base text-newspaper-gray-600 italic border-t border-newspaper-gray-200 pt-4">
-              ✦ Estos tonos están reservados exclusivamente para la novia ✦
+            <p className="text-center mt-6 text-base text-newspaper-gray-600 italic border-t border-newspaper-gray-200 pt-4 flex items-center justify-center gap-2">
+              <Sparkle className="w-4 h-4" /> Estos tonos están reservados exclusivamente para la novia <Sparkle className="w-4 h-4" />
             </p>
           </div>
         </div>
@@ -235,7 +240,7 @@ export function DressCode() {
             {/* Columna izquierda - decorativa */}
             <div className="hidden md:flex items-center justify-center bg-newspaper-gray-100 border-r-2 border-newspaper-black p-6">
               <div className="text-center">
-                <span className="text-6xl">✂️</span>
+                <Scissors className="w-16 h-16 mx-auto text-newspaper-gray-700" />
                 <p className="font-headline text-sm uppercase tracking-widest mt-2 text-newspaper-gray-600">
                   Sección Moda
                 </p>

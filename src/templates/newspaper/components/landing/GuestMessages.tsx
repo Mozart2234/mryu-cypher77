@@ -7,7 +7,7 @@
 import { useState, useEffect } from 'react';
 import { messageService } from '@/services/messageService';
 import type { GuestMessage, MessageType } from '@/types/message';
-import { MessageSquare, Heart, Lightbulb, Camera, Sparkles } from 'lucide-react';
+import { MessageSquare, Heart, Lightbulb, Camera, Sparkles, Mail, Diamond } from 'lucide-react';
 
 const MESSAGE_TYPE_CONFIG: Record<MessageType, { icon: typeof Heart; label: string; color: string }> = {
   wishes: { icon: Heart, label: 'Buenos Deseos', color: 'text-red-600' },
@@ -238,8 +238,8 @@ export function GuestMessages() {
         <div className="text-center mb-12">
           {/* Banner superior */}
           <div className="inline-block bg-newspaper-black text-white px-8 py-2.5 mb-6">
-            <span className="font-headline text-sm uppercase tracking-widest">
-              ✦ Sección de Opinión ✦
+            <span className="font-headline text-sm uppercase tracking-widest flex items-center gap-2">
+              <Sparkles className="w-4 h-4" /> Sección de Opinión <Sparkles className="w-4 h-4" />
             </span>
           </div>
 
@@ -344,8 +344,8 @@ export function GuestMessages() {
           <div className="bg-white border-4 border-double border-newspaper-black p-1">
             <div className="border border-newspaper-gray-400 p-6 text-center">
               <div className="inline-block bg-newspaper-black text-white px-4 py-1.5 mb-3">
-                <span className="font-headline text-sm uppercase tracking-wider">
-                  ✉ Sé Parte de Esta Sección
+                <span className="font-headline text-sm uppercase tracking-wider flex items-center gap-2">
+                  <Mail className="w-4 h-4" /> Sé Parte de Esta Sección
                 </span>
               </div>
               <p className="font-headline text-base font-bold text-newspaper-black mb-2">
@@ -362,7 +362,7 @@ export function GuestMessages() {
         <div className="mt-10 border-t-2 border-newspaper-black pt-4">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-2 text-sm font-headline uppercase tracking-wider text-newspaper-gray-600">
             <span>Sección: Opinión & Cartas</span>
-            <span className="hidden sm:inline">❖</span>
+            <Diamond className="hidden sm:inline w-3 h-3" />
             <span>Total: {allMessages.length} {allMessages.length === 1 ? 'Carta' : 'Cartas'} Publicadas</span>
           </div>
         </div>

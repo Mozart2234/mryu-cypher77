@@ -6,6 +6,7 @@
 
 import { eventConfig } from '@/config/eventConfig';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { Star } from 'lucide-react';
 
 /**
  * Timeline Item con scroll animation individual
@@ -112,8 +113,8 @@ function TimelineItem({ event, index, isEven, isFeatured, badgeClass }: Timeline
             {/* Etiqueta especial para el evento destacado */}
             {isFeatured && (
               <div className="mt-2 bg-newspaper-black text-white text-center py-2 px-3">
-                <p className="font-headline text-sm uppercase tracking-widest">
-                  ★ El Día Más Esperado ★
+                <p className="font-headline text-sm uppercase tracking-widest flex items-center justify-center gap-2">
+                  <Star className="w-4 h-4 fill-current" /> El Día Más Esperado <Star className="w-4 h-4 fill-current" />
                 </p>
               </div>
             )}

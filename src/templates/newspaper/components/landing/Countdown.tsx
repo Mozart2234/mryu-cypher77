@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { Heart, Sparkles } from 'lucide-react';
+import { Heart, Sparkles, Flower2 } from 'lucide-react';
 import { eventConfig } from '@/config/eventConfig';
 
 interface FlipCardProps {
@@ -141,9 +141,7 @@ export function Countdown() {
                 opacity: 0.03 + (i % 5) * 0.01,
               }}
             >
-              <span className="text-newspaper-black font-headline" style={{ fontSize: `${60 + (i % 40)}px` }}>
-                {['❦', '❧', '✦', '✧', '❈'][i % 5]}
-              </span>
+              <Flower2 className="text-newspaper-black" style={{ width: `${30 + (i % 20)}px`, height: `${30 + (i % 20)}px` }} />
             </div>
           ))}
         </div>
@@ -224,11 +222,11 @@ export function Countdown() {
 
               {/* Ornamento superior */}
               <div className="flex items-center justify-center gap-3 mb-6 newspaper-ornament-reveal">
-                <span className="text-2xl text-amber-700 newspaper-sparkle">❦</span>
+                <Flower2 className="w-6 h-6 text-amber-700 newspaper-sparkle" />
                 <div className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent via-amber-700 to-transparent" />
                 <Heart className="w-6 h-6 text-amber-700 fill-amber-700 newspaper-heart-beat" />
                 <div className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent via-amber-700 to-transparent" />
-                <span className="text-2xl text-amber-700 newspaper-sparkle-delayed">❧</span>
+                <Flower2 className="w-6 h-6 text-amber-700 newspaper-sparkle-delayed" />
               </div>
 
               {/* HEADLINE PRINCIPAL */}
@@ -318,7 +316,7 @@ export function Countdown() {
               <div className="newspaper-signature-reveal">
                 <div className="flex items-center justify-center gap-3 mb-3">
                   <div className="h-px w-12 md:w-20 bg-newspaper-gray-400" />
-                  <span className="text-amber-700 text-xl">❦</span>
+                  <Flower2 className="w-5 h-5 text-amber-700" />
                   <div className="h-px w-12 md:w-20 bg-newspaper-gray-400" />
                 </div>
                 <p className="font-serif text-base md:text-lg italic text-newspaper-gray-700">Con amor infinito,</p>

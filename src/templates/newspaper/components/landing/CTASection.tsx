@@ -4,7 +4,7 @@
  * Call-to-action destacado estilo periódico con estética editorial
  */
 
-import { Ticket, ArrowRight, Sparkles } from 'lucide-react';
+import { Ticket, ArrowRight, Sparkles, Star } from 'lucide-react';
 
 interface CTASectionProps {
   variant?: 'primary' | 'secondary';
@@ -29,8 +29,8 @@ export function CTASection({ variant = 'primary', onOpenModal }: CTASectionProps
 
               {/* Kicker */}
               <div className="inline-block bg-newspaper-black text-white px-4 py-1 mb-4">
-                <span className="font-headline text-[10px] uppercase tracking-[0.3em]">
-                  ★ Aviso Importante ★
+                <span className="font-headline text-[10px] uppercase tracking-[0.3em] flex items-center gap-1">
+                  <Star className="w-3 h-3 fill-current" /> Aviso Importante <Star className="w-3 h-3 fill-current" />
                 </span>
               </div>
 

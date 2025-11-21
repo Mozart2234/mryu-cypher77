@@ -5,6 +5,8 @@
  * Viñetas, divisores, stamps y elementos decorativos
  */
 
+import { Diamond, Flower2, Sparkle, Star } from 'lucide-react';
+
 interface OrnamentProps {
   type?: 'divider' | 'flourish' | 'stamp' | 'corner' | 'center' | 'banner';
   size?: 'sm' | 'md' | 'lg';
@@ -25,7 +27,7 @@ export function Ornament({ type = 'divider', size = 'md', className = '' }: Orna
     return (
       <div className={`flex items-center justify-center gap-4 my-6 ${className}`}>
         <div className={`flex-1 border-t border-newspaper-border`}></div>
-        <div className={`${baseClasses} ${sizeClasses[size]} font-serif`}>❖</div>
+        <Diamond className={`${baseClasses} ${sizeClasses[size]}`} />
         <div className={`flex-1 border-t border-newspaper-border`}></div>
       </div>
     );
@@ -35,10 +37,10 @@ export function Ornament({ type = 'divider', size = 'md', className = '' }: Orna
   if (type === 'flourish') {
     return (
       <div className={`flex justify-center my-6 ${className}`}>
-        <div className={`${baseClasses} ${sizeClasses[size]} font-serif flex items-center gap-2`}>
-          <span>❦</span>
-          <span>❖</span>
-          <span>❦</span>
+        <div className={`${baseClasses} ${sizeClasses[size]} flex items-center gap-2`}>
+          <Flower2 className="w-4 h-4" />
+          <Diamond className="w-4 h-4" />
+          <Flower2 className="w-4 h-4" />
         </div>
       </div>
     );
@@ -48,10 +50,8 @@ export function Ornament({ type = 'divider', size = 'md', className = '' }: Orna
   if (type === 'stamp') {
     return (
       <div className={`inline-block ${className}`}>
-        <div className="border-2 border-double border-newspaper-black/30 px-3 py-1 rotate-[-2deg]">
-          <span className={`${baseClasses} ${sizeClasses[size]} font-bold uppercase tracking-wider`}>
-            ★
-          </span>
+        <div className="border-2 border-double border-newspaper-black/30 px-3 py-1 -rotate-2">
+          <Star className={`${baseClasses} ${sizeClasses[size]}`} />
         </div>
       </div>
     );
@@ -77,9 +77,7 @@ export function Ornament({ type = 'divider', size = 'md', className = '' }: Orna
   if (type === 'center') {
     return (
       <div className={`flex justify-center my-6 ${className}`}>
-        <div className={`${baseClasses} ${sizeClasses[size]} font-serif`}>
-          ✦
-        </div>
+        <Sparkle className={`${baseClasses} ${sizeClasses[size]}`} />
       </div>
     );
   }
@@ -90,16 +88,16 @@ export function Ornament({ type = 'divider', size = 'md', className = '' }: Orna
       <div className={`relative my-8 ${className}`}>
         <div className="flex items-center justify-center">
           <div className="flex-1 border-t-2 border-newspaper-black/20"></div>
-          <div className={`mx-4 ${baseClasses} ${sizeClasses[size]} font-serif flex gap-2`}>
-            <span>✦</span>
-            <span>❖</span>
-            <span>✦</span>
+          <div className={`mx-4 ${baseClasses} ${sizeClasses[size]} flex gap-2`}>
+            <Sparkle className="w-4 h-4" />
+            <Diamond className="w-4 h-4" />
+            <Sparkle className="w-4 h-4" />
           </div>
           <div className="flex-1 border-t-2 border-newspaper-black/20"></div>
         </div>
         <div className="flex items-center justify-center mt-1">
           <div className="flex-1 border-t border-newspaper-black/10"></div>
-          <div className={`mx-8 ${baseClasses} text-xs`}>✦</div>
+          <Sparkle className={`mx-8 ${baseClasses} w-3 h-3`} />
           <div className="flex-1 border-t border-newspaper-black/10"></div>
         </div>
       </div>

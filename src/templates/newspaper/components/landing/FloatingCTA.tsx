@@ -4,7 +4,7 @@
  * Botón sticky estilo periódico que permanece visible
  */
 
-import { Ticket, X } from 'lucide-react';
+import { Ticket, X, Star } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 interface FloatingCTAProps {
@@ -45,8 +45,8 @@ export function FloatingCTA({ onOpenModal }: FloatingCTAProps) {
       <div className="relative bg-white border-4 border-newspaper-black shadow-2xl">
         {/* Barra superior decorativa */}
         <div className="bg-newspaper-black px-3 py-1.5 flex items-center justify-between">
-          <span className="font-headline text-[10px] md:text-xs uppercase tracking-[0.15em] text-white">
-            ★ Acceso Directo ★
+          <span className="font-headline text-[10px] md:text-xs uppercase tracking-[0.15em] text-white flex items-center gap-1">
+            <Star className="w-3 h-3 fill-current" /> Acceso Directo <Star className="w-3 h-3 fill-current" />
           </span>
           <button
             onClick={() => setIsVisible(false)}

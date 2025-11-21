@@ -9,6 +9,7 @@
 
 import { eventConfig } from '@/config/eventConfig';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { Church, PartyPopper, Heart, Sparkle, Diamond } from 'lucide-react';
 
 export function EventDetails() {
   const { ceremony, reception, date, parents, godparents, messages } = eventConfig;
@@ -28,7 +29,7 @@ export function EventDetails() {
           {/* Línea decorativa superior */}
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="h-px w-20 md:w-32 bg-newspaper-black"></div>
-            <span className="font-serif text-2xl">❧</span>
+            <Heart className="w-5 h-5 text-newspaper-black" />
             <div className="h-px w-20 md:w-32 bg-newspaper-black"></div>
           </div>
 
@@ -45,7 +46,7 @@ export function EventDetails() {
           {/* Línea decorativa inferior */}
           <div className="flex items-center justify-center gap-4 mt-4">
             <div className="h-0.5 w-12 bg-newspaper-black"></div>
-            <span className="text-newspaper-black text-base">✦</span>
+            <Sparkle className="w-4 h-4 text-newspaper-black" />
             <div className="h-0.5 w-12 bg-newspaper-black"></div>
           </div>
         </div>
@@ -57,8 +58,8 @@ export function EventDetails() {
         <div className="bg-white border-2 border-newspaper-black mb-6">
           {/* Barra superior */}
           <div className="bg-newspaper-black py-1.5 text-center">
-            <span className="font-headline text-xs md:text-sm uppercase tracking-wider text-white">
-              ❖ Participación Especial ❖
+            <span className="font-headline text-xs md:text-sm uppercase tracking-wider text-white flex items-center justify-center gap-2">
+              <Diamond className="w-3 h-3" /> Participación Especial <Diamond className="w-3 h-3" />
             </span>
           </div>
 
@@ -90,7 +91,7 @@ export function EventDetails() {
             {/* Separador */}
             <div className="flex items-center justify-center gap-3 my-3">
               <div className="h-px w-12 bg-newspaper-gray-300"></div>
-              <span className="font-serif text-base text-newspaper-gray-400">❦</span>
+              <Heart className="w-4 h-4 text-newspaper-gray-400" />
               <div className="h-px w-12 bg-newspaper-gray-300"></div>
             </div>
 
@@ -159,7 +160,7 @@ export function EventDetails() {
             {/* Header estilo periódico */}
             <div className="border-b-2 border-newspaper-black px-4 py-3 bg-newspaper-gray-100">
               <div className="flex items-center justify-center gap-2">
-                <span className="text-xl">⛪</span>
+                <Church className="w-5 h-5 text-newspaper-black" />
                 <h3 className="font-headline text-base md:text-lg uppercase tracking-wider font-bold text-newspaper-black">
                   {messages.eventDetails.ceremonyTitle}
                 </h3>
@@ -197,7 +198,7 @@ export function EventDetails() {
             {/* Header estilo periódico */}
             <div className="border-b-2 border-newspaper-black px-4 py-3 bg-newspaper-gray-100">
               <div className="flex items-center justify-center gap-2">
-                <span className="text-xl">🎉</span>
+                <PartyPopper className="w-5 h-5 text-newspaper-black" />
                 <h3 className="font-headline text-base md:text-lg uppercase tracking-wider font-bold text-newspaper-black">
                   {messages.eventDetails.receptionTitle}
                 </h3>
