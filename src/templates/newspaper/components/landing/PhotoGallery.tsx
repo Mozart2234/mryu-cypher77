@@ -60,11 +60,11 @@ export function PhotoGallery() {
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && openLightbox(0)}
-              aria-label={`Ver foto: ${photoGallery.photoGallery.photos[0].caption}`}
+              aria-label={`Ver foto: ${photoGallery.photos[0].caption}`}
             >
               <img
-                src={photoGallery.photoGallery.photos[0].url}
-                alt={photoGallery.photoGallery.photos[0].alt}
+                src={photoGallery.photos[0].url}
+                alt={photoGallery.photos[0].alt}
                 loading="lazy"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500"
               />

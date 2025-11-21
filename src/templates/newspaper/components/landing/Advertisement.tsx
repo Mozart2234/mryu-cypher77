@@ -28,7 +28,7 @@ export function Advertisement() {
               )}
 
               {/* Contenido - Estadística o Texto */}
-              {'statistic' in ad ? (
+              {'statistic' in ad && ad.statistic ? (
                 <div className="my-4">
                   <div className="text-6xl font-headline font-black text-newspaper-black">
                     {ad.statistic.value}
@@ -39,7 +39,7 @@ export function Advertisement() {
                 </div>
               ) : (
                 <p className="font-sans text-xs leading-relaxed mb-3">
-                  {ad.content}
+                  {'content' in ad ? ad.content : ''}
                 </p>
               )}
 
