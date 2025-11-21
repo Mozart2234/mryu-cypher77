@@ -13,13 +13,11 @@ Esta carpeta contiene todos los archivos necesarios para configurar tu base de d
 Contiene:
 - ✅ Tabla `reservations` - Sistema de reservaciones con QR
 - ✅ Tabla `guest_messages` - Mensajes de invitados
-- ✅ Tabla `wedding_content` - Contenido editable del sitio
 - ✅ Todos los triggers y funciones
 - ✅ Políticas de Row Level Security (RLS)
-- ✅ Datos iniciales opcionales
 
-**Líneas:** ~330
-**Tiempo de ejecución:** 5-10 segundos
+**Líneas:** ~175
+**Tiempo de ejecución:** 3-5 segundos
 
 ---
 
@@ -69,9 +67,9 @@ En Supabase SQL Editor, ejecuta:
 SELECT table_name
 FROM information_schema.tables
 WHERE table_schema = 'public'
-AND table_name IN ('reservations', 'guest_messages', 'wedding_content');
+AND table_name IN ('reservations', 'guest_messages');
 
--- Debe devolver 3 tablas
+-- Debe devolver 2 tablas
 ```
 
 ---
@@ -92,14 +90,6 @@ Mensajes de invitados para la pareja
 - Mensajes públicos/privados
 - Muro público filtrado
 
-### Tabla: wedding_content
-Contenido editable del sitio
-- Datos de los novios
-- Ubicaciones y horarios
-- Historia de amor
-- Artículos del periódico
-- FAQ, dress code, etc.
-- Formato JSONB flexible
 
 ---
 
@@ -128,11 +118,15 @@ Ver políticas actuales en:
 
 ```
 supabase/
-├── database-setup-MASTER.sql      ⭐ Archivo principal
+├── database-setup-MASTER.sql      ⭐ Archivo principal (2 tablas)
 ├── GUIA-REINICIO-COMPLETO.md     📖 Guía de instalación/reinicio
 ├── auth-setup.md                  🔐 Guía de autenticación
 └── README.md                      📄 Este archivo
 ```
+
+**Nota:** Solo usamos 2 tablas:
+- `reservations` - Datos en el código (eventConfig.ts)
+- `guest_messages` - Datos dinámicos en BD
 
 ---
 
@@ -146,9 +140,6 @@ supabase/
 
 ### No veo las tablas
 **Solución:** Refresca la página de Supabase. Ve a Table Editor en el menú lateral.
-
-### Los datos no aparecen
-**Solución:** Verifica que ejecutaste todo el script, incluyendo la PARTE 4 (datos iniciales).
 
 ---
 
