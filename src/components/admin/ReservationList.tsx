@@ -5,6 +5,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 import { reservationService } from '@/services/reservationService';
 import type { Reservation, ReservationStatus } from '@/types/reservation';
 import { ReservationRow } from './ReservationRow';
@@ -68,18 +69,28 @@ export function ReservationList({ refreshTrigger, onUpdate }: ReservationListPro
   const handleCheckIn = async (id: string) => {
     try {
       await reservationService.checkIn(id);
+      toast.success('Ingreso registrado', {
+        description: 'El check-in se realizó correctamente'
+      });
       onUpdate();
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'Error al registrar ingreso');
+      toast.error('Error al registrar ingreso', {
+        description: error instanceof Error ? error.message : 'Intenta de nuevo'
+      });
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
       await reservationService.delete(id);
+      toast.success('Reservación eliminada', {
+        description: 'La reservación se eliminó correctamente'
+      });
       onUpdate();
     } catch (error) {
-      alert(error instanceof Error ? error.message : 'Error al eliminar reservación');
+      toast.error('Error al eliminar reservación', {
+        description: error instanceof Error ? error.message : 'Intenta de nuevo'
+      });
     }
   };
 

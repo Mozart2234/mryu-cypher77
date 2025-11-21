@@ -187,7 +187,7 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
             {/* Eliminar */}
             <button
               onClick={() => {
-                if (confirm('¿Eliminar esta reservación?')) {
+                if (window.confirm('¿Eliminar esta reservación?')) {
                   onDelete(reservation.id);
                 }
               }}

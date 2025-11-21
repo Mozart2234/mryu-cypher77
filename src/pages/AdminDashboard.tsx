@@ -5,6 +5,7 @@
  */
 
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { StatsCards } from '@/components/admin/StatsCards';
 import { ReservationForm } from '@/components/admin/ReservationForm';
@@ -31,9 +32,14 @@ export function AdminDashboard() {
     try {
       const reservations = await reservationService.getAll();
       exportReservationsToCSV(reservations);
+      toast.success('CSV exportado exitosamente', {
+        description: 'El archivo se descargó correctamente'
+      });
     } catch (error) {
       console.error('Error exporting CSV:', error);
-      alert('Error al exportar el archivo CSV');
+      toast.error('Error al exportar el archivo CSV', {
+        description: error instanceof Error ? error.message : 'Intenta de nuevo'
+      });
     }
   };
 

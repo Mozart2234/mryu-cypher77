@@ -5,6 +5,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 import { messageService } from '@/services/messageService';
 import type { GuestMessage, MessageType } from '@/types/message';
 import {
@@ -51,7 +52,9 @@ export function MessagesPanel() {
       setMessages(data);
     } catch (error) {
       console.error('Error loading messages:', error);
-      alert('Error al cargar los mensajes');
+      toast.error('Error al cargar los mensajes', {
+        description: 'No se pudieron cargar los mensajes'
+      });
     } finally {
       setLoading(false);
     }
@@ -66,34 +69,36 @@ export function MessagesPanel() {
     }
   };
 
-  const handleToggleBlocked = async (id: string) => {
-    if (!confirm('¿Estás seguro de cambiar el estado de este mensaje?')) {
-      return;
-    }
-
-    try {
-      await messageService.toggleBlocked(id);
-      await loadMessages();
-      await loadStats();
-    } catch (error) {
-      console.error('Error toggling blocked status:', error);
-      alert('Error al cambiar el estado del mensaje');
-    }
+  const handleToggleBlocked = async (id: string, currentBlocked: boolean) => {
+    toast.promise(
+      messageService.toggleBlocked(id).then(async () => {
+        await loadMessages();
+        await loadStats();
+      }),
+      {
+        loading: 'Actualizando mensaje...',
+        success: currentBlocked ? 'Mensaje desbloqueado correctamente' : 'Mensaje bloqueado correctamente',
+        error: 'Error al cambiar el estado del mensaje'
+      }
+    );
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('¿Estás seguro de eliminar este mensaje? Esta acción es permanente.')) {
+    if (!window.confirm('¿Estás seguro de eliminar este mensaje? Esta acción es permanente.')) {
       return;
     }
 
-    try {
-      await messageService.delete(id);
-      await loadMessages();
-      await loadStats();
-    } catch (error) {
-      console.error('Error deleting message:', error);
-      alert('Error al eliminar el mensaje');
-    }
+    toast.promise(
+      messageService.delete(id).then(async () => {
+        await loadMessages();
+        await loadStats();
+      }),
+      {
+        loading: 'Eliminando mensaje...',
+        success: 'Mensaje eliminado correctamente',
+        error: 'Error al eliminar el mensaje'
+      }
+    );
   };
 
   const filteredMessages = messages.filter(msg => {
@@ -260,7 +265,7 @@ export function MessagesPanel() {
                   {/* Acciones */}
                   <div className="flex flex-col gap-2">
                     <button
-                      onClick={() => handleToggleBlocked(message.id)}
+                      onClick={() => handleToggleBlocked(message.id, message.isBlocked)}
                       className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                         message.isBlocked
                           ? 'bg-green-100 text-green-700 hover:bg-green-200'
