@@ -19,102 +19,93 @@ interface TimelineItemProps {
 }
 
 function TimelineItem({ event, index, isEven, isFeatured, badgeClass }: TimelineItemProps) {
-  const { elementRef, isVisible } = useScrollAnimation();
+  const { elementRef, isVisible } = useScrollAnimation({
+    threshold: 0.1,
+    rootMargin: '-50px 0px -50px 0px'
+  });
 
   return (
     <div
       ref={elementRef}
-      className={`relative transition-all duration-700 ease-out ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      className={`relative transition-all duration-500 ease-out ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
       } ${isFeatured ? 'md:col-span-2' : ''}`}
     >
       {/* Responsive: Mobile siempre centrado, Desktop alternado */}
       <div className={`
-        flex flex-col md:flex-row items-start gap-4
+        flex flex-col md:flex-row items-start gap-2 md:gap-3
         ${isEven ? 'md:flex-row-reverse' : ''}
         ${isFeatured ? 'md:justify-center' : ''}
       `}>
         {/* Espaciador para alternar lados */}
         {!isFeatured && <div className="hidden md:block md:w-1/2"></div>}
 
-        {/* Tarjeta del evento */}
+        {/* Tarjeta del evento - MÁS COMPACTA */}
         <div className={`
-          w-full ${isFeatured ? 'md:max-w-3xl' : 'md:w-1/2'}
+          w-full ${isFeatured ? 'md:max-w-2xl' : 'md:w-1/2'}
           relative
         `}>
-          {/* Badge con mes y año + foto circular */}
-          <div className="flex items-center gap-3 mb-3">
-            {/* Foto circular pequeña (si existe) */}
-            {event.photoUrl && (
-              <div className="relative w-16 h-16 rounded-full overflow-hidden border-3 border-newspaper-black shadow-lg hover:scale-110 transition-transform duration-300 shrink-0 group">
-                <img
-                  src={event.photoUrl}
-                  alt={event.title}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
-                  loading="lazy"
-                />
-              </div>
-            )}
-
-            {/* Badge con mes y año - estilo newspaper */}
+          {/* Badge con mes y año - sin foto circular */}
+          <div className="flex items-center gap-2 mb-2">
+            {/* Badge con mes y año - más pequeño */}
             <div className={`
-              inline-flex items-center gap-2 px-4 py-2 border-2
-              font-bold text-sm uppercase tracking-wider
+              inline-flex items-center gap-1.5 px-3 py-1.5 border-2
+              font-bold text-xs uppercase tracking-wider
               ${badgeClass}
             `}>
-              <span className="text-2xl">{event.icon}</span>
+              <span className="text-lg">{event.icon}</span>
               <span>{event.month} {event.year}</span>
             </div>
           </div>
 
-          {/* Contenido en caja estilo periódico */}
+          {/* Contenido en caja estilo periódico - MÁS COMPACTA */}
           <div className={`
-            border-2 border-newspaper-black bg-white p-6
-            ${isFeatured ? 'shadow-2xl' : 'shadow-lg'}
-            hover:shadow-xl transition-shadow duration-300
+            border-2 border-newspaper-black bg-white p-4
+            ${isFeatured ? 'shadow-xl' : 'shadow-md'}
+            hover:shadow-lg transition-shadow duration-300
           `}>
-            {/* Header */}
-            <div className="flex items-start justify-between mb-4">
+            {/* Header más compacto */}
+            <div className="flex items-start justify-between mb-2">
               <h3 className={`
-                newspaper-title
-                ${isFeatured ? 'text-3xl' : ''}
+                font-serif font-bold text-newspaper-black leading-tight
+                ${isFeatured ? 'text-xl md:text-2xl' : 'text-base md:text-lg'}
               `}>
                 {event.title}
               </h3>
-              <span className="newspaper-page-number shrink-0 ml-3">
+              <span className="text-xs text-newspaper-gray-600 shrink-0 ml-2">
                 #{index + 1}
               </span>
             </div>
 
-            {/* Divider */}
-            <div className="newspaper-divider mb-4"></div>
+            {/* Divider más fino */}
+            <div className="border-t border-newspaper-gray-300 mb-2"></div>
 
-            {/* Texto narrativo */}
+            {/* Texto narrativo más compacto */}
             <p className={`
-              newspaper-body
-              ${isFeatured ? 'text-lg' : ''}
+              font-serif leading-snug text-newspaper-gray-700
+              ${isFeatured ? 'text-base' : 'text-sm'}
             `}>
               {event.text}
             </p>
 
-            {/* PULL QUOTE - cita destacada (solo en algunos eventos) */}
+            {/* PULL QUOTE - más pequeña */}
             {event.quote && (
-              <blockquote className="border-l-4 border-newspaper-black bg-newspaper-gray-50 p-4 my-4 italic text-base font-serif text-newspaper-black md:float-right md:ml-6 md:mb-4 md:max-w-xs">
+              <blockquote className="border-l-2 border-newspaper-black bg-newspaper-gray-50 p-2 my-2 italic text-xs md:text-sm font-serif text-newspaper-black">
                 "{event.quote}"
               </blockquote>
             )}
 
-            {/* Footer decorativo */}
-            <div className="mt-4 pt-4 border-t-2 border-newspaper-gray-200">
-              <p className="newspaper-page-number text-xs text-center uppercase tracking-wider">
+            {/* Footer decorativo más compacto */}
+            <div className="mt-2 pt-2 border-t border-newspaper-gray-200">
+              <p className="text-xs text-center uppercase tracking-wide text-newspaper-gray-500">
                 Capítulo {index + 1} • {event.date}
               </p>
             </div>
 
             {/* Etiqueta especial para el evento destacado */}
             {isFeatured && (
-              <div className="mt-4 bg-newspaper-gray-900 text-white text-center py-2 px-4">
-                <p className="font-headline text-sm uppercase tracking-widest">
+              <div className="mt-2 bg-newspaper-black text-white text-center py-1.5 px-3">
+                <p className="font-headline text-xs uppercase tracking-widest">
                   ★ El Día Más Esperado ★
                 </p>
               </div>
@@ -154,34 +145,35 @@ export function LoveStory() {
   return (
     <section
       ref={elementRef}
-      className={`newspaper-page bg-newspaper-gray-50 transition-all duration-1000 ease-out ${
+      id="love-story"
+      className={`newspaper-page py-6 px-4 md:py-8 md:px-8 bg-newspaper-gray-50 transition-all duration-1000 ease-out ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
     >
-      <div className="max-w-7xl mx-auto">
-        {/* Título de sección */}
-        <div className="text-center mb-16">
-          <div className="newspaper-divider-thick mb-4"></div>
-          <h2 className="newspaper-subheadline mb-3">
+      <div className="max-w-6xl mx-auto">
+        {/* Título de sección - MÁS COMPACTO */}
+        <div className="text-center mb-6 md:mb-8">
+          <div className="newspaper-divider-thick mb-3"></div>
+          <h2 className="font-headline text-2xl md:text-3xl font-bold text-newspaper-black mb-2">
             Nuestra Historia de Amor
           </h2>
-          <p className="newspaper-meta">
+          <p className="text-xs uppercase tracking-wide text-newspaper-gray-600">
             DE UNA MIRADA EN 2016 AL ALTAR EN 2026
           </p>
-          <div className="newspaper-divider-thick mt-4"></div>
-          <p className="newspaper-body text-center mt-6 max-w-2xl mx-auto italic text-newspaper-gray-700">
+          <div className="newspaper-divider-thick mt-3"></div>
+          <p className="text-sm text-center mt-4 max-w-2xl mx-auto italic text-newspaper-gray-700 leading-relaxed">
             Cada gran historia de amor tiene su propio camino. Esta es la nuestra:
             de una mirada en 2016, un reencuentro mágico en 2022, hasta el altar en 2026.
           </p>
         </div>
 
-        {/* Timeline vertical */}
+        {/* Timeline vertical - MÁS COMPACTA */}
         <div className="relative">
-          {/* Línea vertical central */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-newspaper-gray-300 transform -translate-x-1/2"></div>
+          {/* Línea vertical central - más delgada */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-newspaper-gray-300 transform -translate-x-1/2"></div>
 
-          {/* Eventos */}
-          <div className="space-y-8 md:space-y-10">
+          {/* Eventos - menos espaciado */}
+          <div className="space-y-4 md:space-y-6">
             {loveStory.map((event: any, index: number) => {
               const isEven = index % 2 === 0;
               const isFeatured = event.featured;

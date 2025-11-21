@@ -101,22 +101,22 @@
    ======================================== */
 
 @utility newspaper-page {
-  /* Portada de periódico - spacing reducido */
-  @apply bg-white py-8 px-4 md:py-10 md:px-6;
+  /* Portada de periódico - spacing optimizado */
+  @apply bg-white py-6 px-4 md:py-8 md:px-6;
 }
 
 /* DIVISORES */
 @utility newspaper-divider {
   /* Línea divisoria estándar */
-  @apply border-t border-newspaper-black my-4;
+  @apply border-t border-newspaper-black my-3;
 }
 
 @utility newspaper-divider-thin {
-  @apply border-t border-newspaper-gray-300 my-2;
+  @apply border-t border-newspaper-gray-300 my-1.5;
 }
 
 @utility newspaper-divider-thick {
-  @apply border-t-3 border-newspaper-black my-6;
+  @apply border-t-3 border-newspaper-black my-4;
 }
 
 @utility newspaper-divider-double {
@@ -747,6 +747,87 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: shine 3s linear infinite;
+}
+
+/* ========================================
+   ANIMACIONES MEJORADAS - NEWSPAPER STYLE
+   ======================================== */
+
+/* Fade in from left - para elementos alternados */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-left {
+  animation: fadeInLeft 0.6s ease-out;
+}
+
+/* Fade in from right - para elementos alternados */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 0.6s ease-out;
+}
+
+/* Scale up - para CTAs y elementos destacados */
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.4s ease-out;
+}
+
+/* Stagger animation - para listas */
+.stagger-item {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+.stagger-item:nth-child(6) { animation-delay: 0.6s; }
+.stagger-item:nth-child(7) { animation-delay: 0.7s; }
+.stagger-item:nth-child(8) { animation-delay: 0.8s; }
+
+/* Bounce subtle - para iconos y badges */
+@keyframes bounceSubtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-bounce-subtle {
+  animation: bounceSubtle 2s ease-in-out infinite;
 }
 
 /* Smooth scroll behavior */
