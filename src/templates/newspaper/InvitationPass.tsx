@@ -98,10 +98,7 @@ export function InvitationPass() {
   const handleMessageSuccess = () => {
     if (reservation) {
       loadMessages(reservation.id);
-      toast.success(
-        '¡Mensaje enviado!',
-        'Tu mensaje ha sido enviado exitosamente a los novios.'
-      );
+      // No mostrar toast aquí - el MessageForm ya tiene su propio mensaje de éxito con auto-scroll
       // Cerrar el modal después de enviar el mensaje
       setShowConfirmModal(false);
       setConfirmationStep('form');

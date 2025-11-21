@@ -133,11 +133,16 @@ export function GuestMessages() {
     try {
       setLoading(true);
       const data = await messageService.getPublicMessages();
-      // Duplicar mensajes si hay pocos para crear efecto de loop infinito
-      const displayMessages = data.length < VISIBLE_COUNT * 2
-        ? [...data, ...data, ...data]
-        : data;
-      setAllMessages(displayMessages);
+
+      // Si hay 5 mensajes o menos, no duplicar, mostrar solo los que hay
+      if (data.length <= 5) {
+        setAllMessages(data);
+      } else if (data.length < VISIBLE_COUNT * 2) {
+        // Solo duplicar si hay entre 6 y 11 mensajes para crear efecto de loop
+        setAllMessages([...data, ...data, ...data]);
+      } else {
+        setAllMessages(data);
+      }
     } catch (error) {
       console.error('Error loading public messages:', error);
       setAllMessages([]);
@@ -146,10 +151,11 @@ export function GuestMessages() {
     }
   };
 
-  // Obtener los 6 mensajes visibles actuales
+  // Obtener los mensajes visibles actuales (adaptar cantidad si hay menos de 6)
   const getVisibleMessages = () => {
     const messages: GuestMessage[] = [];
-    for (let i = 0; i < VISIBLE_COUNT; i++) {
+    const count = Math.min(VISIBLE_COUNT, allMessages.length);
+    for (let i = 0; i < count; i++) {
       const index = (visibleStartIndex + i) % allMessages.length;
       messages.push(allMessages[index]);
     }
