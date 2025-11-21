@@ -15,52 +15,53 @@ export function DressCode() {
   return (
     <section
       ref={elementRef}
-      className={`newspaper-page py-12 px-4 md:px-8 bg-white transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      id="dress-code"
+      className={`newspaper-page py-6 px-4 md:py-8 md:px-8 bg-white transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
     >
-      <div className="max-w-7xl mx-auto">
-        {/* Título de sección estilo titular de periódico */}
-        <div className="text-center mb-12">
-          <div className="newspaper-divider-thick mb-6"></div>
-          <h2 className="newspaper-subheadline mb-3">
+      <div className="max-w-6xl mx-auto">
+        {/* Título de sección - MÁS COMPACTO */}
+        <div className="text-center mb-6">
+          <div className="newspaper-divider-thick mb-3"></div>
+          <h2 className="font-headline text-2xl md:text-3xl font-bold text-newspaper-black mb-2">
             {dressCode.title}
           </h2>
-          <p className="newspaper-meta mb-2">
+          <p className="text-xs uppercase tracking-wide text-newspaper-gray-600">
             {dressCode.subtitle}
           </p>
-          <div className="newspaper-divider-thick mt-6"></div>
-          <p className="newspaper-body text-center mt-6 max-w-2xl mx-auto italic text-newspaper-gray-700">
+          <div className="newspaper-divider-thick mt-3"></div>
+          <p className="text-sm text-center mt-4 max-w-2xl mx-auto italic text-newspaper-gray-700 leading-relaxed">
             Para mantener la elegancia y armonía del evento, te pedimos considerar estas recomendaciones
           </p>
         </div>
 
-        {/* Grid de dress code estilo columnas de periódico */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {/* Mujeres */}
-          <div className="bg-white border-2 border-newspaper-black overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300">
-            {/* Header estilo periódico */}
-            <div className="bg-newspaper-black text-white p-8 text-center">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="w-8 h-8 text-newspaper-black" />
+        {/* Grid de dress code - MÁS COMPACTO */}
+        <div className="grid md:grid-cols-2 gap-4 mb-6">
+          {/* Mujeres - MÁS COMPACTO */}
+          <div className="bg-white border-2 border-newspaper-black overflow-hidden hover:shadow-lg transition-all duration-300">
+            {/* Header más compacto */}
+            <div className="bg-newspaper-black text-white p-4 text-center">
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2">
+                <Sparkles className="w-6 h-6 text-newspaper-black" />
               </div>
-              <h3 className="newspaper-subheadline mb-2 text-white">
+              <h3 className="font-serif text-xl font-bold text-white">
                 {dressCode.women.title}
               </h3>
-              <div className="w-24 h-1 bg-white mx-auto"></div>
+              <div className="w-16 h-0.5 bg-white mx-auto mt-2"></div>
             </div>
 
-            {/* Contenido */}
-            <div className="p-8 bg-newspaper-gray-50">
-              <ul className="space-y-5">
+            {/* Contenido más compacto */}
+            <div className="p-4 bg-newspaper-gray-50">
+              <ul className="space-y-2.5">
                 {dressCode.women.items.map((item: any, index: number) => {
                   const isAvoid = item.toLowerCase().includes('evitar');
                   return (
-                    <li key={index} className="border-l-2 border-newspaper-gray-400 pl-4 py-2">
-                      <div className="flex items-start gap-3">
-                        <span className="font-headline text-2xl font-bold text-newspaper-gray-400 shrink-0 leading-none">
+                    <li key={index} className="border-l-2 border-newspaper-gray-400 pl-3 py-1">
+                      <div className="flex items-start gap-2">
+                        <span className="text-lg font-bold text-newspaper-gray-400 shrink-0 leading-none">
                           {isAvoid ? '✗' : '✓'}
                         </span>
-                        <span className={`newspaper-body ${isAvoid ? 'text-newspaper-gray-700 italic' : 'text-newspaper-black'
+                        <span className={`text-sm ${isAvoid ? 'text-newspaper-gray-700 italic' : 'text-newspaper-black'
                           }`}>
                           {item}
                         </span>
@@ -71,39 +72,39 @@ export function DressCode() {
               </ul>
             </div>
 
-            {/* Footer con icono */}
-            <div className="border-t-2 border-newspaper-black p-4 bg-white text-center">
-              <p className="font-headline text-sm uppercase tracking-widest text-newspaper-gray-600">
+            {/* Footer más compacto */}
+            <div className="border-t-2 border-newspaper-black p-2 bg-white text-center">
+              <p className="text-xs uppercase tracking-widest text-newspaper-gray-600 font-bold">
                 Elegancia Femenina
               </p>
             </div>
           </div>
 
-          {/* Hombres */}
-          <div className="bg-white border-2 border-newspaper-black overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300">
-            {/* Header estilo periódico */}
-            <div className="bg-newspaper-gray-900 text-white p-8 text-center">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shirt className="w-8 h-8 text-newspaper-black" />
+          {/* Hombres - MÁS COMPACTO */}
+          <div className="bg-white border-2 border-newspaper-black overflow-hidden hover:shadow-lg transition-all duration-300">
+            {/* Header más compacto */}
+            <div className="bg-newspaper-gray-900 text-white p-4 text-center">
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-2">
+                <Shirt className="w-6 h-6 text-newspaper-black" />
               </div>
-              <h3 className="newspaper-subheadline mb-2 text-white">
+              <h3 className="font-serif text-xl font-bold text-white">
                 {dressCode.men.title}
               </h3>
-              <div className="w-24 h-1 bg-white mx-auto"></div>
+              <div className="w-16 h-0.5 bg-white mx-auto mt-2"></div>
             </div>
 
-            {/* Contenido */}
-            <div className="p-8 bg-newspaper-gray-50">
-              <ul className="space-y-5">
+            {/* Contenido más compacto */}
+            <div className="p-4 bg-newspaper-gray-50">
+              <ul className="space-y-2.5">
                 {dressCode.men.items.map((item: any, index: number) => {
                   const isAvoid = item.toLowerCase().includes('evitar');
                   return (
-                    <li key={index} className="border-l-2 border-newspaper-gray-400 pl-4 py-2">
-                      <div className="flex items-start gap-3">
-                        <span className="font-headline text-2xl font-bold text-newspaper-gray-400 shrink-0 leading-none">
+                    <li key={index} className="border-l-2 border-newspaper-gray-400 pl-3 py-1">
+                      <div className="flex items-start gap-2">
+                        <span className="text-lg font-bold text-newspaper-gray-400 shrink-0 leading-none">
                           {isAvoid ? '✗' : '✓'}
                         </span>
-                        <span className={`newspaper-body ${isAvoid ? 'text-newspaper-gray-700 italic' : 'text-newspaper-black'
+                        <span className={`text-sm ${isAvoid ? 'text-newspaper-gray-700 italic' : 'text-newspaper-black'
                           }`}>
                           {item}
                         </span>
@@ -114,18 +115,18 @@ export function DressCode() {
               </ul>
             </div>
 
-            {/* Footer con icono */}
-            <div className="border-t-2 border-newspaper-black p-4 bg-white text-center">
-              <p className="font-headline text-sm uppercase tracking-widest text-newspaper-gray-600">
+            {/* Footer más compacto */}
+            <div className="border-t-2 border-newspaper-black p-2 bg-white text-center">
+              <p className="text-xs uppercase tracking-widest text-newspaper-gray-600 font-bold">
                 Estilo Formal Caballeros
               </p>
             </div>
           </div>
         </div>
 
-        {/* Temática de colores */}
-        <div className="max-w-4xl mx-auto mb-8">
-          <div className="bg-newspaper-gray-50 border-2 border-newspaper-black p-8">
+        {/* Temática de colores - MÁS COMPACTA */}
+        <div className="max-w-4xl mx-auto mb-4">
+          <div className="bg-newspaper-gray-50 border-2 border-newspaper-black p-4 md:p-6">
             <h3 className="newspaper-title text-center mb-6">Nuestra Temática de Color</h3>
 
             {/* Descripción de la temática */}

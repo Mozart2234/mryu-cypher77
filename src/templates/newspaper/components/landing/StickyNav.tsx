@@ -19,6 +19,7 @@ const navItems: NavItem[] = [
   { id: 'love-story', label: 'Historia' },
   { id: 'dress-code', label: 'Dress Code' },
   { id: 'faq', label: 'FAQ' },
+  { id: 'guest-messages', label: 'Mensajes' },
 ];
 
 export function StickyNav() {

@@ -35,23 +35,24 @@ export function PhotoGallery() {
   return (
     <section
       ref={elementRef}
-      className={`newspaper-page py-12 px-4 md:px-8 bg-white transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      id="photo-gallery"
+      className={`newspaper-page py-6 px-4 md:py-8 md:px-8 bg-white transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}
       aria-labelledby="gallery-title"
     >
-      <div className="max-w-7xl mx-auto">
-        {/* Título de sección */}
-        <div className="text-center mb-8">
-          <div className="newspaper-divider-thick mb-4" aria-hidden="true"></div>
-          <h2 id="gallery-title" className="newspaper-subheadline mb-2">
+      <div className="max-w-6xl mx-auto">
+        {/* Título de sección - MÁS COMPACTO */}
+        <div className="text-center mb-6">
+          <div className="newspaper-divider-thick mb-3" aria-hidden="true"></div>
+          <h2 id="gallery-title" className="font-headline text-2xl md:text-3xl font-bold text-newspaper-black mb-2">
             {photoGallery.title}
           </h2>
-          <p className="newspaper-meta">{photoGallery.subtitle}</p>
-          <div className="newspaper-divider-thick mt-4" aria-hidden="true"></div>
+          <p className="text-xs uppercase tracking-wide text-newspaper-gray-600">{photoGallery.subtitle}</p>
+          <div className="newspaper-divider-thick mt-3" aria-hidden="true"></div>
         </div>
 
-        {/* Grid de fotos tipo periódico - Layout reorganizado */}
-        <div className="grid md:grid-cols-4 gap-6">
+        {/* Grid de fotos - MÁS COMPACTO */}
+        <div className="grid md:grid-cols-4 gap-3 md:gap-4">
           {/* Foto grande destacada 1 */}
           <figure className="md:col-span-2 md:row-span-2 newspaper-box-simple hover:shadow-xl transition-all duration-300">
             <div

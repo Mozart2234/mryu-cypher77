@@ -205,6 +205,29 @@
   @apply font-sans text-xs uppercase tracking-wider text-newspaper-gray-500;
 }
 
+@utility newspaper-drop-cap {
+  /* Drop cap - letra capital grande al inicio de párrafos */
+  float: left;
+  font-size: 4.5rem;
+  line-height: 0.85;
+  margin-right: 0.1em;
+  margin-top: 0.1em;
+  font-weight: 900;
+  font-family: var(--font-headline);
+  color: var(--color-newspaper-black);
+}
+
+@utility newspaper-sidebar {
+  /* Sidebar para información adicional estilo recuadro editorial */
+  @apply border-2 border-newspaper-black p-4 bg-newspaper-gray-100;
+  box-shadow: 2px 2px 0 var(--color-newspaper-black);
+}
+
+@utility newspaper-classified {
+  /* Anuncio clasificado pequeño estilo periódico */
+  @apply border border-newspaper-gray-400 p-2 text-xs bg-white;
+}
+
 @utility newspaper-page-number {
   /* Números de página estilo periódico */
   @apply font-serif text-xs text-newspaper-gray-500 italic;

@@ -315,15 +315,11 @@ export const eventConfig = {
       },
       {
         question: "¿Hay estacionamiento disponible?",
-        answer: "Sí, tanto la iglesia como el salón de recepción cuentan con estacionamiento gratuito para los invitados. Habrá personal de apoyo para guiar a los asistentes."
+        answer: "En la recepción en el Club del Odontólogo contamos con un amplio estacionamiento gratuito para nuestros invitados. Te recomendamos llegar con tiempo para asegurar tu espacio. Pero en la iglesia no hay estacionamiento, por lo que sugerimos coordinar con anticipación."
       },
       {
         question: "¿A qué hora debo llegar?",
         answer: "La ceremonia religiosa comienza a las 10:00 AM en punto. Te recomendamos llegar entre 15-20 minutos antes para tomar asiento cómodamente. La recepción iniciará inmediatamente después de la ceremonia."
-      },
-      {
-        question: "¿Puedo llevar a mis hijos?",
-        answer: "Amamos a los niños, pero hemos decidido que nuestra boda sea un evento solo para adultos para que todos puedan relajarse y disfrutar. Agradecemos tu comprensión."
       },
       {
         question: "¿Cómo confirmo mi asistencia?",
@@ -332,10 +328,6 @@ export const eventConfig = {
       {
         question: "¿Hay lista de regalos?",
         answer: "Tu presencia es nuestro mejor regalo. Sin embargo, si deseas obsequiarnos algo, agradecemos contribuciones en efectivo que nos ayudarán a comenzar nuestra nueva vida juntos. Habrá un buzón en la recepción."
-      },
-      {
-        question: "¿Habrá servicio de transporte?",
-        answer: "La iglesia y el salón de recepción están muy cerca (5 minutos en auto). No contamos con servicio de transporte, pero puedes usar servicios como Uber o taxi si lo necesitas."
       },
       {
         question: "¿Qué pasa si no puedo asistir?",
