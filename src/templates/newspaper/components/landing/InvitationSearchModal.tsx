@@ -114,7 +114,7 @@ export function InvitationSearchModal({ isOpen, onClose }: InvitationSearchModal
                 <h2 id="modal-title" className="font-headline text-2xl font-bold">
                   Ver Mi Invitación
                 </h2>
-                <p id="modal-description" className="font-sans text-sm text-newspaper-gray-300 mt-1">
+                <p id="modal-description" className="font-serif text-base text-newspaper-gray-300 mt-1">
                   Ingresa tu código para acceder
                 </p>
               </div>
@@ -126,7 +126,7 @@ export function InvitationSearchModal({ isOpen, onClose }: InvitationSearchModal
             <div className="mb-6">
               <label
                 htmlFor="invitation-code"
-                className="block font-sans text-sm font-medium text-newspaper-gray-700 mb-2"
+                className="block font-headline text-base font-bold text-newspaper-gray-700 mb-2 uppercase tracking-wide"
               >
                 Código de Invitación
               </label>
@@ -154,10 +154,10 @@ export function InvitationSearchModal({ isOpen, onClose }: InvitationSearchModal
                 <div id="code-error" className="mt-3 bg-red-50 border-2 border-red-600 rounded-lg p-3 flex items-start gap-2" role="alert">
                   <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" aria-hidden="true" />
                   <div>
-                    <p className="text-sm font-semibold text-red-900 font-sans">
+                    <p className="text-base font-semibold text-red-900 font-headline">
                       Código inválido
                     </p>
-                    <p className="text-xs text-red-700 font-sans mt-0.5">
+                    <p className="text-sm text-red-700 font-serif mt-0.5">
                       {errors.code.message}
                     </p>
                   </div>
@@ -166,11 +166,11 @@ export function InvitationSearchModal({ isOpen, onClose }: InvitationSearchModal
             </div>
 
             <div id="code-help" className="bg-newspaper-gray-100 p-4 rounded-lg mb-6">
-              <p className="font-sans text-sm text-newspaper-gray-700">
-                <strong className="font-semibold">¿Dónde encuentro mi código?</strong>
+              <p className="font-serif text-base text-newspaper-gray-700">
+                <strong className="font-headline font-bold">¿Dónde encuentro mi código?</strong>
                 <br />
                 Tu código fue enviado por WhatsApp o correo electrónico.
-                Tiene el formato <code className="bg-white px-2 py-1 rounded font-mono text-xs">WED-XXXX</code>
+                Tiene el formato <code className="bg-white px-2 py-1 rounded font-mono text-sm">WED-XXXX</code>
               </p>
             </div>
 
@@ -202,7 +202,7 @@ export function InvitationSearchModal({ isOpen, onClose }: InvitationSearchModal
 
           {/* Footer */}
           <div className="border-t border-newspaper-gray-200 px-6 py-4 bg-newspaper-gray-50 rounded-b-lg">
-            <p className="font-sans text-xs text-newspaper-gray-600 text-center">
+            <p className="font-serif text-sm text-newspaper-gray-600 text-center">
               ¿Problemas con tu código? Contacta a los organizadores
             </p>
           </div>

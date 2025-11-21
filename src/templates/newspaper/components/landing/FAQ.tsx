@@ -38,7 +38,7 @@ export function FAQ() {
             </h2>
           </div>
 
-          <p className="text-xs uppercase tracking-wide text-newspaper-gray-600">
+          <p className="text-sm uppercase tracking-wide text-newspaper-gray-600">
             {faq.subtitle}
           </p>
 
@@ -60,13 +60,13 @@ export function FAQ() {
                 aria-controls={`faq-answer-${index}`}
               >
                 <div className="flex items-start gap-2 flex-1">
-                  {/* Número más pequeño */}
-                  <div className="flex-shrink-0 w-6 h-6 bg-newspaper-black text-white rounded-sm flex items-center justify-center font-sans text-xs font-bold">
+                  {/* Número */}
+                  <div className="flex-shrink-0 w-7 h-7 bg-newspaper-black text-white rounded-sm flex items-center justify-center font-sans text-sm font-bold">
                     {index + 1}
                   </div>
 
-                  {/* Pregunta más compacta */}
-                  <h3 className="font-serif text-sm md:text-base font-bold text-newspaper-black leading-tight">
+                  {/* Pregunta */}
+                  <h3 className="font-serif text-base md:text-lg font-bold text-newspaper-black leading-tight">
                     {question.question}
                   </h3>
                 </div>
@@ -88,8 +88,8 @@ export function FAQ() {
                 aria-labelledby={`faq-question-${index}`}
               >
                 <div className="px-3 md:px-4 pb-3 md:pb-4 pt-0">
-                  <div className="border-t border-newspaper-gray-300 pt-3 pl-8">
-                    <p className="font-serif text-xs md:text-sm text-newspaper-gray-700 leading-relaxed">
+                  <div className="border-t border-newspaper-gray-300 pt-3 pl-9">
+                    <p className="font-serif text-sm md:text-base text-newspaper-gray-700 leading-relaxed">
                       {question.answer}
                     </p>
                   </div>
@@ -101,13 +101,13 @@ export function FAQ() {
 
         {/* Footer con nota editorial - más compacto */}
         <div className="mt-4 newspaper-box bg-newspaper-gray-100 border-t-2 border-newspaper-accent p-3">
-          <div className="flex items-start gap-2">
-            <div className="text-xl" aria-hidden="true">💌</div>
+          <div className="flex items-start gap-3">
+            <div className="text-2xl" aria-hidden="true">💌</div>
             <div>
-              <h4 className="font-serif font-bold text-xs md:text-sm text-newspaper-black mb-1">
+              <h4 className="font-serif font-bold text-sm md:text-base text-newspaper-black mb-1">
                 {faq.contactNote.title}
               </h4>
-              <p className="font-sans text-xs text-newspaper-gray-700 leading-snug">
+              <p className="font-sans text-sm text-newspaper-gray-700 leading-snug">
                 {faq.contactNote.message}
               </p>
             </div>

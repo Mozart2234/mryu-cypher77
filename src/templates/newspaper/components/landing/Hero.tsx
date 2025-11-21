@@ -116,13 +116,13 @@ export function Hero() {
 
             {/* Artículo secundario */}
             <div className="newspaper-box hover:shadow-xl transition-all duration-300">
-              <h4 className="font-serif font-bold text-sm uppercase mb-2 text-newspaper-black">
+              <h4 className="font-serif font-bold text-base uppercase mb-2 text-newspaper-black">
                 {articles[0].title}
               </h4>
-              <p className="newspaper-byline text-[10px]">
+              <p className="newspaper-byline text-xs">
                 Por Dr. Juan Pérez
               </p>
-              <p className="newspaper-body text-xs leading-relaxed">
+              <p className="newspaper-body text-sm leading-relaxed">
                 {articles[0].content}
               </p>
               <p className="newspaper-page-number mt-2">{articles[0].page}</p>
@@ -163,7 +163,7 @@ export function Hero() {
 
         {/* FOLIO - pie de página con número */}
         <div className="newspaper-folio">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-700">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-sm font-sans uppercase tracking-wider text-newspaper-gray-700">
             <span>Página 1</span>
             <span>•</span>
             <span>Sección: Bodas</span>

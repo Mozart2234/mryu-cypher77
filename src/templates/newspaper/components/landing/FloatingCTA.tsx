@@ -1,12 +1,11 @@
 /**
  * BOTÓN CTA FLOTANTE
  *
- * Botón sticky que permanece visible para que los invitados
- * puedan acceder fácilmente a su invitación
+ * Botón sticky estilo periódico que permanece visible
  */
 
-import { Ticket } from 'lucide-react';
-import { useState } from 'react';
+import { Ticket, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 interface FloatingCTAProps {
   onOpenModal: () => void;
@@ -14,30 +13,71 @@ interface FloatingCTAProps {
 
 export function FloatingCTA({ onOpenModal }: FloatingCTAProps) {
   const [isVisible, setIsVisible] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [showPulse, setShowPulse] = useState(true);
+
+  // Expandir automáticamente después de 3 segundos
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsExpanded(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Detener el pulso después de 10 segundos
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPulse(false);
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (!isVisible) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-50 animate-fade-in">
-      <button
-        onClick={onOpenModal}
-        className="group flex items-center gap-3 bg-newspaper-black text-white px-6 py-4 rounded-lg shadow-2xl hover:bg-newspaper-accent transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-newspaper-accent focus:ring-offset-2"
-        aria-label="Ver mi invitación digital"
-      >
-        <Ticket className="w-5 h-5" aria-hidden="true" />
-        <span className="font-sans font-medium text-sm hidden sm:inline">
-          Ver Mi Invitación
-        </span>
-      </button>
+      {/* Efecto de pulso */}
+      {showPulse && (
+        <div className="absolute inset-0 bg-newspaper-black rounded-sm animate-ping opacity-20"></div>
+      )}
 
-      {/* Botón para ocultar */}
-      <button
-        onClick={() => setIsVisible(false)}
-        className="absolute -top-2 -right-2 w-6 h-6 bg-newspaper-gray-300 hover:bg-newspaper-gray-400 rounded-full flex items-center justify-center text-xs text-newspaper-black transition-colors focus:outline-none focus:ring-2 focus:ring-newspaper-black focus:ring-offset-2"
-        aria-label="Cerrar botón flotante"
-      >
-        <span aria-hidden="true">×</span>
-      </button>
+      {/* Contenedor principal estilo periódico */}
+      <div className="relative bg-white border-4 border-newspaper-black shadow-2xl">
+        {/* Barra superior decorativa */}
+        <div className="bg-newspaper-black px-3 py-1.5 flex items-center justify-between">
+          <span className="font-headline text-[10px] md:text-xs uppercase tracking-[0.15em] text-white">
+            ★ Acceso Directo ★
+          </span>
+          <button
+            onClick={() => setIsVisible(false)}
+            className="text-white/70 hover:text-white transition-colors ml-2"
+            aria-label="Cerrar botón flotante"
+          >
+            <X className="w-3 h-3" />
+          </button>
+        </div>
+
+        {/* Botón principal */}
+        <button
+          onClick={onOpenModal}
+          onMouseEnter={() => setIsExpanded(true)}
+          className="group flex items-center gap-3 px-4 py-3 hover:bg-newspaper-gray-100 transition-all duration-300 cursor-pointer w-full"
+          aria-label="Ver mi invitación digital"
+        >
+          <div className="w-10 h-10 bg-newspaper-black flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+            <Ticket className="w-5 h-5 text-white" aria-hidden="true" />
+          </div>
+
+          <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? 'max-w-[160px] opacity-100' : 'max-w-0 opacity-0 sm:max-w-[160px] sm:opacity-100'}`}>
+            <span className="font-headline text-sm uppercase tracking-wider text-newspaper-black whitespace-nowrap block">
+              Ver Mi Invitación
+            </span>
+            <span className="font-sans text-[11px] text-newspaper-gray-600 whitespace-nowrap block">
+              Ingresa tu código
+            </span>
+          </div>
+        </button>
+      </div>
     </div>
   );
 }

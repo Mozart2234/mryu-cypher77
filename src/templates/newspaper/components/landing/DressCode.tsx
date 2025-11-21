@@ -24,7 +24,7 @@ export function DressCode() {
         {/* Header estilo sección de moda */}
         <div className="text-center mb-8">
           <div className="inline-block border-t-4 border-b-4 border-newspaper-black px-8 py-3 mb-4">
-            <p className="font-headline text-xs uppercase tracking-[0.3em] text-newspaper-gray-700">
+            <p className="font-headline text-sm uppercase tracking-[0.25em] text-newspaper-gray-700">
               Sección Estilo & Moda
             </p>
           </div>
@@ -41,8 +41,8 @@ export function DressCode() {
           {/* DAMAS - Lado izquierdo */}
           <div className="relative border-b-2 md:border-b-0 md:border-r-2 border-newspaper-black">
             {/* Etiqueta superior */}
-            <div className="absolute -top-4 left-4 bg-newspaper-black text-white px-4 py-1 z-10">
-              <span className="font-headline text-xs uppercase tracking-widest">Para Ella</span>
+            <div className="absolute -top-4 left-4 bg-newspaper-black text-white px-4 py-1.5 z-10">
+              <span className="font-headline text-sm uppercase tracking-widest">Para Ella</span>
             </div>
 
             <div className="p-6 md:p-8 pt-8">
@@ -50,8 +50,8 @@ export function DressCode() {
               <div className="text-center mb-6">
                 <div className="inline-block relative">
                   <span className="text-8xl">👗</span>
-                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-newspaper-black text-white px-3 py-0.5">
-                    <span className="font-headline text-[10px] uppercase tracking-widest">Formal</span>
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-newspaper-black text-white px-3 py-1">
+                    <span className="font-headline text-xs uppercase tracking-widest">Formal</span>
                   </div>
                 </div>
               </div>
@@ -60,7 +60,7 @@ export function DressCode() {
               <h3 className="font-headline text-2xl md:text-3xl font-bold text-center mb-2 uppercase tracking-wide">
                 Damas
               </h3>
-              <p className="text-center text-xs uppercase tracking-widest text-newspaper-gray-600 mb-6">
+              <p className="text-center text-sm uppercase tracking-widest text-newspaper-gray-600 mb-6">
                 Guía de vestimenta elegante
               </p>
 
@@ -80,7 +80,7 @@ export function DressCode() {
                       <span className={`font-headline text-xl ${isAvoid ? 'text-newspaper-gray-500' : 'text-newspaper-black'}`}>
                         {isAvoid ? '✗' : '✓'}
                       </span>
-                      <span className={`font-serif text-sm leading-relaxed ${
+                      <span className={`font-serif text-base leading-relaxed ${
                         isAvoid ? 'text-newspaper-gray-600 italic' : 'text-newspaper-gray-800'
                       }`}>
                         {item}
@@ -92,8 +92,8 @@ export function DressCode() {
 
               {/* Tip de estilo */}
               <div className="mt-6 p-4 bg-newspaper-black text-white">
-                <p className="font-headline text-xs uppercase tracking-wider mb-1">Tip de Estilo</p>
-                <p className="font-serif text-sm italic">
+                <p className="font-headline text-sm uppercase tracking-wider mb-1">Tip de Estilo</p>
+                <p className="font-serif text-base italic">
                   "La elegancia es la única belleza que nunca se desvanece"
                 </p>
               </div>
@@ -103,8 +103,8 @@ export function DressCode() {
           {/* CABALLEROS - Lado derecho */}
           <div className="relative">
             {/* Etiqueta superior */}
-            <div className="absolute -top-4 right-4 bg-newspaper-gray-800 text-white px-4 py-1 z-10">
-              <span className="font-headline text-xs uppercase tracking-widest">Para Él</span>
+            <div className="absolute -top-4 right-4 bg-newspaper-gray-800 text-white px-4 py-1.5 z-10">
+              <span className="font-headline text-sm uppercase tracking-widest">Para Él</span>
             </div>
 
             <div className="p-6 md:p-8 pt-8">
@@ -112,8 +112,8 @@ export function DressCode() {
               <div className="text-center mb-6">
                 <div className="inline-block relative">
                   <span className="text-8xl">🤵</span>
-                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-newspaper-gray-800 text-white px-3 py-0.5">
-                    <span className="font-headline text-[10px] uppercase tracking-widest">Formal</span>
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-newspaper-gray-800 text-white px-3 py-1">
+                    <span className="font-headline text-xs uppercase tracking-widest">Formal</span>
                   </div>
                 </div>
               </div>
@@ -122,7 +122,7 @@ export function DressCode() {
               <h3 className="font-headline text-2xl md:text-3xl font-bold text-center mb-2 uppercase tracking-wide">
                 Caballeros
               </h3>
-              <p className="text-center text-xs uppercase tracking-widest text-newspaper-gray-600 mb-6">
+              <p className="text-center text-sm uppercase tracking-widest text-newspaper-gray-600 mb-6">
                 Código de vestimenta formal
               </p>
 
@@ -142,7 +142,7 @@ export function DressCode() {
                       <span className={`font-headline text-xl ${isAvoid ? 'text-newspaper-gray-500' : 'text-newspaper-gray-800'}`}>
                         {isAvoid ? '✗' : '✓'}
                       </span>
-                      <span className={`font-serif text-sm leading-relaxed ${
+                      <span className={`font-serif text-base leading-relaxed ${
                         isAvoid ? 'text-newspaper-gray-600 italic' : 'text-newspaper-gray-800'
                       }`}>
                         {item}
@@ -154,8 +154,8 @@ export function DressCode() {
 
               {/* Tip de estilo */}
               <div className="mt-6 p-4 bg-newspaper-gray-800 text-white">
-                <p className="font-headline text-xs uppercase tracking-wider mb-1">Tip de Estilo</p>
-                <p className="font-serif text-sm italic">
+                <p className="font-headline text-sm uppercase tracking-wider mb-1">Tip de Estilo</p>
+                <p className="font-serif text-base italic">
                   "Un caballero se distingue por los detalles"
                 </p>
               </div>
@@ -167,7 +167,7 @@ export function DressCode() {
         <div className="bg-white border-2 border-newspaper-black mb-8">
           {/* Header de sección */}
           <div className="bg-newspaper-black text-white p-4 text-center">
-            <h3 className="font-headline text-lg md:text-xl uppercase tracking-widest">
+            <h3 className="font-headline text-xl md:text-2xl uppercase tracking-widest">
               Paleta de Colores de la Celebración
             </h3>
           </div>
@@ -177,8 +177,8 @@ export function DressCode() {
             <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-8">
               <div className="relative">
                 <div className="w-32 h-32 md:w-40 md:h-40 bg-[#b3d9ff] border-4 border-newspaper-black shadow-[8px_8px_0px_0px_rgba(26,26,26,1)]"></div>
-                <div className="absolute -bottom-3 -right-3 bg-newspaper-black text-white px-3 py-1">
-                  <span className="font-headline text-xs uppercase tracking-wider">Principal</span>
+                <div className="absolute -bottom-3 -right-3 bg-newspaper-black text-white px-3 py-1.5">
+                  <span className="font-headline text-sm uppercase tracking-wider">Principal</span>
                 </div>
               </div>
               <div className="text-center md:text-left">
@@ -193,7 +193,7 @@ export function DressCode() {
             {/* Separador decorativo */}
             <div className="flex items-center gap-4 my-8">
               <div className="flex-1 border-t-2 border-newspaper-gray-300"></div>
-              <span className="font-headline text-sm uppercase tracking-widest text-newspaper-gray-500">Colores Prohibidos</span>
+              <span className="font-headline text-base uppercase tracking-widest text-newspaper-gray-500">Colores Prohibidos</span>
               <div className="flex-1 border-t-2 border-newspaper-gray-300"></div>
             </div>
 
@@ -216,11 +216,11 @@ export function DressCode() {
                       <div className="w-full h-0.5 bg-newspaper-gray-600 -rotate-45 absolute"></div>
                     </div>
                     {/* Badge NO */}
-                    <div className="absolute top-1 right-1 bg-newspaper-gray-800 text-white text-[8px] px-1.5 py-0.5 font-bold">
+                    <div className="absolute top-1 right-1 bg-newspaper-gray-800 text-white text-[10px] px-2 py-0.5 font-bold">
                       NO
                     </div>
                   </div>
-                  <p className="text-center mt-2 font-headline text-xs uppercase tracking-wide text-newspaper-gray-700">
+                  <p className="text-center mt-2 font-headline text-sm uppercase tracking-wide text-newspaper-gray-700">
                     {item.name}
                   </p>
                 </div>
@@ -228,7 +228,7 @@ export function DressCode() {
             </div>
 
             {/* Nota al pie */}
-            <p className="text-center mt-6 text-sm text-newspaper-gray-600 italic border-t border-newspaper-gray-200 pt-4">
+            <p className="text-center mt-6 text-base text-newspaper-gray-600 italic border-t border-newspaper-gray-200 pt-4">
               ✦ Estos tonos están reservados exclusivamente para la novia ✦
             </p>
           </div>
@@ -241,7 +241,7 @@ export function DressCode() {
             <div className="hidden md:flex items-center justify-center bg-newspaper-gray-100 border-r-2 border-newspaper-black p-6">
               <div className="text-center">
                 <span className="text-6xl">✂️</span>
-                <p className="font-headline text-xs uppercase tracking-widest mt-2 text-newspaper-gray-600">
+                <p className="font-headline text-sm uppercase tracking-widest mt-2 text-newspaper-gray-600">
                   Sección Moda
                 </p>
               </div>
@@ -250,7 +250,7 @@ export function DressCode() {
             {/* Columna central - mensaje */}
             <div className="md:col-span-2 p-6 md:p-8">
               <div className="mb-4">
-                <span className="inline-block bg-newspaper-black text-white px-4 py-1 font-headline text-xs uppercase tracking-widest">
+                <span className="inline-block bg-newspaper-black text-white px-4 py-1.5 font-headline text-sm uppercase tracking-widest">
                   Nota de los Novios
                 </span>
               </div>
@@ -262,8 +262,8 @@ export function DressCode() {
 
               <div className="flex items-center gap-4 pt-4 border-t border-newspaper-gray-200">
                 <div className="flex-1">
-                  <p className="font-headline text-sm uppercase tracking-wider text-newspaper-gray-600">Con amor,</p>
-                  <p className="font-headline text-xl font-bold">Alexei & Estephanie</p>
+                  <p className="font-headline text-base uppercase tracking-wider text-newspaper-gray-600">Con amor,</p>
+                  <p className="font-headline text-2xl font-bold">Alexei & Estephanie</p>
                 </div>
                 <div className="flex gap-1">
                   <div className="w-2 h-2 bg-newspaper-black rotate-45"></div>
@@ -277,7 +277,7 @@ export function DressCode() {
 
         {/* FOLIO */}
         <div className="newspaper-folio mt-8">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-700">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-sm font-sans uppercase tracking-wider text-newspaper-gray-700">
             <span>Página 5</span>
             <span>•</span>
             <span>Sección: Estilo & Moda</span>

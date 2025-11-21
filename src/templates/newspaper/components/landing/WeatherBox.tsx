@@ -49,7 +49,7 @@ export function WeatherBox() {
   ];
 
   return (
-    <div className="newspaper-box max-w-sm">
+    <div className="newspaper-box w-full">
       {/* Header */}
       <div className="text-center border-b-2 border-newspaper-black pb-2 mb-3">
         <h4 className="newspaper-condensed-label">
@@ -60,14 +60,14 @@ export function WeatherBox() {
 
       {/* Pronóstico principal (día de la boda) */}
       <div className="text-center mb-4 p-3 bg-newspaper-gray-100 border border-newspaper-gray-300">
-        <p className="text-xs font-sans uppercase tracking-wide text-newspaper-gray-600 mb-1">
+        <p className="text-sm font-serif uppercase tracking-wide text-newspaper-gray-600 mb-1">
           {eventConfig.date.full}
         </p>
         <div className="text-5xl my-2">💒</div>
         <div className="text-3xl font-headline font-bold text-newspaper-black mb-1">
           100%
         </div>
-        <p className="font-serif text-sm text-newspaper-gray-700 font-bold">
+        <p className="font-serif text-base text-newspaper-gray-700 font-bold">
           Probabilidad de amor eterno
         </p>
       </div>
@@ -81,22 +81,22 @@ export function WeatherBox() {
           {forecast.map((day, index) => (
             <div
               key={index}
-              className={`text-center p-1 border border-newspaper-gray-300 hover:bg-newspaper-gray-100 transition-colors ${
+              className={`text-center p-1.5 border border-newspaper-gray-300 hover:bg-newspaper-gray-100 transition-colors ${
                 day.day === "Dom 11" ? "bg-newspaper-black text-white" : ""
               }`}
             >
-              <p className={`text-[9px] font-sans font-bold uppercase mb-1 ${
+              <p className={`text-[10px] font-serif font-bold uppercase mb-1 ${
                 day.day === "Dom 11" ? "text-white" : "text-newspaper-gray-600"
               }`}>
                 {day.day}
               </p>
               <div className="text-xl mb-1">{day.icon}</div>
-              <p className={`text-[8px] font-serif ${
+              <p className={`text-[10px] font-serif ${
                 day.day === "Dom 11" ? "text-white font-bold" : "text-newspaper-gray-700"
               }`}>
                 {day.condition}
               </p>
-              <p className={`text-[9px] font-bold mt-1 ${
+              <p className={`text-xs font-bold mt-1 ${
                 day.day === "Dom 11" ? "text-white" : "text-newspaper-black"
               }`}>
                 {day.probability}
@@ -108,7 +108,7 @@ export function WeatherBox() {
 
       {/* Footer */}
       <div className="border-t border-newspaper-border mt-3 pt-2 text-center">
-        <p className="text-[10px] font-sans italic text-newspaper-gray-500">
+        <p className="text-xs font-serif italic text-newspaper-gray-500">
           Pronóstico garantizado por el amor verdadero
         </p>
       </div>

@@ -9,11 +9,11 @@ export const eventConfig = {
   // Información de los novios
   bride: {
     name: "Estephanie",
-    fullName: "Estephanie Yucra Quispe"
+    fullName: "Estephanie de los Angeles Yucra Quispe"
   },
   groom: {
     name: "Alexei",
-    fullName: "Alexei Mamani Coaquira"
+    fullName: "Alexei Teofilo Mamani Coaquira"
   },
 
   // Información del periódico

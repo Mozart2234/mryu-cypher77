@@ -341,34 +341,86 @@ export function InvitationPass() {
 
       </div>
 
-      {/* TICKET ESTILO PERIÓDICO - MÁS COMPACTO */}
-      <div className="max-w-4xl mx-auto bg-white border-4 border-newspaper-black shadow-2xl print:border-2">
-        {/* HEADER ESTILO PERIÓDICO - MÁS COMPACTO */}
-        <div className="border-b-2 border-newspaper-black p-6 md:p-8 bg-newspaper-gray-50">
+      {/* TICKET ESTILO BOLETO VINTAGE */}
+      <div className="max-w-4xl mx-auto relative">
+        {/* Borde perforado superior - efecto de troquelado */}
+        <div className="relative h-5 overflow-visible">
+          <div className="absolute inset-x-0 top-0 h-full bg-newspaper-gray-100"></div>
+          <div className="absolute inset-x-4 bottom-0 flex justify-between">
+            {Array.from({ length: 45 }).map((_, i) => (
+              <div key={i} className="w-2.5 h-2.5 rounded-full bg-white border border-newspaper-gray-300 translate-y-1/2"></div>
+            ))}
+          </div>
+        </div>
+
+        {/* Contenido del ticket */}
+        <div className="bg-white border-4 border-newspaper-black shadow-2xl relative">
+          {/* Muesca lateral izquierda (stub separator) */}
+          <div className="absolute left-8 top-0 bottom-0 border-l-2 border-dashed border-newspaper-gray-300 pointer-events-none"></div>
+          {/* Muesca lateral derecha (stub separator) */}
+          <div className="absolute right-8 top-0 bottom-0 border-r-2 border-dashed border-newspaper-gray-300 pointer-events-none"></div>
+
+          {/* Semicírculos de corte - izquierda */}
+          <div className="absolute -left-3 top-1/3 w-6 h-6 rounded-full bg-newspaper-gray-100 border-r-2 border-newspaper-black"></div>
+          <div className="absolute -left-3 top-2/3 w-6 h-6 rounded-full bg-newspaper-gray-100 border-r-2 border-newspaper-black"></div>
+          {/* Semicírculos de corte - derecha */}
+          <div className="absolute -right-3 top-1/3 w-6 h-6 rounded-full bg-newspaper-gray-100 border-l-2 border-newspaper-black"></div>
+          <div className="absolute -right-3 top-2/3 w-6 h-6 rounded-full bg-newspaper-gray-100 border-l-2 border-newspaper-black"></div>
+        {/* HEADER ESTILO PERIÓDICO VINTAGE PREMIUM */}
+        <div className="border-b-4 border-double border-newspaper-black p-6 md:p-8 bg-gradient-to-b from-newspaper-cream to-newspaper-gray-50">
           <div className="text-center">
-            {/* Masthead compacto */}
-            <div className="mb-4">
-              <div className="flex items-center justify-center gap-3 mb-2">
-                <div className="flex-1 h-px bg-newspaper-black"></div>
-                <div className="newspaper-page-number text-xs">PASE OFICIAL</div>
-                <div className="flex-1 h-px bg-newspaper-black"></div>
+            {/* Masthead Premium */}
+            <div className="mb-6">
+              {/* Decoración superior */}
+              <div className="flex items-center justify-center gap-4 mb-3">
+                <div className="h-px flex-1 bg-newspaper-black max-w-24"></div>
+                <span className="font-serif text-lg">❧</span>
+                <div className="newspaper-page-number text-[10px] px-3 py-1 border border-newspaper-black bg-white">
+                  PASE VIP · EDICIÓN ESPECIAL
+                </div>
+                <span className="font-serif text-lg">☙</span>
+                <div className="h-px flex-1 bg-newspaper-black max-w-24"></div>
               </div>
-              <h1 className="font-headline text-3xl md:text-4xl font-bold text-newspaper-black mb-1 leading-none">
-                THE WEDDING TIMES
-              </h1>
-              <div className="h-0.5 w-32 bg-newspaper-black mx-auto my-2"></div>
-              <p className="newspaper-meta text-xs">
-                {eventConfig.date.full.toUpperCase()}
-              </p>
+
+              {/* Nombre del periódico */}
+              <div className="border-y-4 border-double border-newspaper-black py-3 my-3">
+                <h1 className="font-headline text-4xl md:text-5xl font-black text-newspaper-black leading-none tracking-tight">
+                  THE WEDDING TIMES
+                </h1>
+              </div>
+
+              {/* Fecha y edición */}
+              <div className="flex items-center justify-center gap-4 text-xs font-serif">
+                <span className="uppercase tracking-widest text-newspaper-gray-600">
+                  {eventConfig.date.dayOfWeek}
+                </span>
+                <span className="text-newspaper-gray-400">•</span>
+                <span className="font-bold text-newspaper-black">
+                  {eventConfig.date.full.toUpperCase()}
+                </span>
+                <span className="text-newspaper-gray-400">•</span>
+                <span className="uppercase tracking-widest text-newspaper-gray-600">
+                  Edición Única
+                </span>
+              </div>
             </div>
 
-            {/* Titular Principal - más compacto */}
-            <div className="bg-newspaper-black text-white p-4 my-4">
-              <h2 className="font-headline text-xl md:text-2xl font-bold leading-tight">
+            {/* Titular Principal - Estilo Portada */}
+            <div className="bg-newspaper-black text-white p-5 md:p-6 my-4 relative">
+              {/* Decoración esquinas */}
+              <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-white/30"></div>
+              <div className="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-white/30"></div>
+              <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-white/30"></div>
+              <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-white/30"></div>
+
+              <p className="font-serif text-xs uppercase tracking-[0.3em] opacity-80 mb-2">
+                ¡Edición Extraordinaria!
+              </p>
+              <h2 className="font-headline text-2xl md:text-3xl font-black leading-tight tracking-tight">
                 {eventConfig.bride.name} & {eventConfig.groom.name}
               </h2>
-              <p className="font-headline text-sm mt-1 opacity-90">
-                SE CASAN EN {eventConfig.date.month}
+              <p className="font-serif text-sm mt-2 opacity-90 italic">
+                Se unen en matrimonio · {eventConfig.date.month} {eventConfig.date.year}
               </p>
             </div>
 
@@ -401,58 +453,84 @@ export function InvitationPass() {
         </div>
 
         {/* CONTENIDO PRINCIPAL - ESTILO COLUMNAS DE PERIÓDICO */}
-        <div className="p-8 md:p-12">
-          <div className="grid md:grid-cols-12 gap-8">
+        <div className="p-6 md:p-10">
+          <div className="grid md:grid-cols-12 gap-6 md:gap-8">
             {/* COLUMNA IZQUIERDA - QR Y CÓDIGO */}
             <div className="md:col-span-4">
-              <div className="border-4 border-newspaper-black p-6 bg-newspaper-gray-50 h-full">
-                <p className="font-headline text-xs uppercase tracking-widest text-center mb-4 text-newspaper-gray-600">
-                  Código de Acceso
-                </p>
-                <div className="bg-white p-4 border-2 border-newspaper-gray-300 mb-4">
+              <div className="border-4 border-double border-newspaper-black p-5 bg-gradient-to-b from-white to-newspaper-gray-50 h-full">
+                {/* Header del QR */}
+                <div className="text-center mb-4">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <div className="h-px w-8 bg-newspaper-gray-400"></div>
+                    <span className="font-serif text-sm text-newspaper-gray-400">✦</span>
+                    <div className="h-px w-8 bg-newspaper-gray-400"></div>
+                  </div>
+                  <p className="font-headline text-[10px] uppercase tracking-[0.2em] text-newspaper-gray-600">
+                    Código de Acceso Exclusivo
+                  </p>
+                </div>
+
+                {/* QR Code con marco elegante */}
+                <div className="relative bg-white p-3 border-2 border-newspaper-black mb-4">
+                  <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-newspaper-black"></div>
+                  <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-newspaper-black"></div>
+                  <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-newspaper-black"></div>
+                  <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-newspaper-black"></div>
                   <QRCodeSVG
                     value={qrUrl}
-                    size={200}
+                    size={180}
                     level="H"
                     includeMargin={true}
                     className="w-full h-auto"
                   />
                 </div>
-                <p className="font-mono text-center text-xl font-bold text-newspaper-black mb-2">
-                  {reservation.code}
-                </p>
-                <div className="newspaper-divider-thin my-3"></div>
-                <p className="newspaper-body text-xs text-center text-newspaper-gray-700 leading-relaxed">
+
+                {/* Código */}
+                <div className="bg-newspaper-black text-white py-2 px-4 text-center mb-3">
+                  <p className="font-mono text-lg font-bold tracking-wider">
+                    {reservation.code}
+                  </p>
+                </div>
+
+                <p className="font-serif text-[11px] text-center text-newspaper-gray-600 leading-relaxed italic">
                   Presenta este código QR en la entrada del evento
                 </p>
               </div>
             </div>
 
             {/* COLUMNA DERECHA - INFORMACIÓN DEL INVITADO */}
-            <div className="md:col-span-8 space-y-6">
-              {/* Invitado Principal */}
-              <div className="border-l-4 border-newspaper-black pl-6">
-                <p className="newspaper-page-number text-xs mb-2">INVITADO PRINCIPAL</p>
-                <h3 className="font-headline text-3xl md:text-4xl font-bold text-newspaper-black">
+            <div className="md:col-span-8 space-y-5">
+              {/* Invitado Principal - Estilo Anuncio */}
+              <div className="border-l-4 border-newspaper-black pl-5 py-2 bg-gradient-to-r from-newspaper-gray-50 to-transparent">
+                <p className="font-serif text-[10px] uppercase tracking-[0.2em] text-newspaper-gray-500 mb-1">
+                  ★ Invitado de Honor ★
+                </p>
+                <h3 className="font-headline text-2xl md:text-3xl font-black text-newspaper-black leading-tight">
                   {reservation.guestName}
                 </h3>
               </div>
 
-              {/* Estadísticas de Pases */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-newspaper-gray-100 border-2 border-newspaper-black p-4 text-center">
-                  <p className="font-headline text-3xl font-bold text-newspaper-black">
+              {/* Estadísticas de Pases - Más elegante */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white border-2 border-newspaper-black p-4 text-center relative">
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-white px-2">
+                    <span className="font-serif text-[9px] uppercase tracking-wider text-newspaper-gray-500">Pases</span>
+                  </div>
+                  <p className="font-headline text-4xl font-black text-newspaper-black">
                     {reservation.numberOfGuests}
                   </p>
-                  <p className="newspaper-page-number text-xs mt-1">
-                    {reservation.numberOfGuests === 1 ? 'Pase Otorgado' : 'Pases Otorgados'}
+                  <p className="font-serif text-[10px] uppercase tracking-wider text-newspaper-gray-600 mt-1">
+                    {reservation.numberOfGuests === 1 ? 'Otorgado' : 'Otorgados'}
                   </p>
                 </div>
-                <div className="bg-newspaper-black text-white p-4 text-center">
-                  <p className="font-headline text-3xl font-bold">
+                <div className="bg-newspaper-black text-white p-4 text-center relative">
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-newspaper-black px-2 border-t border-x border-newspaper-gray-600">
+                    <span className="font-serif text-[9px] uppercase tracking-wider text-newspaper-gray-300">Estado</span>
+                  </div>
+                  <p className="font-headline text-4xl font-black">
                     {confirmedCount}
                   </p>
-                  <p className="font-headline text-xs uppercase tracking-wider mt-1">
+                  <p className="font-serif text-[10px] uppercase tracking-wider opacity-80 mt-1">
                     {confirmedCount === 1 ? 'Confirmado' : 'Confirmados'}
                   </p>
                 </div>
@@ -515,86 +593,100 @@ export function InvitationPass() {
             </div>
           </div>
 
-          {/* DETALLES DEL EVENTO - ESTILO ANUNCIO DE PERIÓDICO */}
-          <div className="mt-10 border-t-4 border-newspaper-black pt-8">
-            <div className="text-center mb-8">
-              <h3 className="font-headline text-2xl md:text-3xl font-bold text-newspaper-black mb-2">
+          {/* DETALLES DEL EVENTO - ESTILO ANUNCIO VINTAGE */}
+          <div className="mt-8 border-t-4 border-double border-newspaper-black pt-6">
+            {/* Header de sección */}
+            <div className="text-center mb-6">
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <span className="font-serif text-base text-newspaper-gray-400">❧</span>
+                <p className="font-serif text-[10px] uppercase tracking-[0.2em] text-newspaper-gray-500">
+                  Información Importante
+                </p>
+                <span className="font-serif text-base text-newspaper-gray-400">☙</span>
+              </div>
+              <h3 className="font-headline text-xl md:text-2xl font-black text-newspaper-black">
                 DETALLES DEL EVENTO
               </h3>
-              <div className="newspaper-divider-thick"></div>
+              <div className="h-0.5 w-24 bg-newspaper-black mx-auto mt-2"></div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-4">
               {/* Ceremonia */}
-              <div className="border-4 border-newspaper-black p-6 bg-white">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-newspaper-black text-white flex items-center justify-center">
-                    <Calendar className="w-6 h-6" />
+              <div className="border-2 border-newspaper-black bg-white overflow-hidden">
+                {/* Header */}
+                <div className="bg-newspaper-gray-100 border-b-2 border-newspaper-black px-4 py-3 flex items-center gap-3">
+                  <div className="w-10 h-10 bg-newspaper-black text-white flex items-center justify-center">
+                    <Calendar className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-headline text-lg font-bold text-newspaper-black">
-                      CEREMONIA RELIGIOSA
+                    <p className="font-headline text-sm font-bold text-newspaper-black uppercase tracking-wide">
+                      Ceremonia Religiosa
                     </p>
-                    <p className="newspaper-meta text-sm">{eventConfig.ceremony.time}</p>
+                    <p className="font-serif text-xs text-newspaper-gray-600">{eventConfig.ceremony.time}</p>
                   </div>
                 </div>
-                <div className="newspaper-divider-thin mb-3"></div>
-                <div className="flex items-start gap-3 mb-4">
-                  <MapPin className="w-5 h-5 text-newspaper-gray-600 mt-1 shrink-0" />
-                  <div>
-                    <p className="newspaper-body font-semibold text-newspaper-black">
-                      {eventConfig.ceremony.name}
-                    </p>
-                    <p className="newspaper-body text-sm text-newspaper-gray-700">
-                      {eventConfig.ceremony.address}, {eventConfig.ceremony.city}
-                    </p>
+                {/* Content */}
+                <div className="p-4">
+                  <div className="flex items-start gap-2 mb-4">
+                    <MapPin className="w-4 h-4 text-newspaper-gray-500 mt-0.5 shrink-0" />
+                    <div>
+                      <p className="font-serif font-semibold text-sm text-newspaper-black">
+                        {eventConfig.ceremony.name}
+                      </p>
+                      <p className="font-serif text-xs text-newspaper-gray-600">
+                        {eventConfig.ceremony.address}
+                      </p>
+                    </div>
                   </div>
+                  <a
+                    href={eventConfig.ceremony.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 bg-newspaper-black text-white px-4 py-2.5 font-headline text-xs uppercase tracking-wider hover:bg-newspaper-gray-800 transition cursor-pointer print:hidden"
+                  >
+                    <MapPin className="w-4 h-4" />
+                    Ver en Google Maps
+                  </a>
                 </div>
-                <a
-                  href={eventConfig.ceremony.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 bg-newspaper-black text-white px-4 py-3 font-headline text-xs uppercase tracking-wider hover:bg-newspaper-gray-900 transition cursor-pointer print:hidden"
-                >
-                  <MapPin className="w-4 h-4" />
-                  Ver en Google Maps
-                </a>
               </div>
 
               {/* Recepción */}
-              <div className="border-4 border-newspaper-black p-6 bg-newspaper-gray-900 text-white">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-white text-newspaper-black flex items-center justify-center">
-                    <Calendar className="w-6 h-6" />
+              <div className="border-2 border-newspaper-black bg-newspaper-black text-white overflow-hidden">
+                {/* Header */}
+                <div className="bg-newspaper-gray-800 border-b border-newspaper-gray-600 px-4 py-3 flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white text-newspaper-black flex items-center justify-center">
+                    <Calendar className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="font-headline text-lg font-bold">
-                      RECEPCIÓN
+                    <p className="font-headline text-sm font-bold uppercase tracking-wide">
+                      Recepción
                     </p>
-                    <p className="font-headline text-sm opacity-90">{eventConfig.reception.time}</p>
+                    <p className="font-serif text-xs opacity-80">{eventConfig.reception.time}</p>
                   </div>
                 </div>
-                <div className="h-px bg-white/30 mb-3"></div>
-                <div className="flex items-start gap-3 mb-4">
-                  <MapPin className="w-5 h-5 mt-1 shrink-0 opacity-90" />
-                  <div>
-                    <p className="font-serif font-semibold">
-                      {eventConfig.reception.name}
-                    </p>
-                    <p className="font-serif text-sm opacity-90">
-                      {eventConfig.reception.address}, {eventConfig.reception.city}
-                    </p>
+                {/* Content */}
+                <div className="p-4">
+                  <div className="flex items-start gap-2 mb-4">
+                    <MapPin className="w-4 h-4 opacity-70 mt-0.5 shrink-0" />
+                    <div>
+                      <p className="font-serif font-semibold text-sm">
+                        {eventConfig.reception.name}
+                      </p>
+                      <p className="font-serif text-xs opacity-80">
+                        {eventConfig.reception.address}
+                      </p>
+                    </div>
                   </div>
+                  <a
+                    href={eventConfig.reception.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 bg-white text-newspaper-black px-4 py-2.5 font-headline text-xs uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer print:hidden font-bold"
+                  >
+                    <MapPin className="w-4 h-4" />
+                    Ver en Google Maps
+                  </a>
                 </div>
-                <a
-                  href={eventConfig.reception.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 bg-white text-newspaper-black px-4 py-3 font-headline text-xs uppercase tracking-wider hover:bg-newspaper-gray-100 transition cursor-pointer print:hidden"
-                >
-                  <MapPin className="w-4 h-4" />
-                  Ver en Google Maps
-                </a>
               </div>
             </div>
           </div>
@@ -635,42 +727,76 @@ export function InvitationPass() {
           </div>
         )}
 
-        {/* FOOTER ESTILO PERIÓDICO */}
-        <div className="border-t-4 border-newspaper-black p-8 bg-newspaper-gray-50 text-center">
-          <div className="newspaper-divider-thin mb-4"></div>
-          <p className="font-serif text-lg italic text-newspaper-black mb-2">
-            Con cariño,
-          </p>
-          <p className="font-headline text-xl font-bold text-newspaper-black">
-            {eventConfig.groom.name} y {eventConfig.bride.name}
-          </p>
-          <div className="newspaper-divider-thin mt-4 mb-4"></div>
-          <p className="newspaper-page-number text-xs">
-            Por favor presenta este pase digital en la entrada del evento
-          </p>
-        </div>
-      </div>
+        {/* FOOTER ESTILO PERIÓDICO PREMIUM */}
+        <div className="border-t-4 border-double border-newspaper-black p-6 md:p-8 bg-gradient-to-b from-newspaper-gray-50 to-newspaper-cream text-center">
+          {/* Decoración */}
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="h-px flex-1 bg-newspaper-gray-300 max-w-20"></div>
+            <span className="font-serif text-xl text-newspaper-gray-400">❦</span>
+            <div className="h-px flex-1 bg-newspaper-gray-300 max-w-20"></div>
+          </div>
 
-      {/* MODAL DE CONFIRMACIÓN */}
+          <p className="font-serif text-base italic text-newspaper-gray-700 mb-1">
+            Con todo nuestro amor,
+          </p>
+          <p className="font-headline text-2xl md:text-3xl font-black text-newspaper-black mb-4">
+            {eventConfig.groom.name} & {eventConfig.bride.name}
+          </p>
+
+          {/* Línea inferior decorativa */}
+          <div className="border-t-2 border-newspaper-black pt-4 mt-4">
+            <p className="font-serif text-[11px] text-newspaper-gray-600 italic">
+              "Dos almas, un destino"
+            </p>
+            <p className="font-headline text-[10px] uppercase tracking-[0.2em] text-newspaper-gray-500 mt-2">
+              Por favor presenta este pase digital en la entrada del evento
+            </p>
+          </div>
+        </div>
+        </div>{/* Cierre del contenido del ticket */}
+
+        {/* Borde perforado inferior - efecto de troquelado */}
+        <div className="relative h-5 overflow-visible">
+          <div className="absolute inset-x-0 bottom-0 h-full bg-newspaper-gray-100"></div>
+          <div className="absolute inset-x-4 top-0 flex justify-between">
+            {Array.from({ length: 45 }).map((_, i) => (
+              <div key={i} className="w-2.5 h-2.5 rounded-full bg-white border border-newspaper-gray-300 -translate-y-1/2"></div>
+            ))}
+          </div>
+        </div>
+      </div>{/* Cierre del ticket container */}
+
+      {/* MODAL DE CONFIRMACIÓN - ESTILO VINTAGE */}
       {showConfirmModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 print:hidden overflow-y-auto">
-          <div className="bg-white border-4 border-newspaper-black max-w-3xl w-full my-8">
-            {/* Header */}
-            <div className="bg-newspaper-black text-white p-6 flex justify-between items-center">
-              <div>
-                <h3 className="font-headline text-2xl font-bold mb-1">
-                  {confirmationStep === 'form' ? 'CONFIRMAR ASISTENCIA' : '✓ CONFIRMACIÓN EXITOSA'}
-                </h3>
-                <p className="font-headline text-sm opacity-90 uppercase tracking-wider">
-                  {reservation.guestName}
-                </p>
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 print:hidden overflow-y-auto">
+          <div className="bg-white border-4 border-newspaper-black max-w-3xl w-full my-8 shadow-2xl">
+            {/* Header estilo periódico */}
+            <div className="bg-newspaper-black text-white p-5 relative">
+              {/* Decoración esquinas */}
+              <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-white/30"></div>
+              <div className="absolute top-2 right-10 w-3 h-3 border-t border-r border-white/30"></div>
+              <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-white/30"></div>
+              <div className="absolute bottom-2 right-10 w-3 h-3 border-b border-r border-white/30"></div>
+
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="font-serif text-[10px] uppercase tracking-[0.2em] opacity-70 mb-1">
+                    The Wedding Times · Formulario Oficial
+                  </p>
+                  <h3 className="font-headline text-xl md:text-2xl font-black tracking-tight">
+                    {confirmationStep === 'form' ? 'CONFIRMAR ASISTENCIA' : '✓ CONFIRMACIÓN EXITOSA'}
+                  </h3>
+                  <p className="font-serif text-sm opacity-80 mt-1 italic">
+                    {reservation.guestName}
+                  </p>
+                </div>
+                <button
+                  onClick={handleCloseModal}
+                  className="p-2 hover:bg-white/20 transition border border-white/30"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-              <button
-                onClick={handleCloseModal}
-                className="p-2 hover:bg-white/20 transition"
-              >
-                <X className="w-6 h-6" />
-              </button>
             </div>
 
             {/* Contenido */}

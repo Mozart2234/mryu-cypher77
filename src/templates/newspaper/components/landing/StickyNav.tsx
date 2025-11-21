@@ -105,7 +105,7 @@ export function StickyNav() {
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
                   className={`
-                    relative px-3 py-2 font-serif text-xs font-semibold uppercase tracking-wide transition-all
+                    relative px-3 py-2 font-serif text-sm font-semibold uppercase tracking-wide transition-all
                     focus:outline-none focus:ring-2 focus:ring-offset-1
                     ${
                       activeSection === item.id
@@ -153,7 +153,7 @@ export function StickyNav() {
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
                   className={`
-                    w-full text-left px-3 py-2 font-serif text-sm font-semibold uppercase tracking-wide transition-all
+                    w-full text-left px-3 py-2.5 font-serif text-base font-semibold uppercase tracking-wide transition-all
                     focus:outline-none focus:ring-2 focus:ring-offset-1 rounded
                     ${
                       activeSection === item.id
@@ -175,7 +175,7 @@ export function StickyNav() {
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-24 right-4 md:right-6 z-40 p-2.5 md:p-3 bg-newspaper-black text-white border-2 border-newspaper-black shadow-lg hover:bg-white hover:text-newspaper-black transition-all hover:scale-105 focus:outline-none focus:ring-4 focus:ring-newspaper-gray-400 focus:ring-offset-2"
+          className="fixed bottom-32 right-4 md:right-6 z-40 p-2.5 md:p-3 bg-newspaper-black text-white border-2 border-newspaper-black shadow-lg hover:bg-white hover:text-newspaper-black transition-all hover:scale-105 focus:outline-none focus:ring-4 focus:ring-newspaper-gray-400 focus:ring-offset-2"
           aria-label="Volver arriba"
         >
           <ChevronUp className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />

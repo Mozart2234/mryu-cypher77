@@ -56,7 +56,7 @@ function TimelineItem({ event, index, isEven, isFeatured, badgeClass }: Timeline
             {/* Badge con mes y año - más pequeño */}
             <div className={`
               inline-flex items-center gap-1.5 px-3 py-1.5 border-2
-              font-bold text-xs uppercase tracking-wider
+              font-bold text-sm uppercase tracking-wider
               ${badgeClass}
             `}>
               <span className="text-lg">{event.icon}</span>
@@ -79,7 +79,7 @@ function TimelineItem({ event, index, isEven, isFeatured, badgeClass }: Timeline
               `}>
                 {event.title}
               </h3>
-              <span className="text-xs text-newspaper-gray-700 shrink-0 ml-2">
+              <span className="text-sm text-newspaper-gray-700 shrink-0 ml-2">
                 #{index + 1}
               </span>
             </div>
@@ -90,29 +90,29 @@ function TimelineItem({ event, index, isEven, isFeatured, badgeClass }: Timeline
             {/* Texto narrativo más compacto */}
             <p className={`
               font-serif leading-snug text-newspaper-gray-800
-              ${isFeatured ? 'text-base' : 'text-sm'}
+              ${isFeatured ? 'text-lg' : 'text-base'}
             `}>
               {event.text}
             </p>
 
             {/* PULL QUOTE - más pequeña */}
             {event.quote && (
-              <blockquote className="border-l-2 border-newspaper-black bg-newspaper-gray-50 p-2 my-2 italic text-xs md:text-sm font-serif text-newspaper-black">
+              <blockquote className="border-l-2 border-newspaper-black bg-newspaper-gray-50 p-3 my-2 italic text-sm md:text-base font-serif text-newspaper-black">
                 "{event.quote}"
               </blockquote>
             )}
 
             {/* Footer decorativo más compacto */}
             <div className="mt-2 pt-2 border-t border-newspaper-gray-200">
-              <p className="text-xs text-center uppercase tracking-wide text-newspaper-gray-700">
+              <p className="text-sm text-center uppercase tracking-wide text-newspaper-gray-700">
                 Capítulo {index + 1} • {event.date}
               </p>
             </div>
 
             {/* Etiqueta especial para el evento destacado */}
             {isFeatured && (
-              <div className="mt-2 bg-newspaper-black text-white text-center py-1.5 px-3">
-                <p className="font-headline text-xs uppercase tracking-widest">
+              <div className="mt-2 bg-newspaper-black text-white text-center py-2 px-3">
+                <p className="font-headline text-sm uppercase tracking-widest">
                   ★ El Día Más Esperado ★
                 </p>
               </div>
@@ -164,11 +164,11 @@ export function LoveStory() {
           <h2 className="font-headline text-2xl md:text-3xl font-bold text-newspaper-black mb-2">
             Nuestra Historia de Amor
           </h2>
-          <p className="text-xs uppercase tracking-wide text-newspaper-gray-700">
+          <p className="text-sm uppercase tracking-wide text-newspaper-gray-700">
             DE UNA MIRADA EN 2016 AL ALTAR EN 2026
           </p>
           <div className="newspaper-divider-thick mt-3"></div>
-          <p className="text-sm text-center mt-4 max-w-2xl mx-auto italic text-newspaper-gray-800 leading-relaxed">
+          <p className="text-base text-center mt-4 max-w-2xl mx-auto italic text-newspaper-gray-800 leading-relaxed">
             Cada gran historia de amor tiene su propio camino. Esta es la nuestra:
             de una mirada en 2016, un reencuentro mágico en 2022, hasta el altar en 2026.
           </p>
@@ -218,14 +218,14 @@ export function LoveStory() {
         <div className="mt-20 max-w-3xl mx-auto">
           <div className="border-2 border-newspaper-black bg-white p-8 shadow-lg">
             <div className="text-center border-b-2 border-newspaper-gray-400 pb-4 mb-6">
-              <p className="font-headline text-xs uppercase tracking-wider text-newspaper-gray-700">
+              <p className="font-headline text-sm uppercase tracking-wider text-newspaper-gray-700">
                 Cita del Día
               </p>
             </div>
             <blockquote className="text-center newspaper-title italic">
               "{eventConfig.quote.text}"
             </blockquote>
-            <p className="text-center font-serif text-sm mt-6 text-newspaper-gray-700 uppercase tracking-wide">
+            <p className="text-center font-serif text-base mt-6 text-newspaper-gray-700 uppercase tracking-wide">
               — {eventConfig.quote.source}
             </p>
           </div>
@@ -235,7 +235,7 @@ export function LoveStory() {
         <div className="mt-12 text-center max-w-4xl mx-auto">
           <div className="newspaper-divider-thin mb-4"></div>
           <div className="border-2 border-newspaper-black p-6 bg-white">
-            <p className="font-headline text-xs uppercase tracking-wider text-newspaper-gray-700 mb-4">
+            <p className="font-headline text-sm uppercase tracking-wider text-newspaper-gray-700 mb-4">
               Editorial
             </p>
             <div className="newspaper-body text-justify italic text-newspaper-gray-800 leading-relaxed md:columns-2 md:gap-6">
@@ -254,7 +254,7 @@ export function LoveStory() {
 
         {/* FOLIO - pie de página */}
         <div className="newspaper-folio">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-700">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-sm font-sans uppercase tracking-wider text-newspaper-gray-700">
             <span>Página 3-4</span>
             <span>•</span>
             <span>Sección: Historia de Amor</span>

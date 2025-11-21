@@ -16,7 +16,7 @@ const MESSAGE_TYPE_CONFIG: Record<MessageType, { icon: typeof Heart; label: stri
   other: { icon: Sparkles, label: 'Mensajes', color: 'text-purple-600' }
 };
 
-// Componente para cada card en el grid
+// Componente para cada card en el grid - Estilo Carta al Editor
 interface MessageCardProps {
   message: GuestMessage;
   index: number;
@@ -28,51 +28,63 @@ function MessageCard({ message, index }: MessageCardProps) {
 
   return (
     <article
-      className="bg-white border-4 border-newspaper-black shadow-xl transition-all duration-500 hover:shadow-2xl hover:translate-y-[-4px]"
+      className="group bg-white border-2 border-newspaper-black shadow-lg transition-all duration-500 hover:shadow-2xl hover:translate-y-[-4px] relative overflow-hidden"
       style={{
         animationDelay: `${index * 80}ms`
       }}
     >
-      {/* Decoración de esquina superior */}
-      <div className="absolute top-0 left-0 w-0 h-0 border-t-[20px] border-t-newspaper-black border-r-[20px] border-r-transparent"></div>
+      {/* Header estilo carta de periódico */}
+      <div className="bg-newspaper-black px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <Icon className="w-5 h-5 text-white" strokeWidth={2.5} />
+          <span className="text-sm font-bold uppercase tracking-wider text-white" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+            {config.label}
+          </span>
+        </div>
+        <span className="text-xs text-newspaper-gray-300" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+          {new Date(message.createdAt).toLocaleDateString('es-ES', {
+            month: 'short',
+            day: 'numeric'
+          })}
+        </span>
+      </div>
 
-      <div className="p-4">
-        {/* Header del mensaje */}
-        <div className="flex items-center gap-2 mb-3 pb-2 border-b-2 border-newspaper-black">
-          <div className="w-8 h-8 bg-newspaper-black flex items-center justify-center text-white">
-            <Icon className="w-4 h-4" />
-          </div>
-          <div className="flex-1">
-            <span className="font-headline text-[9px] uppercase tracking-widest text-newspaper-gray-700 block">
-              {config.label}
-            </span>
-          </div>
+      <div className="p-5">
+        {/* Comilla decorativa grande */}
+        <div className="absolute top-12 right-4 text-6xl text-newspaper-gray-200 font-serif leading-none select-none group-hover:text-newspaper-gray-300 transition-colors">
+          "
         </div>
 
-        {/* Contenido del mensaje con comillas decorativas */}
-        <blockquote className="mb-3 relative">
-          <span className="absolute -top-2 -left-1 text-4xl text-newspaper-gray-300 font-serif leading-none">"</span>
-          <p className="font-serif text-newspaper-black leading-snug relative z-10 pl-4 text-xs md:text-sm min-h-[100px]">
-            {message.message.length > 120 ? message.message.substring(0, 120) + '...' : message.message}
+        {/* Contenido del mensaje */}
+        <blockquote className="relative z-10 mb-4">
+          <p className="font-serif text-newspaper-black leading-relaxed text-base md:text-lg min-h-[100px]">
+            "{message.message.length > 120 ? message.message.substring(0, 120) + '...' : message.message}"
           </p>
         </blockquote>
 
-        {/* Autor y fecha */}
-        <div className="pt-2 border-t border-newspaper-gray-300">
-          <p className="font-headline text-xs font-bold text-newspaper-black uppercase tracking-wider">
-            {message.guestName}
-          </p>
-          <p className="font-sans text-[9px] text-newspaper-gray-600 mt-1 uppercase tracking-wide">
-            {new Date(message.createdAt).toLocaleDateString('es-ES', {
-              month: 'short',
-              day: 'numeric'
-            })}
-          </p>
+        {/* Firma del autor - estilo editorial */}
+        <div className="border-t-2 border-newspaper-black pt-3 mt-auto">
+          <div className="flex items-center gap-3">
+            {/* Avatar inicial */}
+            <div className="w-11 h-11 bg-newspaper-gray-200 border-2 border-newspaper-black flex items-center justify-center shrink-0 group-hover:bg-newspaper-black group-hover:text-white transition-colors">
+              <span className="font-headline text-base font-bold">
+                {message.guestName.charAt(0).toUpperCase()}
+              </span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-headline text-base font-bold text-newspaper-black uppercase tracking-wide truncate">
+                {message.guestName}
+              </p>
+              <p className="font-sans text-sm text-newspaper-gray-600">
+                Invitado Especial
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Decoración de esquina inferior */}
-      <div className="absolute bottom-0 right-0 w-0 h-0 border-b-[20px] border-b-newspaper-black border-l-[20px] border-l-transparent"></div>
+      {/* Efecto de esquina doblada */}
+      <div className="absolute top-0 right-0 w-0 h-0 border-t-[24px] border-t-newspaper-gray-200 border-l-[24px] border-l-transparent group-hover:border-t-newspaper-gray-300 transition-colors"></div>
     </article>
   );
 }
@@ -132,7 +144,26 @@ export function GuestMessages() {
   const loadMessages = async () => {
     try {
       setLoading(true);
-      const data = await messageService.getPublicMessages();
+      let data = await messageService.getPublicMessages();
+
+      // En desarrollo, agregar mensajes mock para probar el scroll
+      if (import.meta.env.DEV && data.length < 12) {
+        const mockMessages: GuestMessage[] = [
+          { id: 'mock-1', reservationId: 'r1', guestName: 'María García', message: '¡Felicidades a los novios! Que este día sea el comienzo de una vida llena de amor y felicidad. Los queremos mucho.', messageType: 'wishes', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-2', reservationId: 'r2', guestName: 'Carlos Rodríguez', message: 'Nunca se vayan a dormir enojados. Siempre hablen las cosas y recuerden por qué se enamoraron.', messageType: 'advice', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-3', reservationId: 'r3', guestName: 'Ana Martínez', message: 'Recuerdo cuando se conocieron en aquella fiesta. Desde ese momento supe que estaban destinados a estar juntos.', messageType: 'memory', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-4', reservationId: 'r4', guestName: 'Pedro Sánchez', message: '¡Que vivan los novios! Este es solo el principio de una hermosa historia de amor. ¡Salud!', messageType: 'wishes', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-5', reservationId: 'r5', guestName: 'Laura Torres', message: 'Mi consejo: viajen mucho juntos, creen recuerdos y nunca dejen de reírse. El humor es la clave de un matrimonio feliz.', messageType: 'advice', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-6', reservationId: 'r6', guestName: 'Roberto Díaz', message: '¡Qué emoción verlos dar este paso! Son la pareja perfecta y merecen toda la felicidad del mundo.', messageType: 'wishes', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-7', reservationId: 'r7', guestName: 'Carmen Flores', message: 'Me acuerdo cuando me contaron que estaban saliendo. La emoción en sus ojos era evidente. ¡Que sigan brillando!', messageType: 'memory', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-8', reservationId: 'r8', guestName: 'Fernando López', message: 'Un matrimonio exitoso requiere enamorarse muchas veces, siempre de la misma persona. ¡Felicidades!', messageType: 'advice', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-9', reservationId: 'r9', guestName: 'Isabel Ramírez', message: 'Desde que los conozco, siempre supe que terminarían juntos. Son el uno para el otro. ¡Los amo!', messageType: 'wishes', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-10', reservationId: 'r10', guestName: 'Miguel Herrera', message: 'Que cada día juntos sea una nueva aventura. El amor verdadero solo crece con el tiempo. ¡Felicidades!', messageType: 'other', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-11', reservationId: 'r11', guestName: 'Patricia Morales', message: 'Recuerdo su primer aniversario, la cena sorpresa que prepararon. Ese amor es para toda la vida.', messageType: 'memory', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+          { id: 'mock-12', reservationId: 'r12', guestName: 'Andrés Vargas', message: 'No hay secreto para un matrimonio feliz, solo dos personas que se niegan a rendirse. ¡Éxitos!', messageType: 'advice', isPublic: true, isBlocked: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+        ];
+        data = [...data, ...mockMessages.slice(0, 12 - data.length)];
+      }
 
       // Si hay 5 mensajes o menos, no duplicar, mostrar solo los que hay
       if (data.length <= 5) {
@@ -203,32 +234,39 @@ export function GuestMessages() {
       onMouseLeave={() => setIsPaused(false)}
     >
       <div className="max-w-7xl mx-auto">
-        {/* Título estilo periódico */}
+        {/* Encabezado estilo sección de opinión de periódico */}
         <div className="text-center mb-12">
-          <div className="newspaper-divider-thick mb-8"></div>
+          {/* Banner superior */}
+          <div className="inline-block bg-newspaper-black text-white px-8 py-2.5 mb-6">
+            <span className="font-headline text-sm uppercase tracking-widest">
+              ✦ Sección de Opinión ✦
+            </span>
+          </div>
 
-          {/* Kicker */}
-          <p className="newspaper-kicker mb-3">
-            Opinión & Cartas
-          </p>
+          {/* Título principal con estilo editorial */}
+          <div className="relative">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="w-16 md:w-24 h-1 bg-newspaper-black"></div>
+              <MessageSquare className="w-8 h-8 text-newspaper-black" />
+              <div className="w-16 md:w-24 h-1 bg-newspaper-black"></div>
+            </div>
 
-          {/* Headline principal */}
-          <h2 className="newspaper-headline mb-4">
-            Cartas al Editor
-          </h2>
+            <h2 className="font-headline text-4xl md:text-5xl font-black text-newspaper-black mb-3 tracking-tight">
+              CARTAS AL EDITOR
+            </h2>
 
-          {/* Deck */}
-          <p className="newspaper-deck max-w-3xl mx-auto mb-6">
-            Nuestros invitados comparten sus palabras de cariño, consejos y buenos deseos
-            para este día especial que celebraremos juntos
-          </p>
+            <p className="font-serif text-lg md:text-xl text-newspaper-gray-700 italic max-w-2xl mx-auto mb-4">
+              "Los mejores deseos de nuestros queridos invitados"
+            </p>
 
-          <div className="newspaper-divider-thick mt-8"></div>
-
-          {/* Byline */}
-          <p className="newspaper-byline mt-6">
-            {allMessages.length} {allMessages.length === 1 ? 'mensaje publicado' : 'mensajes publicados'}
-          </p>
+            <div className="flex items-center justify-center gap-4">
+              <div className="w-16 md:w-24 h-0.5 bg-newspaper-gray-400"></div>
+              <span className="font-headline text-base uppercase tracking-wider text-newspaper-gray-600">
+                {allMessages.length} {allMessages.length === 1 ? 'Carta Publicada' : 'Cartas Publicadas'}
+              </span>
+              <div className="w-16 md:w-24 h-0.5 bg-newspaper-gray-400"></div>
+            </div>
+          </div>
         </div>
 
         {/* CUADRÍCULA DE 6 MENSAJES CON SCROLL VERTICAL */}
@@ -250,59 +288,82 @@ export function GuestMessages() {
             </div>
           </div>
 
-          {/* Controles de navegación */}
+          {/* Controles de navegación - estilo slide minimalista */}
           {allMessages.length > VISIBLE_COUNT && (
-            <div className="flex items-center justify-center gap-6 mt-8">
-              {/* Botón anterior */}
+            <div className="mt-10 flex items-center justify-center gap-6">
+              {/* Flecha anterior */}
               <button
                 onClick={handleScrollPrevious}
                 disabled={isTransitioning}
-                className="p-4 bg-newspaper-black text-white hover:bg-newspaper-gray-900 transition-all border-2 border-newspaper-black hover:scale-110 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Mensajes anteriores"
+                className="w-10 h-10 flex items-center justify-center border border-newspaper-gray-300 hover:border-newspaper-black hover:bg-newspaper-black hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                aria-label="Anterior"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                </svg>
+                <span className="text-lg">←</span>
               </button>
 
-              {/* Indicador de página */}
+              {/* Indicadores de slide - barras */}
               <div className="flex items-center gap-2">
-                <span className="font-headline text-sm text-newspaper-gray-700">
-                  Página {Math.floor(visibleStartIndex / VISIBLE_COUNT) + 1} de {Math.ceil(allMessages.length / VISIBLE_COUNT)}
-                </span>
+                {Array.from({ length: Math.ceil(allMessages.length / VISIBLE_COUNT) }).map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      if (!isTransitioning) {
+                        setIsTransitioning(true);
+                        setTimeout(() => {
+                          setVisibleStartIndex(idx * VISIBLE_COUNT);
+                          setIsTransitioning(false);
+                        }, 600);
+                      }
+                    }}
+                    disabled={isTransitioning}
+                    className={`h-1 rounded-full transition-all duration-300 ${
+                      Math.floor(visibleStartIndex / VISIBLE_COUNT) === idx
+                        ? 'bg-newspaper-black w-8'
+                        : 'bg-newspaper-gray-300 hover:bg-newspaper-gray-500 w-4'
+                    }`}
+                    aria-label={`Slide ${idx + 1}`}
+                  />
+                ))}
               </div>
 
-              {/* Botón siguiente */}
+              {/* Flecha siguiente */}
               <button
                 onClick={handleScrollNext}
                 disabled={isTransitioning}
-                className="p-4 bg-newspaper-black text-white hover:bg-newspaper-gray-900 transition-all border-2 border-newspaper-black hover:scale-110 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label="Mensajes siguientes"
+                className="w-10 h-10 flex items-center justify-center border border-newspaper-gray-300 hover:border-newspaper-black hover:bg-newspaper-black hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                aria-label="Siguiente"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                <span className="text-lg">→</span>
               </button>
             </div>
           )}
         </div>
 
-        {/* Nota al pie */}
-        <div className="mt-12 max-w-3xl mx-auto">
-          <div className="bg-white border-2 border-newspaper-black p-6 text-center">
-            <p className="newspaper-body text-sm text-newspaper-gray-700">
-              <strong>¿Quieres enviar tu mensaje?</strong><br />
-              Confirma tu asistencia en tu invitación digital y podrás dejar tus palabras para los novios
-            </p>
+        {/* Nota al pie - Estilo Anuncio Clasificado */}
+        <div className="mt-12 max-w-2xl mx-auto">
+          <div className="bg-white border-4 border-double border-newspaper-black p-1">
+            <div className="border border-newspaper-gray-400 p-6 text-center">
+              <div className="inline-block bg-newspaper-black text-white px-4 py-1.5 mb-3">
+                <span className="font-headline text-sm uppercase tracking-wider">
+                  ✉ Sé Parte de Esta Sección
+                </span>
+              </div>
+              <p className="font-headline text-base font-bold text-newspaper-black mb-2">
+                ¿Quieres que tu mensaje aparezca aquí?
+              </p>
+              <p className="font-serif text-base text-newspaper-gray-700 leading-relaxed">
+                Confirma tu asistencia en tu invitación digital y podrás enviar tus mejores deseos a los novios.
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* FOLIO - pie de página */}
-        <div className="newspaper-folio mt-8">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-600">
-            <span>Sección: Cartas</span>
-            <span>•</span>
-            <span>{allMessages.length} mensajes publicados</span>
+        {/* FOLIO - pie de página estilo editorial */}
+        <div className="mt-10 border-t-2 border-newspaper-black pt-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 text-sm font-headline uppercase tracking-wider text-newspaper-gray-600">
+            <span>Sección: Opinión & Cartas</span>
+            <span className="hidden sm:inline">❖</span>
+            <span>Total: {allMessages.length} {allMessages.length === 1 ? 'Carta' : 'Cartas'} Publicadas</span>
           </div>
         </div>
       </div>

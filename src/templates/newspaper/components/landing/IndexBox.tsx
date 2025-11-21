@@ -52,7 +52,7 @@ export function IndexBox() {
         <h3 className="newspaper-condensed-title text-center">
           Índice
         </h3>
-        <p className="text-center text-xs font-serif italic text-newspaper-gray-600 mt-1">
+        <p className="text-center text-sm font-serif italic text-newspaper-gray-600 mt-1">
           En Esta Edición
         </p>
       </div>
@@ -65,11 +65,11 @@ export function IndexBox() {
             className="flex items-start justify-between border-b border-newspaper-gray-300 pb-2 last:border-b-0 hover:bg-newspaper-gray-100 transition-colors duration-200 px-2 py-1"
           >
             <div className="flex-1">
-              <h4 className="font-serif font-bold text-sm text-newspaper-black leading-tight">
+              <h4 className="font-serif font-bold text-base text-newspaper-black leading-tight">
                 {item.title}
               </h4>
               {item.description && (
-                <p className="text-xs text-newspaper-gray-600 italic mt-0.5">
+                <p className="text-sm text-newspaper-gray-600 italic mt-0.5">
                   {item.description}
                 </p>
               )}
@@ -85,7 +85,7 @@ export function IndexBox() {
 
       {/* Footer decorativo */}
       <div className="border-t-2 border-newspaper-black mt-3 pt-2">
-        <p className="text-center text-xs font-sans uppercase tracking-wider text-newspaper-gray-500">
+        <p className="text-center text-sm font-serif uppercase tracking-wider text-newspaper-gray-500">
           Tabla de Contenidos
         </p>
       </div>
