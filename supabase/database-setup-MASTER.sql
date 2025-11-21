@@ -5,7 +5,7 @@
 -- Incluye las 2 tablas principales del sistema
 --
 -- Ejecutar en: Supabase SQL Editor
--- Versión: 4.0 (Simplificado - Solo tablas esenciales)
+-- Versión: 4.1 (Con columnas de confirmación individual)
 -- Última actualización: 2025-01-21
 -- =====================================================
 
@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS reservations (
   guest_name TEXT NOT NULL,
   number_of_guests INTEGER NOT NULL CHECK (number_of_guests > 0),
   accompanist_names TEXT[] DEFAULT '{}',
+  accompanists TEXT,
+  main_guest_attending BOOLEAN DEFAULT true,
   status TEXT DEFAULT 'pendiente' CHECK (status IN ('pendiente', 'confirmada', 'ingreso-registrado')),
   "table" TEXT,
   "group" TEXT,
@@ -68,7 +70,9 @@ COMMENT ON TABLE reservations IS 'Tabla principal de reservaciones de invitados'
 COMMENT ON COLUMN reservations.code IS 'Código único de la reservación (ej: WED-XXXX)';
 COMMENT ON COLUMN reservations.guest_name IS 'Nombre del invitado principal';
 COMMENT ON COLUMN reservations.number_of_guests IS 'Número total de personas en la reservación';
-COMMENT ON COLUMN reservations.accompanist_names IS 'Array con nombres de acompañantes';
+COMMENT ON COLUMN reservations.accompanist_names IS 'Array con nombres de acompañantes (legacy, mantener por compatibilidad)';
+COMMENT ON COLUMN reservations.accompanists IS 'JSON array de acompañantes con formato: [{"name": "Nombre", "willAttend": boolean}]';
+COMMENT ON COLUMN reservations.main_guest_attending IS 'Indica si el invitado principal confirmó su asistencia';
 COMMENT ON COLUMN reservations.status IS 'Estado: pendiente, confirmada, ingreso-registrado';
 COMMENT ON COLUMN reservations."table" IS 'Mesa asignada (opcional)';
 COMMENT ON COLUMN reservations."group" IS 'Grupo o familia (opcional)';
@@ -145,6 +149,23 @@ COMMENT ON COLUMN guest_messages.is_public IS 'Si el invitado permite que el men
 COMMENT ON COLUMN guest_messages.is_blocked IS 'Si el admin ha bloqueado el mensaje (moderación)';
 
 -- =====================================================
+-- MIGRACIÓN DE DATOS (SI YA TIENES RESERVACIONES)
+-- =====================================================
+-- Si ya tienes reservaciones con accompanist_names, esto las migra al nuevo formato
+
+-- Convertir accompanist_names array a accompanists JSON
+UPDATE reservations
+SET
+  accompanists = (
+    SELECT json_agg(json_build_object('name', name, 'willAttend', true))::text
+    FROM unnest(accompanist_names) AS name
+  ),
+  main_guest_attending = true
+WHERE accompanist_names IS NOT NULL
+  AND array_length(accompanist_names, 1) > 0
+  AND accompanists IS NULL;
+
+-- =====================================================
 -- VERIFICACIÓN FINAL
 -- =====================================================
 
@@ -159,13 +180,28 @@ SELECT
   COUNT(*) as record_count
 FROM guest_messages;
 
+-- Ver estructura de reservations
+SELECT
+  column_name,
+  data_type,
+  is_nullable
+FROM information_schema.columns
+WHERE table_name = 'reservations'
+ORDER BY ordinal_position;
+
 -- =====================================================
 -- ✅ ¡INSTALACIÓN COMPLETADA!
 -- =====================================================
 --
 -- Las siguientes tablas han sido creadas:
 -- 1. reservations       - Sistema de reservaciones con QR
+--    - Incluye sistema de confirmación individual
+--    - accompanists: JSON con confirmación por acompañante
+--    - main_guest_attending: si el invitado principal asiste
+--
 -- 2. guest_messages     - Mensajes de invitados
+--    - Sistema de moderación
+--    - Mensajes públicos/privados
 --
 -- Próximos pasos:
 -- 1. Verifica que las 2 tablas existan en Table Editor
