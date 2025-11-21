@@ -57,23 +57,18 @@ DROP POLICY IF EXISTS "guest_messages_select_public" ON guest_messages;
 DROP POLICY IF EXISTS "guest_messages_insert_all" ON guest_messages;
 DROP POLICY IF EXISTS "guest_messages_update_admin" ON guest_messages;
 DROP POLICY IF EXISTS "guest_messages_delete_admin" ON guest_messages;
-DROP POLICY IF EXISTS "wedding_content_select_all" ON wedding_content;
-DROP POLICY IF EXISTS "wedding_content_admin_all" ON wedding_content;
 
 -- 2. ELIMINAR TRIGGERS
 DROP TRIGGER IF EXISTS update_reservations_updated_at_trigger ON reservations;
 DROP TRIGGER IF EXISTS update_guest_messages_updated_at_trigger ON guest_messages;
-DROP TRIGGER IF EXISTS wedding_content_updated_at ON wedding_content;
 
 -- 3. ELIMINAR FUNCIONES
 DROP FUNCTION IF EXISTS update_reservations_updated_at();
 DROP FUNCTION IF EXISTS update_guest_messages_updated_at();
-DROP FUNCTION IF EXISTS update_wedding_content_updated_at();
 
 -- 4. ELIMINAR TABLAS (en orden por dependencias)
 DROP TABLE IF EXISTS guest_messages CASCADE;
 DROP TABLE IF EXISTS reservations CASCADE;
-DROP TABLE IF EXISTS wedding_content CASCADE;
 
 -- =====================================================
 -- ✅ TODAS LAS TABLAS HAN SIDO ELIMINADAS

@@ -65,12 +65,18 @@ export function MessageForm({ reservationId, guestName, onSuccess }: MessageForm
       setSuccess(true);
       setMessage('');
 
+      // Scroll al top del formulario para ver el mensaje de éxito
+      const formElement = document.getElementById('message-form');
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
       if (onSuccess) {
         onSuccess();
       }
 
-      // Ocultar mensaje de éxito después de 3 segundos
-      setTimeout(() => setSuccess(false), 3000);
+      // Ocultar mensaje de éxito después de 5 segundos
+      setTimeout(() => setSuccess(false), 5000);
     } catch (err) {
       console.error('Error sending message:', err);
       setError(err instanceof Error ? err.message : 'Error al enviar el mensaje');
@@ -80,7 +86,7 @@ export function MessageForm({ reservationId, guestName, onSuccess }: MessageForm
   };
 
   return (
-    <div className="bg-white border-2 border-newspaper-black p-6 md:p-8">
+    <div id="message-form" className="bg-white border-2 border-newspaper-black p-6 md:p-8 scroll-mt-8">
       {/* Header */}
       <div className="mb-6 text-center">
         <div className="inline-flex items-center justify-center gap-2 mb-2">
@@ -95,10 +101,18 @@ export function MessageForm({ reservationId, guestName, onSuccess }: MessageForm
       </div>
 
       {success && (
-        <div className="mb-4 p-4 bg-green-50 border-2 border-green-600 rounded-sm">
-          <p className="font-sans text-sm text-green-800 text-center font-semibold">
-            ¡Gracias! Tu mensaje ha sido enviado exitosamente
-          </p>
+        <div className="mb-6 p-6 bg-green-50 border-4 border-green-600 rounded-sm shadow-lg animate-pulse-once">
+          <div className="flex items-center justify-center gap-3">
+            <span className="text-3xl">✅</span>
+            <div>
+              <p className="font-headline text-lg text-green-900 font-bold">
+                ¡Mensaje Enviado!
+              </p>
+              <p className="font-sans text-sm text-green-800 mt-1">
+                Gracias por tus palabras. La pareja las recibirá con mucho cariño.
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
