@@ -7,14 +7,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
+import { toast } from 'sonner';
 import { eventConfig } from '@/config/eventConfig';
 import { reservationService } from '@/services/reservationService';
 import { useAuth } from '@/contexts/AuthContext';
 import type { Reservation, Accompanist } from '@/types/reservation';
 import { CheckCircle, Calendar, MapPin, Users, Printer, X, Check, AlertCircle, RefreshCw } from 'lucide-react';
 import { InvitationTicketSkeleton } from '@/components/SkeletonLoader';
-import { useToast } from '@/hooks/useToast';
-import { ToastContainer } from '@/components/Toast';
 import { MessageForm } from '@/components/messages/MessageForm';
 import { messageService } from '@/services/messageService';
 import type { GuestMessage } from '@/types/message';
@@ -23,7 +22,6 @@ export function InvitationPass() {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
-  const toast = useToast();
   const [reservation, setReservation] = useState<Reservation | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -76,10 +74,9 @@ export function InvitationPass() {
     } catch (error) {
       console.error('Error loading reservation:', error);
       setError('network_error');
-      toast.error(
-        'Error de conexión',
-        'No se pudo cargar la invitación. Verifica tu conexión a internet.'
-      );
+      toast.error('No se pudo cargar la invitación. Verifica tu conexión a internet.', {
+        description: 'Error de conexión'
+      });
     } finally {
       setLoading(false);
     }
@@ -131,19 +128,17 @@ export function InvitationPass() {
 
       await loadReservation();
 
-      toast.success(
-        '¡Confirmación guardada!',
-        'Tu asistencia ha sido confirmada correctamente.'
-      );
+      toast.success('¡Confirmación guardada!', {
+        description: 'Tu asistencia ha sido confirmada correctamente.'
+      });
 
       // Cambiar al paso de mensaje en lugar de cerrar el modal
       setConfirmationStep('message');
     } catch (error) {
       console.error('Error saving confirmation:', error);
-      toast.error(
-        'Error al guardar',
-        'No se pudo guardar la confirmación. Por favor intenta de nuevo.'
-      );
+      toast.error('Error al guardar', {
+        description: 'No se pudo guardar la confirmación. Por favor intenta de nuevo.'
+      });
     }
   };
 
@@ -158,12 +153,7 @@ export function InvitationPass() {
   };
 
   if (loading) {
-    return (
-      <>
-        <InvitationTicketSkeleton />
-        <ToastContainer toasts={toast.toasts} onClose={toast.closeToast} />
-      </>
-    );
+    return <InvitationTicketSkeleton />;
   }
 
   if (!reservation || error === 'not_found') {
@@ -225,7 +215,6 @@ export function InvitationPass() {
             </div>
           </div>
         </div>
-        <ToastContainer toasts={toast.toasts} onClose={toast.closeToast} />
       </>
     );
   }
@@ -778,9 +767,6 @@ export function InvitationPass() {
           </div>
         </div>
       )}
-
-      {/* Toast Container */}
-      <ToastContainer toasts={toast.toasts} onClose={toast.closeToast} />
 
       {/* Estilos de impresión mejorados */}
       <style>{`
