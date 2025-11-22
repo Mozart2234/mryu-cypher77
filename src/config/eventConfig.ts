@@ -5,6 +5,8 @@
  * Edita estos valores para cambiar los textos, fechas, lugares, etc.
  */
 
+import { Quote } from "lucide-react";
+
 export const eventConfig = {
   // Información de los novios
   bride: {
@@ -83,29 +85,29 @@ export const eventConfig = {
   // Historia de la pareja - Timeline detallado por meses
   loveStory: [
     {
-      date: "Marzo 2016",
-      month: "MAR",
+      date: "Mayo 2016",
+      month: "MAY",
       year: "2016",
-      title: "Amor a Primera Vista",
-      text: "En un día cualquiera de marzo, Alexei vio a Estephanie por primera vez. Su corazón supo de inmediato que había algo especial en ella, pero la timidez lo detuvo. Ese momento quedaría grabado para siempre.",
+      title: "El Destino Ya Había Empezado a Escribir",
+      text: "En un día cualquiera de mayo, Alexei vio a Estephanie por primera vez. Su corazón supo de inmediato que había algo especial en ella, pero la timidez lo detuvo. Ella aún no lo sabía, ni lo conocia, pero la historia ya había comenzado.",
       icon: "👀",
       color: "rose"
     },
     {
-      date: "Junio 2022",
-      month: "JUN",
+      date: "Febrero 2022",
+      month: "FEB",
       year: "2022",
       title: "El Mensaje Que Lo Cambió Todo",
-      text: "Después de 6 años, Alexei se encontro con Estephanie en un campamento. Un mensaje en Facebook abrió la puerta a conversaciones interminables.",
+      text: "Después de 6 años, Alexei la vio nuevamente en la playa y su corazón quiso hablar, aunque sus labios callaron. Dos semanas después, un sencillo “holi” por Facebook hizo lo que las palabras no habían podido: empezar su historia de amor..",
       icon: "💬",
       color: "blue"
     },
     {
-      date: "Septiembre 2022",
-      month: "SEP",
+      date: "Marzo 2022",
+      month: "MAR",
       year: "2022",
       title: "La Primera Cita",
-      text: "Una cena en un lugar acogedor. Risas nerviosas que se convirtieron en conversaciones profundas. El tiempo voló. Ambos supieron que esto era diferente, especial, real. El inicio de algo hermoso.",
+      text: "No fue una cita romántica, sino una salida para conocerse como amigos. Una cena en un lugar acogedor, con risas nerviosas que pronto se transformaron en conversaciones sinceras. El tiempo pasó sin que se dieran cuenta, y aunque ninguno habló de amor, ambos sintieron que algo especial estaba comenzando.",
       icon: "🍽️",
       color: "amber"
     },
@@ -113,72 +115,74 @@ export const eventConfig = {
       date: "Diciembre 2022",
       month: "DIC",
       year: "2022",
-      title: "Navidad Juntos",
-      text: "Su primera Navidad como pareja. Compartieron tradiciones, conocieron a las familias, y sintieron que pertenecían uno con el otro. El amor crecía con cada momento compartido.",
+      title: "Navidad que cambió todo",
+      text: "Aún no eran pareja, pero compartieron un intercambio de regalos. Ese año, Estephanie fue el “ángel” de Alexei, y esos pequeños detalles comenzaron a cambiarlo todo. No hubo declaraciones ni planes formales, solo sonrisas y la certeza silenciosa de que aquel diciembre estaba marcando un antes y un después en su historia.",
       icon: "🎄",
       color: "green"
     },
     {
-      date: "Marzo 2023",
-      month: "MAR",
+      date: "Febrero 2023",
+      month: "FEB",
       year: "2023",
-      title: "Un Año de Conocerse",
-      text: "Celebraron su primer aniversario desde ese mensaje inicial. Ya no eran dos personas conociéndose, sino dos almas que se habían encontrado. Cada día juntos era un regalo.",
+      title: "El inicio formal",
+      text: "En el 2023, Alexei, con respeto y emoción, pidió permiso al padre de Estephanie para poder salir con ella y también para poder frecuentarse y entrar a casa. Fue el inicio formal de una etapa donde comenzaron a conocerse con propósito y construir una historia que recién empezaba a escribirse.",
       icon: "💝",
       color: "pink"
     },
     {
-      date: "Julio 2023",
-      month: "JUL",
+      date: "Abril 2023",
+      month: "ABR",
       year: "2023",
-      title: "Primera Aventura: Cusco",
-      text: "Exploraron Machu Picchu de la mano. Entre ruinas antiguas y montañas majestuosas, descubrieron que los mejores viajes no son a lugares, sino junto a la persona correcta.",
+      title: "La Aventura a Waynapicchu",
+      text: "En 2023 viajaron en familia a Cusco. Alexei, como siempre, pidió permiso al padre de Estephanie para acompañarlos. Fueron ella, sus padres, Alexei y su hermano. El gran desafío era subir a Waynapicchu, y juntos lograron llegar a la meta, guardando un recuerdo inolvidable.",
       icon: "🏔️",
       color: "indigo"
     },
     {
-      date: "Febrero 2024",
-      month: "FEB",
+      date: "2024",
+      month: "",
       year: "2024",
-      title: "Un Amor Más Profundo",
-      text: "Superaron su primera prueba como pareja. Las dificultades no los separaron, los unieron más. Aprendieron que el amor verdadero no es perfecto, es comprometido.",
+      title: "Un año de aprendizaje",
+      text: "En 2024 llegaron las diferencias: costumbres distintas, maneras de pensar y tradiciones que chocaban. Pero lejos de alejarlos, cada desafío los unió más. Fue su primera prueba como dos personas que estaban conociéndose con intención, aprendiendo que el amor verdadero no es perfecto, es comprometido.",
       icon: "💪",
       color: "purple"
     },
     {
-      date: "Mayo 2024",
-      month: "MAY",
-      year: "2024",
-      title: "¡Oficialmente Novios!",
-      text: "Después de compartir tantos momentos especiales, formalizaron su relación. Con Dios en el centro y la familia como testigo, se comprometieron a caminar juntos hacia el futuro.",
+      date: "Febrero 2025",
+      month: "FEB",
+      year: "2025",
+      title: "¡La gran pregunta",
+      text: "En una noche de silencio, alrededor de las 8:30 p.m., Alexei se arrodilló y con el corazón latiendo fuerte pronunció la pregunta que cambiaría todo: “¿Quieres casarte conmigo?”. Las lágrimas y la emoción fueron la respuesta más hermosa.",
       icon: "💑",
-      color: "red"
+      color: "red",
+      quote:"¿Quieres casarte conmigo?"
+
     },
     {
-      date: "Agosto 2024",
+      date: "Agosto 2025",
       month: "AGO",
-      year: "2024",
-      title: "La Gran Pregunta",
-      text: "Bajo un cielo estrellado, con el corazón latiendo fuerte, Alexei se arrodilló. 'Estephanie, ¿quieres casarte conmigo?' Las lágrimas de alegría fueron la respuesta más hermosa.",
+      year: "2025",
+      title: "Oficialmente Novios",
+      text: "En agosto, Alexei llegó junto a su papá para pedir formalmente la mano de Estephanie y dar inicio a una relación con propósito. Ese mismo mes, el pastor los presentó en la iglesia como novios, con Dios como guía y la familia como testigo de este nuevo comienzo.",
       icon: "💍",
-      color: "yellow",
-      quote: "¿Quieres casarte conmigo?"
+      color: "yellow"
+
     },
     {
-      date: "Noviembre 2024",
-      month: "NOV",
-      year: "2024",
+      date: "Setiembre 2025",
+      month: "SET",
+      year: "2025",
       title: "Preparando el Futuro",
       text: "Eligieron juntos cada detalle de su boda. No solo planeaban un evento, construían el inicio de su vida en común. Cada decisión reflejaba quiénes son: unidos, dedicados, llenos de fe.",
       icon: "📋",
       color: "teal"
     },
     {
-      date: "Enero 2025",
-      month: "ENE",
+      date: "Noviembre 2025",
+      month: "NOV",
       year: "2025",
       title: "Casi Ahí...",
-      text: "Los últimos preparativos. La emoción es palpable. Pronto serán esposos. Miran atrás y ven un camino de 9 años que los preparó para este momento. Todo valió la pena.",
+      text: "En noviembre, todo estaba quedando listo. Los últimos detalles se afinaban y la emoción crecían. Pronto serían esposos, y al mirar atrás comprendieron que todo había valido la pena.",
       icon: "⏰",
       color: "orange",
       quote: "Todo valió la pena"
@@ -188,7 +192,7 @@ export const eventConfig = {
       month: "ENE",
       year: "2026",
       title: "El Día Más Feliz",
-      text: "Hoy se casan. Hoy dicen 'Sí, acepto' ante Dios, familia y amigos. Hoy comienza para siempre. De una mirada en 2016 a este altar en 2026. Una historia de amor, fe y propósito.",
+      text: "Muy pronto llegará el día en que se digan “Sí, acepto” ante Dios, la familia y los amigos. Será el inicio de un para siempre. De una mirada en 2016 a un altar en 2026: una historia escrita con amor, fe y propósito.",
       icon: "💒",
       color: "rose",
       featured: true,
@@ -205,12 +209,12 @@ export const eventConfig = {
     },
     {
       title: "Confirmación oficial",
-      content: "Alexei y Estephanie unirán sus vidas en matrimonio el domingo 11 de enero de 2026. La ceremonia religiosa se celebrará en la Iglesia Adventista de Parra a las 10:00 AM, seguida de una recepción en el Club del Odontólogo. La pareja, que se vio por primera vez en 2016 y comenzó su relación en 2022, ha compartido que mantener a Dios en el centro de su relación ha sido fundamental. Familiares y amigos cercanos han sido invitados a este momento especial que promete ser una celebración inolvidable.",
+      content: "Alexei y Estephanie unirán sus vidas en matrimonio el domingo 11 de enero de 2026. La ceremonia religiosa se celebrará en la Iglesia Adventista de Parra a las 10:00 AM, seguida de una recepción en el Club del Odontólogo. La pareja, ha compartido que mantener a Dios en el centro de su relación ha sido fundamental. Familiares y amigos cercanos han sido invitados a este momento especial que promete ser una celebración inolvidable.",
       page: "Pág. 01"
     },
     {
       title: "Claves para una boda perfecta",
-      content: "Especialistas en el arte del amor aseguran que la unión de Alexei y Estephanie será recordada por su ternura y alegría. Cada detalle ha sido preparado con dedicación para que este día sea literalmente, 'de ensueño'.",
+      content: 'Especialistas en el arte del amor aseguran que la unión de Alexei y Estephanie será recordada por su ternura y alegría. Cada detalle ha sido preparado con dedicación para que este día sea literalmente, "de ensueño".',
       page: "Pág. 20"
     },
     {
@@ -319,7 +323,7 @@ export const eventConfig = {
       },
       {
         question: "¿A qué hora debo llegar?",
-        answer: "La ceremonia religiosa comienza a las 10:00 AM en punto. Te recomendamos llegar entre 15-20 minutos antes para tomar asiento cómodamente. La recepción iniciará inmediatamente después de la ceremonia."
+        answer: "La ceremonia religiosa comienza a las 10:30 AM en punto. Te recomendamos llegar entre 15-20 minutos antes para tomar asiento cómodamente. La recepción iniciará inmediatamente después de la ceremonia."
       },
       {
         question: "¿Cómo confirmo mi asistencia?",

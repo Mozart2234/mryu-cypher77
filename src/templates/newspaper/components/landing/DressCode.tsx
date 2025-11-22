@@ -184,7 +184,7 @@ export function DressCode() {
               <div className="text-center md:text-left">
                 <h4 className="font-headline text-3xl md:text-4xl font-black uppercase mb-2">Celeste Bebé</h4>
                 <p className="font-serif text-newspaper-gray-700 max-w-sm">
-                  El color que simboliza la <strong>tranquilidad</strong> de nuestro amor.
+                  El color que simboliza la <strong>tranquilidad y ternura</strong> de nuestro amor.
                   Siéntete libre de usar cualquier color elegante.
                 </p>
               </div>

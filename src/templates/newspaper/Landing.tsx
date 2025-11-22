@@ -10,7 +10,7 @@ import { Hero } from './components/landing/Hero';
 import { Countdown } from './components/landing/Countdown';
 import { EventDetails } from './components/landing/EventDetails';
 import { Advertisement } from './components/landing/Advertisement';
-// import { LoveStory } from './components/landing/LoveStory';
+import { LoveStory } from './components/landing/LoveStory';
 import { DressCode } from './components/landing/DressCode';
 import { FAQ } from './components/landing/FAQ';
 import { NewsTickerMessages } from './components/landing/NewsTickerMessages';
@@ -89,9 +89,9 @@ export function Landing() {
       <Ornament type="divider" size="md" />
 
       {/* Historia de la pareja */}
-      {/* <section id="love-story">
+      <section id="love-story">
         <LoveStory />
-      </section> */}
+      </section>
 
       <Ornament type="flourish" size="md" />
 
