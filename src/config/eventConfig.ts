@@ -5,8 +5,6 @@
  * Edita estos valores para cambiar los textos, fechas, lugares, etc.
  */
 
-import { Quote } from "lucide-react";
-
 export const eventConfig = {
   // Información de los novios
   bride: {
