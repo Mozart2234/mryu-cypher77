@@ -8,8 +8,8 @@ import { useState } from 'react';
 import type { Reservation } from '@/types/reservation';
 import { QRCodeSVG } from 'qrcode.react';
 import { eventConfig } from '@/config/eventConfig';
-import { generateWhatsAppMessage, generateEmailMessage } from '@/config/messageTemplates';
-import { openEmail, copyToClipboard } from '@/utils/shareHelpers';
+import { generateWhatsAppMessage, generatePlainTextMessage } from '@/config/messageTemplates';
+import { copyToClipboard } from '@/utils/shareHelpers';
 import {
   CheckCircle,
   Trash2,
@@ -18,8 +18,8 @@ import {
   X,
   Ticket,
   Share2,
-  Mail,
-  Copy
+  Copy,
+  FileText
 } from 'lucide-react';
 
 interface ReservationRowProps {
@@ -31,7 +31,7 @@ interface ReservationRowProps {
 export function ReservationRow({ reservation, onCheckIn, onDelete }: ReservationRowProps) {
   const [showQR, setShowQR] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
-  const [shareStatus, setShareStatus] = useState<'email' | 'copy' | null>(null);
+  const [shareStatus, setShareStatus] = useState<'whatsapp' | 'plain' | null>(null);
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -49,19 +49,7 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
   const qrUrl = `${eventConfig.appUrl}/check-in?code=${reservation.code}`;
   const canCheckIn = reservation.status !== 'ingreso-registrado';
 
-  const handleShareEmail = () => {
-    const invitationUrl = `${eventConfig.appUrl}/invitacion/${reservation.code}`;
-    const { subject, body } = generateEmailMessage({
-      guestName: reservation.guestName,
-      code: reservation.code,
-      invitationUrl
-    });
-    openEmail(subject, body);
-    setShareStatus('email');
-    setTimeout(() => setShareStatus(null), 2000);
-  };
-
-  const handleCopyText = async () => {
+  const handleCopyWhatsApp = async () => {
     const invitationUrl = `${eventConfig.appUrl}/invitacion/${reservation.code}`;
     const message = generateWhatsAppMessage({
       guestName: reservation.guestName,
@@ -69,7 +57,19 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
       invitationUrl
     });
     await copyToClipboard(message);
-    setShareStatus('copy');
+    setShareStatus('whatsapp');
+    setTimeout(() => setShareStatus(null), 2000);
+  };
+
+  const handleCopyPlainText = async () => {
+    const invitationUrl = `${eventConfig.appUrl}/invitacion/${reservation.code}`;
+    const message = generatePlainTextMessage({
+      guestName: reservation.guestName,
+      code: reservation.code,
+      invitationUrl
+    });
+    await copyToClipboard(message);
+    setShareStatus('plain');
     setTimeout(() => setShareStatus(null), 2000);
   };
 
@@ -134,24 +134,30 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
                     className="fixed inset-0 z-40"
                     onClick={() => setShowShareMenu(false)}
                   />
-                  <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[200px]">
+                  <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[220px]">
                     <button
-                      onClick={handleShareEmail}
-                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition-colors text-left"
+                      onClick={handleCopyWhatsApp}
+                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-green-50 transition-colors text-left"
                     >
-                      <Mail className="w-4 h-4 text-blue-600" />
-                      <span className="text-sm font-medium text-gray-700">
-                        {shareStatus === 'email' ? '¡Abierto!' : 'Email'}
-                      </span>
+                      <Copy className="w-4 h-4 text-green-600" />
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-gray-700">
+                          {shareStatus === 'whatsapp' ? '¡Copiado!' : 'WhatsApp'}
+                        </div>
+                        <div className="text-xs text-gray-500">Con formato negritas</div>
+                      </div>
                     </button>
                     <button
-                      onClick={handleCopyText}
+                      onClick={handleCopyPlainText}
                       className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left border-t border-gray-100"
                     >
-                      <Copy className="w-4 h-4 text-gray-600" />
-                      <span className="text-sm font-medium text-gray-700">
-                        {shareStatus === 'copy' ? '¡Copiado!' : 'Copiar texto'}
-                      </span>
+                      <FileText className="w-4 h-4 text-gray-600" />
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-gray-700">
+                          {shareStatus === 'plain' ? '¡Copiado!' : 'Texto plano'}
+                        </div>
+                        <div className="text-xs text-gray-500">Sin formato</div>
+                      </div>
                     </button>
                   </div>
                 </>

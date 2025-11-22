@@ -13,62 +13,95 @@ interface MessageData {
 }
 
 /**
- * Genera mensaje para WhatsApp (formato corto y amigable)
+ * Genera mensaje para WhatsApp (con formato de negritas)
  */
 export function generateWhatsAppMessage(data: MessageData): string {
-  return `💒 INVITACION BODA 2026 💒
+  return `Querid@ *${data.guestName}*,
 
-¡Hola ${data.guestName}!
+Con muchísima alegría queremos contarte que... *¡nos casamos!* 💍
 
-🎟️ Tu codigo: ${data.code}
-🔗 Ver invitacion completa: ${data.invitationUrl}
+Por el gran cariño que te tenemos, queremos invitarte a acompañarnos en este momento tan especial de nuestras vidas.
 
-Estamos felices de invitarte a nuestra boda:
+La celebración será el *${eventConfig.date.full}*, en la hermosa Ciudad Blanca de Arequipa.
 
-📅 ${eventConfig.date.full}
+✨ *SOBRE TU INVITACIÓN DIGITAL:*
 
-⛪ CEREMONIA: ${eventConfig.ceremony.time}
+Ver el sitio en: ${eventConfig.appUrl}
+
+Hemos preparado un sitio web especial donde encontrarás:
+• Tu invitación personalizada con código QR
+• Todos los detalles de la ceremonia y recepción
+• Nuestra historia de amor y fotos juntos
+• Información sobre el código de vestimenta
+• Formulario para confirmar tu asistencia
+
+🎟️ *Tu código personal:* ${data.code}
+🔗 *Accede aquí:* ${data.invitationUrl}
+
+📍 *DETALLES DEL GRAN DÍA:*
+
+⛪ *Ceremonia Religiosa* - ${eventConfig.ceremony.time}
 ${eventConfig.ceremony.name}
 ${eventConfig.ceremony.address}, ${eventConfig.ceremony.city}
-📍 ${eventConfig.ceremony.mapsUrl}
+📍 Ver ubicación: ${eventConfig.ceremony.mapsUrl}
 
-🎉 RECEPCION: ${eventConfig.reception.time}
+🥂 *Recepción* - ${eventConfig.reception.time}
 ${eventConfig.reception.name}
 ${eventConfig.reception.address}, ${eventConfig.reception.city}
-📍 ${eventConfig.reception.mapsUrl}
+📍 Ver ubicación: ${eventConfig.reception.mapsUrl}
 
+Esta es una celebración íntima y familiar, por lo que la invitación es personal. Por favor, revisa los detalles en tu invitación digital.
 
-${eventConfig.groom.name} & ${eventConfig.bride.name}
+Gracias por todo tu cariño y apoyo siempre.
 
-Por favor confirma tu asistencia en el enlace.`;
+Con amor,
+*${eventConfig.groom.name} y ${eventConfig.bride.name}*`;
 }
 
 /**
- * Genera mensaje para Email (formato formal)
+ * Genera mensaje en texto plano (sin formato)
  */
-export function generateEmailMessage(data: MessageData): {
-  subject: string;
-  body: string;
-} {
-  const subject = `Tu Invitación - Boda ${eventConfig.groom.name} & ${eventConfig.bride.name}`;
+export function generatePlainTextMessage(data: MessageData): string {
+  return `Querid@ ${data.guestName},
 
-  const body = `Querido/a ${data.guestName},
+Con muchísima alegría queremos contarte que... ¡nos casamos! 💍
 
-Nos complace invitarte a nuestra boda:
+Por el gran cariño que te tenemos, queremos invitarte a acompañarnos en este momento tan especial de nuestras vidas.
 
-📅 Fecha: ${eventConfig.date.full}
-⛪ Ceremonia: ${eventConfig.ceremony.time} - ${eventConfig.ceremony.name}
-🎉 Recepción: ${eventConfig.reception.time} - ${eventConfig.reception.name}
+La celebración será el ${eventConfig.date.full}, en la hermosa Ciudad Blanca de Arequipa.
 
-Tu código de invitación: ${data.code}
-Accede a tu invitación digital: ${data.invitationUrl}
+✨ SOBRE TU INVITACIÓN DIGITAL:
 
-Por favor confirma tu asistencia escaneando el código QR o ingresando al enlace.
+Ver el sitio en: ${eventConfig.appUrl}
 
-Con cariño,
+Hemos preparado un sitio web especial donde encontrarás:
+• Tu invitación personalizada con código QR
+• Todos los detalles de la ceremonia y recepción
+• Nuestra historia de amor y fotos juntos
+• Información sobre el código de vestimenta
+• Formulario para confirmar tu asistencia
+
+🎟️ Tu código personal: ${data.code}
+🔗 Accede aquí: ${data.invitationUrl}
+
+📍 DETALLES DEL GRAN DÍA:
+
+⛪ Ceremonia Religiosa - ${eventConfig.ceremony.time}
+${eventConfig.ceremony.name}
+${eventConfig.ceremony.address}, ${eventConfig.ceremony.city}
+📍 Ver ubicación: ${eventConfig.ceremony.mapsUrl}
+
+🥂 Recepción - ${eventConfig.reception.time}
+${eventConfig.reception.name}
+${eventConfig.reception.address}, ${eventConfig.reception.city}
+📍 Ver ubicación: ${eventConfig.reception.mapsUrl}
+
+Esta es una celebración íntima y familiar, por lo que la invitación es personal. Por favor, revisa los detalles en tu invitación digital.
+
+Gracias por todo tu cariño y apoyo siempre.
+
+Con amor,
 ${eventConfig.groom.name} y ${eventConfig.bride.name}`;
-
-  return { subject, body };
 }
 
 /**
@@ -76,4 +109,12 @@ ${eventConfig.groom.name} y ${eventConfig.bride.name}`;
  */
 export function generateSocialShareMessage(): string {
   return `¡Asistiré a la boda de ${eventConfig.groom.name} & ${eventConfig.bride.name}! 💒 ${eventConfig.date.full}`;
+}
+
+/**
+ * Genera mensaje por defecto (WhatsApp con formato)
+ * @deprecated Usa generateWhatsAppMessage o generatePlainTextMessage directamente
+ */
+export function generateCopyMessage(data: MessageData): string {
+  return generateWhatsAppMessage(data);
 }

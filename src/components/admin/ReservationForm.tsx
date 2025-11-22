@@ -11,10 +11,10 @@ import { toast } from 'sonner';
 import { reservationService } from '@/services/reservationService';
 import { eventConfig } from '@/config/eventConfig';
 import type { CreateReservationDTO, Reservation } from '@/types/reservation';
-import { UserPlus, Users, Table, UsersRound, FileText, Link as LinkIcon, Copy, CheckCircle, X, Mail } from 'lucide-react';
+import { UserPlus, Users, Table, UsersRound, FileText, Link as LinkIcon, Copy, CheckCircle, X } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { generateWhatsAppMessage, generateEmailMessage } from '@/config/messageTemplates';
-import { openEmail, copyToClipboard } from '@/utils/shareHelpers';
+import { generateWhatsAppMessage, generatePlainTextMessage } from '@/config/messageTemplates';
+import { copyToClipboard } from '@/utils/shareHelpers';
 
 interface ReservationFormProps {
   onSuccess: () => void;
@@ -32,8 +32,8 @@ interface ReservationFormData {
 export function ReservationForm({ onSuccess }: ReservationFormProps) {
   const [createdReservation, setCreatedReservation] = useState<Reservation | null>(null);
   const [copied, setCopied] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
-  const [copiedText, setCopiedText] = useState(false);
+  const [copiedWhatsApp, setCopiedWhatsApp] = useState(false);
+  const [copiedPlain, setCopiedPlain] = useState(false);
 
   const {
     register,
@@ -114,27 +114,11 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
   const handleCloseModal = () => {
     setCreatedReservation(null);
     setCopied(false);
-    setCopiedEmail(false);
-    setCopiedText(false);
+    setCopiedWhatsApp(false);
+    setCopiedPlain(false);
   };
 
-  const handleShareEmail = () => {
-    if (!createdReservation) return;
-
-    const invitationUrl = `${eventConfig.appUrl}/invitacion/${createdReservation.code}`;
-    const { subject, body } = generateEmailMessage({
-      guestName: createdReservation.guestName,
-      code: createdReservation.code,
-      invitationUrl
-    });
-
-    openEmail(subject, body);
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
-    toast.success('Email abierto');
-  };
-
-  const handleCopyText = async () => {
+  const handleCopyWhatsApp = async () => {
     if (!createdReservation) return;
 
     const invitationUrl = `${eventConfig.appUrl}/invitacion/${createdReservation.code}`;
@@ -145,9 +129,25 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
     });
 
     await copyToClipboard(message);
-    setCopiedText(true);
-    setTimeout(() => setCopiedText(false), 2000);
-    toast.success('Texto copiado al portapapeles');
+    setCopiedWhatsApp(true);
+    setTimeout(() => setCopiedWhatsApp(false), 2000);
+    toast.success('Mensaje WhatsApp copiado');
+  };
+
+  const handleCopyPlainText = async () => {
+    if (!createdReservation) return;
+
+    const invitationUrl = `${eventConfig.appUrl}/invitacion/${createdReservation.code}`;
+    const message = generatePlainTextMessage({
+      guestName: createdReservation.guestName,
+      code: createdReservation.code,
+      invitationUrl
+    });
+
+    await copyToClipboard(message);
+    setCopiedPlain(true);
+    setTimeout(() => setCopiedPlain(false), 2000);
+    toast.success('Texto plano copiado');
   };
 
   return (
@@ -393,46 +393,48 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
                 </p>
               </div>
 
-              {/* Botones de compartir con mensajes pre-formateados */}
+              {/* Botones para copiar mensaje */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Compartir Invitación con Mensaje
+                  Compartir Invitación
                 </label>
                 <div className="grid grid-cols-2 gap-3">
-                  {/* Email Button */}
+                  {/* WhatsApp Button */}
                   <button
                     type="button"
-                    onClick={handleShareEmail}
+                    onClick={handleCopyWhatsApp}
                     className={`flex flex-col items-center gap-2 px-4 py-4 rounded-lg font-medium transition-all border-2 ${
-                      copiedEmail
-                        ? 'bg-blue-700 text-white border-blue-700'
-                        : 'bg-blue-600 text-white hover:bg-blue-700 border-blue-600'
+                      copiedWhatsApp
+                        ? 'bg-green-700 text-white border-green-700'
+                        : 'bg-green-600 text-white hover:bg-green-700 border-green-600'
                     }`}
                   >
-                    <Mail className="w-6 h-6" />
-                    <span className="text-sm">
-                      {copiedEmail ? '¡Abierto!' : 'Email'}
+                    <Copy className="w-6 h-6" />
+                    <span className="text-sm text-center">
+                      {copiedWhatsApp ? '¡Copiado!' : 'WhatsApp'}
                     </span>
+                    <span className="text-xs opacity-90">Con negritas</span>
                   </button>
 
-                  {/* Copy Text Button */}
+                  {/* Plain Text Button */}
                   <button
                     type="button"
-                    onClick={handleCopyText}
+                    onClick={handleCopyPlainText}
                     className={`flex flex-col items-center gap-2 px-4 py-4 rounded-lg font-medium transition-all border-2 ${
-                      copiedText
+                      copiedPlain
                         ? 'bg-gray-700 text-white border-gray-700'
                         : 'bg-gray-600 text-white hover:bg-gray-700 border-gray-600'
                     }`}
                   >
-                    <Copy className="w-6 h-6" />
-                    <span className="text-sm">
-                      {copiedText ? '¡Copiado!' : 'Copiar Texto'}
+                    <FileText className="w-6 h-6" />
+                    <span className="text-sm text-center">
+                      {copiedPlain ? '¡Copiado!' : 'Texto Plano'}
                     </span>
+                    <span className="text-xs opacity-90">Sin formato</span>
                   </button>
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
-                  Abre Email con mensaje pre-escrito o copia el texto al portapapeles para pegarlo en WhatsApp
+                  WhatsApp: usa formato con negritas (*texto*) | Texto Plano: sin formato especial
                 </p>
               </div>
 

@@ -9,6 +9,7 @@ interface IndexItem {
   title: string;
   page: string;
   description?: string;
+  href: string;
 }
 
 export function IndexBox() {
@@ -16,32 +17,38 @@ export function IndexBox() {
     {
       title: "Portada",
       page: "1",
-      description: "El gran anuncio"
+      description: "El gran anuncio",
+      href: "#hero"
     },
     {
       title: "Detalles del Evento",
       page: "2",
-      description: "Ceremonia y recepción"
+      description: "Ceremonia y recepción",
+      href: "#event-details"
     },
     {
       title: "Historia de Amor",
       page: "3-4",
-      description: "De 2016 al altar"
-    },
-    {
-      title: "Galería",
-      page: "5",
-      description: "Momentos especiales"
+      description: "De 2016 al altar",
+      href: "#love-story"
     },
     {
       title: "Código de Vestimenta",
-      page: "6",
-      description: "Dress code"
+      page: "5",
+      description: "Dress code",
+      href: "#dress-code"
     },
     {
       title: "Preguntas Frecuentes",
+      page: "6",
+      description: "FAQ",
+      href: "#faq"
+    },
+    {
+      title: "Mensajes de Invitados",
       page: "7",
-      description: "FAQ"
+      description: "Cartas al Editor",
+      href: "#guest-messages"
     }
   ];
 
@@ -60,9 +67,17 @@ export function IndexBox() {
       {/* Lista de contenidos */}
       <div className="space-y-2">
         {indexItems.map((item, index) => (
-          <div
+          <a
             key={index}
-            className="flex items-start justify-between border-b border-newspaper-gray-300 pb-2 last:border-b-0 hover:bg-newspaper-gray-100 transition-colors duration-200 px-2 py-1"
+            href={item.href}
+            className="flex items-start justify-between border-b border-newspaper-gray-300 pb-2 last:border-b-0 hover:bg-newspaper-gray-100 transition-colors duration-200 px-2 py-1 cursor-pointer no-underline"
+            onClick={(e) => {
+              e.preventDefault();
+              const target = document.querySelector(item.href);
+              if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }}
           >
             <div className="flex-1">
               <h4 className="font-serif font-bold text-base text-newspaper-black leading-tight">
@@ -79,7 +94,7 @@ export function IndexBox() {
                 Pág. {item.page}
               </span>
             </div>
-          </div>
+          </a>
         ))}
       </div>
 
