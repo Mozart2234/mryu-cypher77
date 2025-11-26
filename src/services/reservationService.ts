@@ -392,7 +392,7 @@ export const reservationService = {
    * Obtiene estadísticas de las reservaciones
    */
   async getStats(): Promise<ReservationStats> {
-    const { data, error} = await supabase
+    const { data, error } = await supabase
       .from('reservations')
       .select('number_of_guests, status, main_guest_attending, accompanists');
 

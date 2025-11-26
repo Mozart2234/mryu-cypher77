@@ -187,6 +187,7 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
           <input
             {...register('numberOfGuests', {
               required: 'Requerido',
+              valueAsNumber: true,
               min: { value: 1, message: 'Mínimo 1 persona' },
               max: { value: 10, message: 'Máximo 10 personas' },
               onChange: (e) => handleNumberOfGuestsChange(parseInt(e.target.value) || 1)
