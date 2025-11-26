@@ -153,7 +153,7 @@ export const eventConfig = {
       text: "En una noche de silencio, alrededor de las 8:30 p.m., Alexei se arrodilló y con el corazón latiendo fuerte pronunció la pregunta que cambiaría todo: “¿Quieres casarte conmigo?”. Las lágrimas y la emoción fueron la respuesta más hermosa.",
       icon: "💑",
       color: "red",
-      quote:"¿Quieres casarte conmigo?"
+      quote: "¿Quieres casarte conmigo?"
 
     },
     {
@@ -230,31 +230,31 @@ export const eventConfig = {
 
   // Dress code
   dressCode: {
-    title: "CÓDIGO DE VESTIMENTA",
-    subtitle: "Te sugerimos seguir estas recomendaciones",
-    introText: "Para mantener la elegancia y armonía del evento, te pedimos considerar estas recomendaciones",
+    title: "SUGERENCIAS DE VESTUARIO",
+    subtitle: "Para una celebración armoniosa y elegante",
+    introText: "Tu presencia es lo más importante. Si deseas sumarte a la armonía y elegancia del día, aquí te compartimos algunas sugerencias que nos ayudarían a crear un ambiente especial",
     women: {
-      title: "MUJERES",
+      title: "DAMAS",
       items: [
-        "Vestido largo elegante (preferentemente hasta el tobillo)",
-        "Tacones y bolso pequeño o clutch",
-        "Evitar colores blanco, marfil, beige y tonos nude"
+        "Vestido largo elegante (sugerimos hasta el tobillo o rodilla)",
+        "Accesorios a tu gusto",
+        "Evita tonos blancos, marfil o beige (reservados para la novia)"
       ],
-      footer: "Elegancia Femenina"
+      footer: "Con tu estilo personal"
     },
     men: {
-      title: "HOMBRES",
+      title: "CABALLEROS",
       items: [
-        "Traje oscuro (negro, azul marino o gris)",
-        "Corbata",
-        "Zapato formal cerrado"
+        "Traje o pantalón de vestir con camisa",
+        "Corbata opcional (pero bienvenida)",
+        "Calzado formal que sea cómodo para ti"
       ],
-      footer: "Estilo Formal Caballeros"
+      footer: "Con tu mejor versión"
     },
     colorPalette: {
-      title: "Paleta de Colores Sugerida",
+      title: "Ideas de Colores",
       recommended: {
-        title: "✓ Colores Recomendados",
+        title: "✓ Colores que lucen hermosos en fotos",
         colors: [
           { name: "Azul marino", hex: "#1a2332" },
           { name: "Gris oscuro", hex: "#4a5568" },
@@ -267,8 +267,8 @@ export const eventConfig = {
         ]
       },
       avoid: {
-        title: "✗ Colores a Evitar",
-        note: "Reservados para la novia",
+        title: "✗ Tonos que preferimos evitar",
+        note: "Solo por tradición para la novia",
         colors: [
           { name: "Blanco", hex: "#ffffff" },
           { name: "Marfil", hex: "#fffff0" },
@@ -278,9 +278,9 @@ export const eventConfig = {
       }
     },
     specialNote: {
-      title: "Nota Editorial",
-      text: "Estas sugerencias nos ayudarán a mantener la elegancia y solemnidad que deseamos para nuestra celebración. Tu cooperación significa mucho para nosotros y hará que este día sea aún más especial.",
-      closing: "Con cariño,"
+      title: "Nota de los Novios",
+      text: "Lo más importante es que te sientas cómodo y feliz. Estas sugerencias son solo una guía para ayudarnos a crear un ambiente armonioso en nuestras fotografías y en la celebración. Pero sobre todo, queremos que vengas tal como eres y disfrutes este día especial con nosotros.",
+      closing: "Con todo nuestro cariño,"
     }
   },
 
@@ -329,7 +329,7 @@ export const eventConfig = {
       },
       {
         question: "¿Hay lista de regalos?",
-        answer: "Tu presencia es nuestro mejor regalo. Sin embargo, si deseas obsequiarnos algo, agradecemos contribuciones en efectivo que nos ayudarán a comenzar nuestra nueva vida juntos. Habrá un buzón en la recepción."
+        answer: "Nuestro mejor regalo es que nos acompañes y compartas con nosotros este momento. No es necesario que traigas ningún obsequio. Si aun así deseas contribuir, puedes hablar con nosotros antes del día de la boda o acercarte a nosotros durante la celebración para ver cómo te gustaría apoyarnos."
       },
       {
         question: "¿Qué pasa si no puedo asistir?",
