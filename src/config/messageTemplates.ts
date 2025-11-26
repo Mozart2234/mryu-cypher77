@@ -10,12 +10,28 @@ interface MessageData {
   guestName: string;
   code: string;
   invitationUrl: string;
+  numberOfGuests?: number; // Total de pases (1 = solo el invitado, 2+ = con acompañantes)
+  accompanistNames?: string[]; // Nombres de acompañantes si ya están registrados
 }
 
 /**
  * Genera mensaje para WhatsApp (con formato de negritas)
  */
 export function generateWhatsAppMessage(data: MessageData): string {
+  // Generar texto sobre número de invitados
+  let guestsInfo = '';
+  if (data.numberOfGuests && data.numberOfGuests > 1) {
+    const additionalGuests = data.numberOfGuests - 1;
+    const guestsWord = additionalGuests === 1 ? 'acompañante' : 'acompañantes';
+    guestsInfo = `\n\n👥 *Tu invitación incluye ${data.numberOfGuests} pases* (tú + ${additionalGuests} ${guestsWord})`;
+
+    // Si ya hay nombres de acompañantes registrados (filtrar vacíos)
+    const validNames = data.accompanistNames?.filter(name => name && name.trim() !== '') || [];
+    if (validNames.length > 0) {
+      guestsInfo += `\nAcompañantes: ${validNames.join(', ')}`;
+    }
+  }
+
   return `Querid@ *${data.guestName}*,
 
 Con muchísima alegría queremos contarte que... *¡nos casamos!* 💍
@@ -31,7 +47,7 @@ Ver el sitio en: ${eventConfig.appUrl} 📲💻🖥️
 Confirma tu asistencia aqui 👇🏼👇🏼
 
 🎟️ *Tu código personal:* ${data.code}
-🔗 *Accede aquí:* ${data.invitationUrl}
+🔗 *Accede aquí:* ${data.invitationUrl}${guestsInfo}
 
 📍 *DETALLES DEL GRAN DÍA:*
 
@@ -57,6 +73,20 @@ Con amor,
  * Genera mensaje en texto plano (sin formato)
  */
 export function generatePlainTextMessage(data: MessageData): string {
+  // Generar texto sobre número de invitados
+  let guestsInfo = '';
+  if (data.numberOfGuests && data.numberOfGuests > 1) {
+    const additionalGuests = data.numberOfGuests - 1;
+    const guestsWord = additionalGuests === 1 ? 'acompañante' : 'acompañantes';
+    guestsInfo = `\n\n👥 Tu invitación incluye ${data.numberOfGuests} pases (tú + ${additionalGuests} ${guestsWord})`;
+
+    // Si ya hay nombres de acompañantes registrados (filtrar vacíos)
+    const validNames = data.accompanistNames?.filter(name => name && name.trim() !== '') || [];
+    if (validNames.length > 0) {
+      guestsInfo += `\nAcompañantes: ${validNames.join(', ')}`;
+    }
+  }
+
   return `Querid@ ${data.guestName},
 
 Con muchísima alegría queremos contarte que... ¡nos casamos! 💍
@@ -72,7 +102,7 @@ Ver el sitio en: ${eventConfig.appUrl} 📲💻🖥️
 Confirma tu asistencia aqui 👇🏼👇🏼
 
 🎟️ Tu código personal: ${data.code}
-🔗 Accede aquí: ${data.invitationUrl}
+🔗 Accede aquí: ${data.invitationUrl}${guestsInfo}
 
 📍 DETALLES DEL GRAN DÍA:
 

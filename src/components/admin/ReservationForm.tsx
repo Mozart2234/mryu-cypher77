@@ -125,7 +125,9 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
     const message = generateWhatsAppMessage({
       guestName: createdReservation.guestName,
       code: createdReservation.code,
-      invitationUrl
+      invitationUrl,
+      numberOfGuests: createdReservation.numberOfGuests,
+      accompanistNames: createdReservation.accompanistNames
     });
 
     await copyToClipboard(message);
@@ -141,7 +143,9 @@ export function ReservationForm({ onSuccess }: ReservationFormProps) {
     const message = generatePlainTextMessage({
       guestName: createdReservation.guestName,
       code: createdReservation.code,
-      invitationUrl
+      invitationUrl,
+      numberOfGuests: createdReservation.numberOfGuests,
+      accompanistNames: createdReservation.accompanistNames
     });
 
     await copyToClipboard(message);

@@ -54,7 +54,9 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
     const message = generateWhatsAppMessage({
       guestName: reservation.guestName,
       code: reservation.code,
-      invitationUrl
+      invitationUrl,
+      numberOfGuests: reservation.numberOfGuests,
+      accompanistNames: reservation.accompanistNames
     });
     await copyToClipboard(message);
     setShareStatus('whatsapp');
@@ -66,7 +68,9 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
     const message = generatePlainTextMessage({
       guestName: reservation.guestName,
       code: reservation.code,
-      invitationUrl
+      invitationUrl,
+      numberOfGuests: reservation.numberOfGuests,
+      accompanistNames: reservation.accompanistNames
     });
     await copyToClipboard(message);
     setShareStatus('plain');
