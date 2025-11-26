@@ -329,7 +329,7 @@ export const eventConfig = {
       },
       {
         question: "¿Hay lista de regalos?",
-        answer: "Nuestro mejor regalo es que nos acompañes y compartas con nosotros este momento. No es necesario que traigas ningún obsequio. Si aun así deseas contribuir, puedes hablar con nosotros antes del día de la boda o acercarte a nosotros durante la celebración para ver cómo te gustaría apoyarnos."
+        answer: "Tu presencia es nuestro mejor regalo. Si deseas hacernos un detalle, agradeceremos con mucho cariño las contribuciones que nos ayuden a iniciar nuestra nueva vida juntos."
       },
       {
         question: "¿Qué pasa si no puedo asistir?",
