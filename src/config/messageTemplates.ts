@@ -24,16 +24,11 @@ Por el gran cariño que te tenemos, queremos invitarte a acompañarnos en este m
 
 La celebración será el *${eventConfig.date.full}*, en la hermosa Ciudad Blanca de Arequipa.
 
-✨ *SOBRE TU INVITACIÓN DIGITAL:*
+✨ *AQUI TE DEJO TU INVITACIÓN DIGITAL:*
 
-Ver el sitio en: ${eventConfig.appUrl}
+Ver el sitio en: ${eventConfig.appUrl} 📲💻🖥️
 
-Hemos preparado un sitio web especial donde encontrarás:
-• Tu invitación personalizada con código QR
-• Todos los detalles de la ceremonia y recepción
-• Nuestra historia de amor y fotos juntos
-• Información sobre el código de vestimenta
-• Formulario para confirmar tu asistencia
+Confirma tu asistencia aqui 👇🏼👇🏼
 
 🎟️ *Tu código personal:* ${data.code}
 🔗 *Accede aquí:* ${data.invitationUrl}
@@ -70,16 +65,11 @@ Por el gran cariño que te tenemos, queremos invitarte a acompañarnos en este m
 
 La celebración será el ${eventConfig.date.full}, en la hermosa Ciudad Blanca de Arequipa.
 
-✨ SOBRE TU INVITACIÓN DIGITAL:
+✨ AQUI TE DEJO TU INVITACIÓN DIGITAL:
 
-Ver el sitio en: ${eventConfig.appUrl}
+Ver el sitio en: ${eventConfig.appUrl} 📲💻🖥️
 
-Hemos preparado un sitio web especial donde encontrarás:
-• Tu invitación personalizada con código QR
-• Todos los detalles de la ceremonia y recepción
-• Nuestra historia de amor y fotos juntos
-• Información sobre el código de vestimenta
-• Formulario para confirmar tu asistencia
+Confirma tu asistencia aqui 👇🏼👇🏼
 
 🎟️ Tu código personal: ${data.code}
 🔗 Accede aquí: ${data.invitationUrl}
