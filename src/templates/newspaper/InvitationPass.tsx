@@ -382,7 +382,7 @@ export function InvitationPass() {
               {/* Fecha límite destacada */}
               <div className="mt-4 text-center bg-yellow-50 border border-yellow-300 p-3">
                 <p className="font-headline text-xs uppercase tracking-wider text-yellow-800">
-                  ⏰ Fecha límite: <strong>5 de Enero, 2026</strong>
+                  ⏰ Fecha límite: <strong>30 de Diciembre, 2025</strong>
                 </p>
               </div>
 
@@ -1111,7 +1111,7 @@ export function InvitationPass() {
         </div>
       )}
 
-<style>{PRINT_STYLES}</style>
+      <style>{PRINT_STYLES}</style>
     </div>
   );
 }
