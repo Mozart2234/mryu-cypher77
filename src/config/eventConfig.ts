@@ -464,7 +464,7 @@ export const eventConfig = {
   },
 
   // Capacidad máxima del evento
-  maxCapacity: 150,
+  maxCapacity: 170,
 
   // Configuración del admin
   admin: {

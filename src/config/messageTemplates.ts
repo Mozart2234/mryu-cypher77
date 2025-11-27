@@ -44,7 +44,7 @@ La celebración será el *${eventConfig.date.full}*, en la hermosa Ciudad Blanca
 
 Ver el sitio en: ${eventConfig.appUrl} 📲💻🖥️
 
-Confirma tu asistencia aqui 👇🏼👇🏼
+*Confirma tu asistencia aqui* 👇🏼👇🏼
 
 🎟️ *Tu código personal:* ${data.code}
 🔗 *Accede aquí:* ${data.invitationUrl}${guestsInfo}
