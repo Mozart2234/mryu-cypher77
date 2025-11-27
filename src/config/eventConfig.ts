@@ -237,7 +237,7 @@ export const eventConfig = {
       title: "DAMAS",
       items: [
         "Vestido largo elegante (sugerimos hasta el tobillo o rodilla)",
-        "Accesorios a tu gusto",
+        "Accesorios discretos",
         "Evita tonos blancos, marfil o beige (reservados para la novia)"
       ],
       footer: "Con tu estilo personal"
