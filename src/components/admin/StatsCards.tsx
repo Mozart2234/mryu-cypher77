@@ -77,16 +77,18 @@ export function StatsCards({ refreshTrigger }: StatsCardsProps) {
         </div>
       </div>
 
-      {/* Total reservaciones */}
+      {/* Asistentes confirmados */}
       <div className="card bg-white border border-gray-200 hover:border-gray-300 transition-colors">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-gray-500 text-xs font-medium uppercase tracking-wide mb-2">Reservaciones</p>
-            <p className="text-3xl font-semibold text-gray-900">{stats.totalReservations}</p>
-            <p className="text-gray-600 text-sm mt-2">confirmadas</p>
+            <p className="text-gray-500 text-xs font-medium uppercase tracking-wide mb-2">Confirmados</p>
+            <p className="text-3xl font-semibold text-gray-900">{stats.confirmedAttendees}</p>
+            <p className="text-gray-600 text-sm mt-2">
+              personas asistirán
+            </p>
           </div>
-          <div className="p-3 bg-gray-100 rounded-lg">
-            <UserCheck className="w-6 h-6 text-gray-600" />
+          <div className="p-3 bg-green-100 rounded-lg">
+            <UserCheck className="w-6 h-6 text-green-600" />
           </div>
         </div>
       </div>
@@ -101,8 +103,8 @@ export function StatsCards({ refreshTrigger }: StatsCardsProps) {
               de {stats.totalReservations} reservaciones
             </p>
           </div>
-          <div className="p-3 bg-gray-100 rounded-lg">
-            <UserCheck className="w-6 h-6 text-gray-600" />
+          <div className="p-3 bg-blue-100 rounded-lg">
+            <UserCheck className="w-6 h-6 text-blue-600" />
           </div>
         </div>
       </div>
