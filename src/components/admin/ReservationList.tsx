@@ -175,6 +175,7 @@ export function ReservationList({ refreshTrigger, onUpdate }: ReservationListPro
                   reservation={reservation}
                   onCheckIn={handleCheckIn}
                   onDelete={handleDelete}
+                  onUpdate={onUpdate}
                 />
               ))}
             </tbody>

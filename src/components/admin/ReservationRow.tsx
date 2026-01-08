@@ -10,6 +10,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { eventConfig } from '@/config/eventConfig';
 import { generateWhatsAppMessage, generatePlainTextMessage } from '@/config/messageTemplates';
 import { copyToClipboard } from '@/utils/shareHelpers';
+import { EditReservationModal } from './EditReservationModal';
 import {
   CheckCircle,
   Trash2,
@@ -19,18 +20,21 @@ import {
   Ticket,
   Share2,
   Copy,
-  FileText
+  FileText,
+  Edit
 } from 'lucide-react';
 
 interface ReservationRowProps {
   reservation: Reservation;
   onCheckIn: (id: string) => void;
   onDelete: (id: string) => void;
+  onUpdate: () => void;
 }
 
-export function ReservationRow({ reservation, onCheckIn, onDelete }: ReservationRowProps) {
+export function ReservationRow({ reservation, onCheckIn, onDelete, onUpdate }: ReservationRowProps) {
   const [showQR, setShowQR] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [shareStatus, setShareStatus] = useState<'whatsapp' | 'plain' | null>(null);
 
   const getStatusBadge = (status: string) => {
@@ -168,6 +172,18 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
               )}
             </div>
 
+            {/* Editar */}
+            <button
+              onClick={() => setShowEditModal(true)}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors group relative"
+            >
+              <Edit className="w-4 h-4 text-gray-600" />
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-md whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-50">
+                Editar reservación
+                <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></span>
+              </span>
+            </button>
+
             {/* Ver QR */}
             <button
               onClick={() => setShowQR(true)}
@@ -291,6 +307,15 @@ export function ReservationRow({ reservation, onCheckIn, onDelete }: Reservation
             </div>
           </td>
         </tr>
+      )}
+
+      {/* Modal de Edición */}
+      {showEditModal && (
+        <EditReservationModal
+          reservation={reservation}
+          onClose={() => setShowEditModal(false)}
+          onSuccess={onUpdate}
+        />
       )}
     </>
   );
